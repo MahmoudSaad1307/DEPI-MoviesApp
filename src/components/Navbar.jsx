@@ -1,8 +1,17 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css"; // Import Bootstrap Icons
 
 const Navbar = () => {
+  // State to manage the visibility of the search input
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+
+  // Function to toggle the search input visibility
+  const toggleSearch = () => {
+    setIsSearchVisible(!isSearchVisible);
+  };
+
   return (
     <header className="bg-dark text-white">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark container">
@@ -42,7 +51,7 @@ const Navbar = () => {
             <div className="d-flex align-items-center">
               <ul className="navbar-nav">
                 <li className="nav-item me-3">
-                  <a className="nav-link" href="#" title="Search">
+                  <a className="nav-link" href="#" title="Search" onClick={toggleSearch}>
                     <i className="bi bi-search"></i>
                   </a>
                 </li>
@@ -70,7 +79,7 @@ const Navbar = () => {
                       <Link className="dropdown-item" to="#">Watchlist</Link>
                     </li>
                     <li>
-                      <a className="dropdown-item" to="#">Sign Out</a>
+                      <a className="dropdown-item" href="#">Sign Out</a>
                     </li>
                   </ul>
                 </li>
@@ -80,6 +89,16 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+      {/* Conditionally render the search input */}
+      {isSearchVisible && (
+        <div className="container mt-2">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search..."
+          />
+        </div>
+      )}
     </header>
   );
 };
