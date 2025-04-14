@@ -31,7 +31,7 @@ const Navbar = () => {
           </button>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            {/* Links (Home, Profile, Actor) */}
+            {/* Links (Home, Profile, Actor, Movies, TV Shows) */}
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <Link className="nav-link" to="/">Home</Link>
@@ -43,7 +43,10 @@ const Navbar = () => {
                 <Link className="nav-link" to="/actor">Actor</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/actor">Movie Recommendation</Link>
+                <Link className="nav-link" to="/movies">Movies</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/tv-shows">TV Shows</Link>
               </li>
             </ul>
 
