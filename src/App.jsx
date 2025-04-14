@@ -6,6 +6,7 @@ import ActorPage from "./pages/Actor";
 import MoviesPage from "./pages/MoviesPage";
 import TVShowsPage from "./pages/tvshows";
 import UserEditPage from "./pages/UserEditPage";
+import Watchlist from "./pages/Watchlist";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/actor" element={<ActorPage />} />
         <Route path="/movies" element={<MoviesPage />} />
         <Route path="/tv-shows" element={<TVShowsPage />} />
+        <Route path="/watchlist" element={<Watchlist />} />
       </Route>
     </Routes>
   );
