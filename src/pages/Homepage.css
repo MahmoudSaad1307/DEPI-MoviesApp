@@ -368,6 +368,7 @@
   cursor: pointer;
   z-index: 2;
   transition: all 0.3s ease;
+  display: none;
 }
 
 .carousel-arrow:hover {
@@ -512,7 +513,9 @@
     width: 95%;
     height: auto;
   }
-
+  .card-carousel{
+    overflow: hidden;
+  }
   .carousel-arrow.left {
     left: 10px;
   }
