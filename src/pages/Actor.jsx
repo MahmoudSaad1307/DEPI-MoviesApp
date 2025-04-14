@@ -16,7 +16,7 @@ const ActorPage = () => {
                   <div className="col" key={filmNumber}>
                     <div className="card h-100 border-0 shadow-sm">
                       <img 
-                        src={`./images/Film ${filmNumber}.jpg`} 
+                        src={`src\\assets\\images\\Film ${filmNumber}.jpg`} 
                         alt={`Film ${filmNumber}`} 
                         className="card-img-top img-fluid"
                       />
@@ -34,7 +34,7 @@ const ActorPage = () => {
           <aside className="col-lg-4">
             <div className="card mb-4 border-0 shadow-sm">
               <img 
-                src="./images/actor.jpg" 
+                src="src\assets\images\actor.jpg" 
                 className="card-img-top rounded-top" 
                 alt="Cillian Murphy" 
               />
