@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 /* General Navbar Styles */
 .custom-navbar {
   background-color: black !important;
@@ -25,12 +31,14 @@
 }
 
 /* Make History and Language White */
-.history, .language {
+.history,
+.language {
   color: white !important;
 }
 
 /* Icons inside History & Language */
-.history i, .language i {
+.history i,
+.language i {
   color: white !important;
   margin-right: 5px;
 }
@@ -80,7 +88,8 @@
 /* Search Box */
 .search-container {
   position: relative;
-  margin-right: 20px;  /* Moves search box closer to the right section */
+  margin-right: 20px;
+  /* Moves search box closer to the right section */
 }
 
 .search-box {
@@ -136,26 +145,28 @@
 
 
 .carousel {
-  position: relative;
+  width: 100%;
+  height: 130vh;
+  margin-bottom: 200px;
 }
 
 .carousel-item {
-  position: relative;
-  /* margin-top: 50px; */
-  height: 600px; /* Adjust height as needed */
+  width: 100%;
+  height: 130vh;
+  z-index: 0;
 }
 
 .carousel-item img {
   object-fit: cover;
   height: 100%;
   width: 100%;
-  filter: brightness(60%); /* Dark overlay effect */
+  filter: brightness(50%);
 }
 
-.carousel-indicators{
-   position: absolute;
-   left: 1000px;
-  
+.carousel-indicators {
+  position: absolute;
+  left: 1000px;
+  bottom: 200px;
 }
 
 .carousel-caption {
@@ -164,23 +175,28 @@
   right: auto;
   bottom: 28%;
   width: 40%;
-  padding-left: 20px; /* Add some spacing */
+  padding-left: 20px;
+  /* Add some spacing */
 }
-.carousel-caption .info{
+
+.carousel-caption .info {
   display: flex;
   justify-content: space-between;
   width: 27%;
 }
 
-.infocap{
-  border-right: 2px solid rgba(204, 204, 204, 0.5); /* 50% opacity */
-    padding-right: 8px;
-    height: 20px; /* Adjust height */
-    line-height: 20px; /* Align with text */
-    font-weight: bold;
+.infocap {
+  border-right: 2px solid rgba(204, 204, 204, 0.5);
+  /* 50% opacity */
+  padding-right: 8px;
+  height: 20px;
+  /* Adjust height */
+  line-height: 20px;
+  /* Align with text */
+  font-weight: bold;
 }
 
-.genres{
+.genres {
   display: flex;
   width: 50%;
 }
@@ -190,8 +206,10 @@
   margin-top: 15px;
   font-size: 15px;
   font-weight: bold;
-  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
-  color: white; /* Change text color for visibility */
+  background-color: rgba(255, 255, 255, 0.1);
+  /* Semi-transparent background */
+  color: white;
+  /* Change text color for visibility */
   width: auto;
   justify-content: center;
   text-align: center;
@@ -209,62 +227,76 @@
   margin-top: 10px;
   font-weight: bold;
 }
-.buttons{
+
+.buttons {
   display: flex;
-  margin-top: 15px;
+  margin-top: 25px;
   justify-content: space-between;
-  width: 25%;
+  width: 35%;
+  margin-left: 40px;
 }
-.playbutton{
-  
-  font-size: 50px;
-  background-color: white;
-  border-radius: 150%;
-   height: 47px;
+
+.playbutton {
+  text-align: center;
+  font-size: 30px !important;
+  border-radius: 50% !important;
   cursor: pointer;
-  transition: transform 0.3s ease, background-color 0.3s ease; /* Transition properties */
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  /* Transition properties */
 }
- .playbutton:hover{
-  transform: scale(1.1); /* Scale the button on hover */
-  opacity: 0.9;
- }
- 
- .watchlater{
-  
-  font-size: 50px;
-   height: 53px;
+
+.playbutton:hover {
+  transform: scale(1.1);
+  /* Scale the button on hover */
+  opacity: 0.8;
+}
+
+.watchlater {
   cursor: pointer;
-  transition: transform 0.3s ease, background-color 0.3s ease; /* Transition properties */
- }
- .watchlater:hover{
-  transform: scale(1.1); /* Scale the button on hover */
-  opacity: 0.9;
- }
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  /* Transition properties */
+}
+
+.watchlater:hover {
+  transform: scale(1.1);
+  /* Scale the button on hover */
+  opacity: 0.8;
+}
+
 /* Move previous button closer to the left edge */
 .carousel-control-prev {
-  left: 0 !important; /* Align to the left edge */
+  left: 0 !important;
+  /* Align to the left edge */
 }
 
 /* Move next button closer to the right edge */
 .carousel-control-next {
-  right: 0 !important; /* Align to the right edge */
+  right: 0 !important;
+  /* Align to the right edge */
 }
 
 /* Make sure icons are positioned correctly */
-.carousel-control-prev-icon, 
+.carousel-control-prev-icon,
 .carousel-control-next-icon {
-  width: 40px !important; /* Adjust the button size */
+  width: 40px !important;
+  /* Adjust the button size */
   height: 40px !important;
-  background-size: contain !important; /* Ensure the icon doesn't stretch */
+  background-size: contain !important;
+  /* Ensure the icon doesn't stretch */
   background-repeat: no-repeat !important;
-  pointer-events: auto; /* Enable clicking only on the icon */
+  pointer-events: auto;
+  /* Enable clicking only on the icon */
 
 }
-.carousel-control-prev, 
+
+.carousel-control-prev,
 .carousel-control-next {
-  width: auto !important; /* Remove unnecessary width */
-  height: auto !important; /* Remove unnecessary height */
-  pointer-events: none; /* Disable clicking on full area */
+  width: auto !important;
+  /* Remove unnecessary width */
+  height: auto !important;
+  /* Remove unnecessary height */
+  pointer-events: none;
+  /* Disable clicking on full area */
 }
 
 /* for debuging */
@@ -274,16 +306,228 @@
 .footer {
   background-color: #111;
   padding: 40px 0;
-  color:white;
+  color: white;
 }
+
 .footer a {
   color: white;
   text-decoration: none;
 }
+
 .footer a:hover {
   text-decoration: underline;
 }
+
 .social-icons a {
   font-size: 24px;
   margin-right: 15px;
+}
+
+/* Multi-Card Carousel Styles */
+.multi-card-carousel {
+  position: absolute;
+  bottom: -500px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.multi-card-carousel h2 {
+  text-align: center;
+  font-size: 35px;
+}
+
+.card-carousel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.card-carousel {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.5s ease;
+  width: 100%;
+}
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  background: rgba(0, 0, 0);
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-size: 25px;
+  cursor: pointer;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.carousel-arrow:hover {
+  transform: scale(1.1) translateY(-50%);
+}
+
+.carousel-arrow.left {
+  left: -60px;
+}
+
+.carousel-arrow.right {
+  right: -60px;
+}
+
+.movie-card {
+  cursor: pointer;
+  flex: 0 0 calc((100% - 100px) / 6);
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #000000;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 500px !important;
+  height: auto;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
+}
+
+.movie-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.movie-card-content {
+  padding: 10px;
+  color: white;
+}
+
+.movie-card-title {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-card-info {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+.watchContainer {
+  margin-top: 250px;
+}
+
+.watchContainer h2 {
+  text-align: center;
+  font-size: 35px;
+}
+
+.watching-card {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  background-image: url('../assets/images/breakingbad.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 40px 0 50px 50px;
+}
+
+.watching-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.add-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 12px 24px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px solid white;
+  color: white;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.top-picks-section {
+  padding: 40px 0;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.top-picks-section .carousel-title {
+  text-align: center;
+  font-size: 35px;
+  margin-bottom: 30px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media screen and (max-width: 768px) {
+  h2 {
+    font-size: 25px !important;
+  }
+
+  .carousel-arrow {
+    display: none;
+  }
+
+  .movie-card {
+    flex: 0 0 calc((100% - 20px) / 2);
+    max-width: calc((100% - 20px) / 2);
+  }
+
+  .card-carousel-container {
+    width: 95%;
+    height: auto;
+  }
+
+  .carousel-arrow.left {
+    left: 10px;
+  }
+
+  .carousel-arrow.right {
+    right: 10px;
+  }
+
+  .carousel-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .multi-card-carousel {
+    bottom: -500px;
+  }
 }
