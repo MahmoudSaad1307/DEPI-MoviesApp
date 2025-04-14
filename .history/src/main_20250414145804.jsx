@@ -1,9 +1,11 @@
 // main.jsx
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { StrictMode, useEffect } from "react";
+import { createRoot } from "react-dom/client";
 // import app from "./firebase/firebase";
 
 import App from "./App";
