@@ -13,13 +13,14 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-dark text-white">
+    <header className="bg-dark text-white position-relative" style={{ zIndex: 10 }}>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark container">
         <div className="container-fluid">
-          <Link className="navbar-brand d-flex align-items-center" to="/">
-            <i className="bi bi-film fs-4 me-2"></i>
-            <span className="fw-bold">MovieRecom</span>
+        <Link className="navbar-brand d-flex align-items-center" to="/">
+            <i className="bi bi-film fs-4 me-2" style={{ color: "rgb(0, 167, 28)" }}></i>
+            <span className="fw-bold" style={{ color: "rgb(0, 167, 28)" }}>MovieRecom</span>
           </Link>
+
 
           <button
             className="navbar-toggler"
