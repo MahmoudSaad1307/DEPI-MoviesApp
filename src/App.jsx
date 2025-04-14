@@ -5,6 +5,7 @@ import UserPage from "./pages/UserPage";
 import ActorPage from "./pages/Actor";
 import MoviesPage from "./pages/MoviesPage";
 import TVShowsPage from "./pages/tvshows";
+import MovieDetails from "./pages/MovieDetails";
 import UserEditPage from "./pages/UserEditPage";
 import Watchlist from "./pages/Watchlist";
 
@@ -13,6 +14,7 @@ const App = () => {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/movie-details/:media_type/:id" element={<MovieDetails />} />
         <Route path="/user" element={<UserPage />} />
         <Route path="/user/edit" element={<UserEditPage />} />
         <Route path="/actor" element={<ActorPage />} />
