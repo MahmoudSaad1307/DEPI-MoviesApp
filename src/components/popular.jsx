@@ -87,18 +87,11 @@ const Popular = () => {
                         <i className="bi bi-arrow-left-short"></i>
                     </button>
 
-                    <div
-                        className="card-carousel"
-                        style={{
-                            transform: `translateX(-${(currentIndex * 100) / cardsPerView}%)`,
-                            width: `${(movies.length * 100) / cardsPerView}%`,
-                        }}
-                    >
-                        {movies.map((movie) => (
+                    <div className="card-carousel">
+                        {movies.map((movie, index) => (
                             <div
-                                className="movie-card"
                                 key={movie.id}
-                                style={{ width: `${100 / movies.length}%` }}
+                                className='movie-card'
                             >
                                 <img src={movie.image} alt={movie.title} />
                                 <div className="movie-card-content">

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 const TopPicks = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [cardsPerView, setCardsPerView] = useState(6);
   const [isMobile, setIsMobile] = useState(false);
 
   const topPicksMovies = [
@@ -70,55 +69,53 @@ const TopPicks = () => {
       Math.min(prevIndex + 2, topPicksMovies.length - 2)
     );
   };
-  return (
-    <>
-      <div className="top-picks-section">
-        <h2 className="carousel-title">Top Picks For You</h2>
-        <div className="card-carousel-container">
-          {isMobile && (
-            <button
-              className="carousel-arrow left"
-              onClick={handlePrev}
-              disabled={currentIndex === 0}
-            >
-              <i className="bi bi-arrow-left-short"></i>
-            </button>
-          )}
 
-          <div className="card-carousel">
-            {topPicksMovies.map((movie, index) => (
-              <div
-                key={movie.id}
-                className={`movie-card ${
-                  isMobile &&
-                  (index < currentIndex || index >= currentIndex + 2)
-                    ? "hidden"
-                    : ""
-                }`}
-              >
-                <img src={movie.image} alt={movie.title} />
-                <div className="movie-card-content">
-                  <h3 className="movie-card-title">{movie.title}</h3>
-                  <div className="movie-card-info">
-                    <span>{movie.year}</span> • <span>{movie.genre}</span>
-                  </div>
+  return (
+    <div className="top-picks-section">
+      <h2 className="carousel-title">Top Picks For You</h2>
+      <div className="card-carousel-container">
+        {isMobile && (
+          <button
+            className="carousel-arrow left"
+            onClick={handlePrev}
+            disabled={currentIndex === 0}
+          >
+            <i className="bi bi-arrow-left-short"></i>
+          </button>
+        )}
+
+        <div className="card-carousel">
+          {topPicksMovies.map((movie, index) => (
+            <div
+              key={movie.id}
+              className={`movie-card ${
+                isMobile && (index < currentIndex || index >= currentIndex + 2)
+                  ? "hidden"
+                  : ""
+              }`}
+            >
+              <img src={movie.image} alt={movie.title} />
+              <div className="movie-card-content">
+                <h3 className="movie-card-title">{movie.title}</h3>
+                <div className="movie-card-info">
+                  <span>{movie.year}</span> • <span>{movie.genre}</span>
                 </div>
               </div>
-            ))}
-          </div>
-
-          {isMobile && (
-            <button
-              className="carousel-arrow right"
-              onClick={handleNext}
-              disabled={currentIndex >= topPicksMovies.length - 2}
-            >
-              <i className="bi bi-arrow-right-short"></i>
-            </button>
-          )}
+            </div>
+          ))}
         </div>
+
+        {isMobile && (
+          <button
+            className="carousel-arrow right"
+            onClick={handleNext}
+            disabled={currentIndex >= topPicksMovies.length - 2}
+          >
+            <i className="bi bi-arrow-right-short"></i>
+          </button>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 
