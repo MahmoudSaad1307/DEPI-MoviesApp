@@ -48,9 +48,14 @@ const UserPage = () => {
              <button className="btn btn-outline-light btn-lg mb-2 w-100 fw-semibold rounded-3">
                    Rates
                       </button>
-             <button className="btn btn-outline-light btn-lg mb-2 w-100 fw-semibold rounded-3">
-                    Watchlist
-                      </button>
+                      <button className="btn btn-outline-light btn-lg mb-2 w-100 fw-semibold rounded-3">
+                      <Link
+                            to="/watchlist"
+                             className="bg-zinc-800 text-white py-2 px-4 rounded hover:bg-zinc-700"
+                                                              >
+                       Watchlist
+                          </Link>
+                            </button>
              <button className="btn btn-outline-light btn-lg mb-2 w-100 fw-semibold rounded-3">
                      Lists
                       </button>
