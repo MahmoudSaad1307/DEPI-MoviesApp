@@ -48,7 +48,7 @@ const Navbar = () => {
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/">
-                  Sign Out
+                Recommendation 
                 </Link>
               </li> 
               
@@ -90,7 +90,7 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <Link className="dropdown-item" to="/watchlist">
                         Watchlist
                       </Link>
                     </li>
