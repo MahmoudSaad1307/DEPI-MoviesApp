@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./actor.css";
-import { useParams,Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   API_KEY,
   BASE_URL,
@@ -90,7 +90,6 @@ const ActorPage = () => {
             <h1 className="mb-4">{actor.name}</h1>
             <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3">
               {movies.map((movie) => (
-                <Link to={`/movie-details/movie/${movie.id}`} > 
                 <div className="col" key={movie.id}>
                   <div className="card h-100 border-0 shadow-sm">
                     {movie.poster_path ? (
@@ -112,7 +111,6 @@ const ActorPage = () => {
                     </div>
                   </div>
                 </div>
-                </Link>
               ))}
             </div>
           </div>
@@ -122,6 +120,11 @@ const ActorPage = () => {
           <div className="card mb-4 border-0 shadow-sm">
             {actor.profile_path ? (
               <img
+              style={{width: "230px";
+                height: "340px";
+                borderRadius: "5px";
+                border: "1px solid rgb(255, 255, 255, 0.3)";
+                cursor: "pointer"}}
                 src={`${IMAGE_URL}${actor.profile_path}`}
                 className="card-img-top rounded-top"
                 alt={actor.name}

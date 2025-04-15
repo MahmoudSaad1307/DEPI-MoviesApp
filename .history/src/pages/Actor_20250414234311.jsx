@@ -89,8 +89,7 @@ const ActorPage = () => {
             <p className="text-muted mb-1">Films Starring</p>
             <h1 className="mb-4">{actor.name}</h1>
             <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3">
-              {movies.map((movie) => (
-                <Link to={`/movie-details/movie/${movie.id}`} > 
+              {movies.map((movie,index) => (
                 <div className="col" key={movie.id}>
                   <div className="card h-100 border-0 shadow-sm">
                     {movie.poster_path ? (
@@ -112,7 +111,6 @@ const ActorPage = () => {
                     </div>
                   </div>
                 </div>
-                </Link>
               ))}
             </div>
           </div>

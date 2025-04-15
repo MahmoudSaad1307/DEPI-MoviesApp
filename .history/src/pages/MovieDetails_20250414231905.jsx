@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams,Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   API_KEY,
   BASE_URL,
@@ -210,7 +210,7 @@ const MovieDetails = () => {
             <div className="cast-grid">
               {movieData.credits && movieData.credits.cast.slice(0, 8).map((actor) => (
                 <div className="cast-card" key={actor.id}>
-                  <Link to={`/actor/${actor.id}`}>
+                  <Link to={`/z/${actor.id}`}>
                     <img 
                       src={actor.profile_path ? `${IMAGE_URL}${actor.profile_path}` : "/placeholder-image.jpg"} 
                       alt={actor.name} 

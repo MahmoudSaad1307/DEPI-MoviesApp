@@ -11,7 +11,7 @@ const HomePage = () => {
   return (
     <>
       <div
-      style={{zIndex:'0'}}
+      style={{zIndex}}
         id="carouselExampleFade"
         className="carousel slide carousel-fade"
         data-bs-ride="carousel"

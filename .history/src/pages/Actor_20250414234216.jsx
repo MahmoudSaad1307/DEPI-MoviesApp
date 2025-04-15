@@ -9,6 +9,7 @@ import {
   IMAGE_URL,
   ENDPOINTS,
 } from "../constants/constants";
+import Test from "../Vanilla/shared/test";
 
 const ActorPage = () => {
   const { id } = useParams();
@@ -89,30 +90,9 @@ const ActorPage = () => {
             <p className="text-muted mb-1">Films Starring</p>
             <h1 className="mb-4">{actor.name}</h1>
             <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3">
-              {movies.map((movie) => (
-                <Link to={`/movie-details/movie/${movie.id}`} > 
-                <div className="col" key={movie.id}>
-                  <div className="card h-100 border-0 shadow-sm">
-                    {movie.poster_path ? (
-                      <img
-                        src={`${IMAGE_URL}${movie.poster_path}`}
-                        alt={movie.title}
-                        className="card-img-top img-fluid"
-                      />
-                    ) : (
-                      <div className="card-img-top img-fluid bg-light d-flex align-items-center justify-content-center" style={{ height: '100%', minHeight: '200px' }}>
-                        <span className="text-muted">No image available</span>
-                      </div>
-                    )}
-                    <div className="card-body p-2">
-                      <h5 className="card-title fs-6 mb-0">{movie.title}</h5>
-                      <p className="card-text text-muted small">
-                        {movie.release_date?.substring(0, 4) || 'Year unknown'}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                </Link>
+              {movies.map((movie,index) => (
+                <Test movie={movie} />
+                movie={movie} index={index}
               ))}
             </div>
           </div>

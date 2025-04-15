@@ -90,7 +90,8 @@ const ActorPage = () => {
             <h1 className="mb-4">{actor.name}</h1>
             <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3">
               {movies.map((movie) => (
-                <Link to={`/movie-details/movie/${movie.id}`} > 
+                
+                <Link  to={`/movie-details/${isMovie}/${movie.id}`} />
                 <div className="col" key={movie.id}>
                   <div className="card h-100 border-0 shadow-sm">
                     {movie.poster_path ? (
@@ -112,7 +113,6 @@ const ActorPage = () => {
                     </div>
                   </div>
                 </div>
-                </Link>
               ))}
             </div>
           </div>
