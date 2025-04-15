@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-dark text-white">
+     <header className="bg-dark text-white position-relative" style={{ zIndex: 10 }}>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark container">
         <div className="container-fluid">
           <Link className="navbar-brand d-flex align-items-center" to="/">
