@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css"; // Import Bootstrap Icons
+import Search from "../../components/search";
 
 const Navbar = () => {
   // State to manage the visibility of the search input
@@ -109,9 +110,7 @@ const Navbar = () => {
       </nav>
       {/* Conditionally render the search input */}
       {isSearchVisible && (
-        <div className="container mt-2">
-          <input type="text" className="form-control" placeholder="Search..." />
-        </div>
+        <Search setIsSearchVisible={setIsSearchVisible} />
       )}
     </header>
   );
