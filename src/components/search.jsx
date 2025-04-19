@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { fetchMovies, ENDPOINTS } from "../constants/constants";
 import MovieCard from "../constants/components/MovieCard";
 import "../components/search.css";
@@ -8,6 +8,7 @@ const Search = ({ setIsSearchVisible }) => {
   const [results, setResults] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
   const [activeFilter, setActiveFilter] = useState("all"); // State to track the active filter
+  const timeoutRef = useRef(null); // Ref to store the timeout ID
 
   const handleSearch = async (searchQuery, type = "all") => {
     if (!searchQuery.trim()) {
@@ -16,39 +17,31 @@ const Search = ({ setIsSearchVisible }) => {
       return;
     }
 
-    try {
-      let data;
-      if (type === "all") {
-        data = await fetchMovies(
-          ENDPOINTS.multiSearch,
-          `&query=${searchQuery}`,
-          1
-        );
-      } else if (type === "movie") {
-        data = await fetchMovies(
-          ENDPOINTS.movies.search,
-          `&query=${searchQuery}`,
-          1
-        );
-      } else if (type === "tv") {
-        data = await fetchMovies(
-          ENDPOINTS.tv.search,
-          `&query=${searchQuery}`,
-          1
-        );
-      } else if (type === "person") {
-        data = await fetchMovies(
-          ENDPOINTS.person.search,
-          `&query=${searchQuery}`,
-          1
-        );
-      }
-
-      setResults(data.results || []);
-      setFilteredResults(data.results || []); // Update filtered results
-    } catch (error) {
-      console.error("Error fetching search results:", error);
+    // Clear any existing timeout to avoid overlapping calls
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
     }
+
+    // Set a delay of 2 seconds before fetching
+    timeoutRef.current = setTimeout(async () => {
+      try {
+        let data;
+        if (type === "all") {
+          data = await fetchMovies(ENDPOINTS.multiSearch, `&query=${searchQuery}`, 1);
+        } else if (type === "movie") {
+          data = await fetchMovies(ENDPOINTS.movies.search, `&query=${searchQuery}`, 1);
+        } else if (type === "tv") {
+          data = await fetchMovies(ENDPOINTS.tv.search, `&query=${searchQuery}`, 1);
+        } else if (type === "person") {
+          data = await fetchMovies(ENDPOINTS.person.search, `&query=${searchQuery}`, 1);
+        }
+
+        setResults(data.results || []);
+        setFilteredResults(data.results || []); // Update filtered results
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
+    }, 2000); // 2-second delay
   };
 
   const handleFilter = (type) => {
@@ -88,33 +81,25 @@ const Search = ({ setIsSearchVisible }) => {
       </div>
       <div className="searchTypeBtns">
         <button
-          className={`btn btn-outline-primary ${
-            activeFilter === "all" ? "active" : ""
-          }`}
+          className={`btn btn-outline-primary ${activeFilter === "all" ? "active" : ""}`}
           onClick={() => handleFilter("all")}
         >
           All
         </button>
         <button
-          className={`btn btn-outline-primary ${
-            activeFilter === "movie" ? "active" : ""
-          }`}
+          className={`btn btn-outline-primary ${activeFilter === "movie" ? "active" : ""}`}
           onClick={() => handleFilter("movie")}
         >
           Movies
         </button>
         <button
-          className={`btn btn-outline-primary ${
-            activeFilter === "tv" ? "active" : ""
-          }`}
+          className={`btn btn-outline-primary ${activeFilter === "tv" ? "active" : ""}`}
           onClick={() => handleFilter("tv")}
         >
           TV Shows
         </button>
         <button
-          className={`btn btn-outline-primary ${
-            activeFilter === "person" ? "active" : ""
-          }`}
+          className={`btn btn-outline-primary ${activeFilter === "person" ? "active" : ""}`}
           onClick={() => handleFilter("person")}
         >
           Cast
