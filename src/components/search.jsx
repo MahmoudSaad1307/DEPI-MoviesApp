@@ -7,8 +7,8 @@ const Search = ({ setIsSearchVisible }) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
-  const [activeFilter, setActiveFilter] = useState("all"); // State to track the active filter
-  const timeoutRef = useRef(null); // Ref to store the timeout ID
+  const [activeFilter, setActiveFilter] = useState("all");
+  const timeoutRef = useRef(null);
 
   const handleSearch = async (searchQuery, type = "all") => {
     if (!searchQuery.trim()) {
@@ -17,42 +17,56 @@ const Search = ({ setIsSearchVisible }) => {
       return;
     }
 
-    // Clear any existing timeout to avoid overlapping calls
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
 
-    // Set a delay of 2 seconds before fetching
     timeoutRef.current = setTimeout(async () => {
       try {
         let data;
         if (type === "all") {
-          data = await fetchMovies(ENDPOINTS.multiSearch, `&query=${searchQuery}`, 1);
+          data = await fetchMovies(
+            ENDPOINTS.multiSearch,
+            `&query=${searchQuery}`,
+            1
+          );
         } else if (type === "movie") {
-          data = await fetchMovies(ENDPOINTS.movies.search, `&query=${searchQuery}`, 1);
+          data = await fetchMovies(
+            ENDPOINTS.movies.search,
+            `&query=${searchQuery}`,
+            1
+          );
         } else if (type === "tv") {
-          data = await fetchMovies(ENDPOINTS.tv.search, `&query=${searchQuery}`, 1);
+          data = await fetchMovies(
+            ENDPOINTS.tv.search,
+            `&query=${searchQuery}`,
+            1
+          );
         } else if (type === "person") {
-          data = await fetchMovies(ENDPOINTS.person.search, `&query=${searchQuery}`, 1);
+          data = await fetchMovies(
+            ENDPOINTS.person.search,
+            `&query=${searchQuery}`,
+            1
+          );
         }
 
         setResults(data.results || []);
-        setFilteredResults(data.results || []); // Update filtered results
+        setFilteredResults(data.results || []);
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
-    }, 2000); // 2-second delay
+    }, 1000);
   };
 
   const handleFilter = (type) => {
-    setActiveFilter(type); // Set the active filter
-    handleSearch(query, type); // Fetch data based on the selected filter
+    setActiveFilter(type);
+    handleSearch(query, type);
   };
 
   const handleKeyUp = (e) => {
     const searchQuery = e.target.value;
     setQuery(searchQuery);
-    handleSearch(searchQuery, activeFilter); // Search based on the active filter
+    handleSearch(searchQuery, activeFilter);
   };
 
   return (
@@ -81,28 +95,36 @@ const Search = ({ setIsSearchVisible }) => {
       </div>
       <div className="searchTypeBtns">
         <button
-          className={`btn btn-outline-primary ${activeFilter === "all" ? "active" : ""}`}
+          className={`btn btn-outline-primary ${
+            activeFilter === "all" ? "active" : ""
+          }`}
           onClick={() => handleFilter("all")}
         >
           All
         </button>
         <button
-          className={`btn btn-outline-primary ${activeFilter === "movie" ? "active" : ""}`}
+          className={`btn btn-outline-primary ${
+            activeFilter === "movie" ? "active" : ""
+          }`}
           onClick={() => handleFilter("movie")}
         >
           Movies
         </button>
         <button
-          className={`btn btn-outline-primary ${activeFilter === "tv" ? "active" : ""}`}
+          className={`btn btn-outline-primary ${
+            activeFilter === "tv" ? "active" : ""
+          }`}
           onClick={() => handleFilter("tv")}
         >
           TV Shows
         </button>
         <button
-          className={`btn btn-outline-primary ${activeFilter === "person" ? "active" : ""}`}
+          className={`btn btn-outline-primary ${
+            activeFilter === "person" ? "active" : ""
+          }`}
           onClick={() => handleFilter("person")}
         >
-          Cast
+          Actors
         </button>
       </div>
       <div className="searchResults mt-3">
@@ -114,15 +136,19 @@ const Search = ({ setIsSearchVisible }) => {
                 movie={{
                   id: result.id,
                   title: result.title || result.name,
-                  image: result.poster_path
-                    ? `https://image.tmdb.org/t/p/w440_and_h660_face${result.poster_path}`
-                    : "https://via.placeholder.com/440x660?text=No+Image",
+                  image:
+                    result.media_type === "person"
+                      ? result.profile_path
+                        ? `https://image.tmdb.org/t/p/w440_and_h660_face${result.profile_path}`
+                        : "https://via.placeholder.com/440x660?text=No+Image" // Fallback for person images
+                      : result.poster_path
+                      ? `https://image.tmdb.org/t/p/w440_and_h660_face${result.poster_path}`
+                      : "https://via.placeholder.com/440x660?text=No+Image", // Fallback for movie/TV images
                   year: result.release_date
                     ? result.release_date.split("-")[0]
                     : result.first_air_date
                     ? result.first_air_date.split("-")[0]
                     : "N/A",
-                  rating: result.vote_average || "N/A",
                 }}
                 isMovie={result.media_type === "movie"}
               />
