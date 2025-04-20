@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { fetchMovies, ENDPOINTS ,IMAGE_URL} from "../constants/constants";
+import React, { useState, useRef, useEffect } from "react";
+import { fetchMovies, ENDPOINTS, IMAGE_URL } from "../constants/constants";
 import MovieCard, { MovieCard2 } from "../constants/components/MovieCard";
 import "../components/search.css";
 
@@ -8,12 +8,14 @@ const Search = ({ setIsSearchVisible }) => {
   const [results, setResults] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
   const [activeFilter, setActiveFilter] = useState("all");
+  const [visibility, setVisibility] = useState([]); // State to track visibility of cards
   const timeoutRef = useRef(null);
 
   const handleSearch = async (searchQuery, type = "all") => {
     if (!searchQuery.trim()) {
       setResults([]);
       setFilteredResults([]);
+      setVisibility([]); // Reset visibility
       return;
     }
 
@@ -52,9 +54,7 @@ const Search = ({ setIsSearchVisible }) => {
 
         setResults(data.results || []);
         setFilteredResults(data.results || []);
-        if(type === "person")
-          console.log(`${IMAGE_URL}${data.results[0].profile_path}`);
-          
+        setVisibility(data.results.map(() => true)); // Initialize visibility for all cards
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
@@ -70,6 +70,14 @@ const Search = ({ setIsSearchVisible }) => {
     const searchQuery = e.target.value;
     setQuery(searchQuery);
     handleSearch(searchQuery, activeFilter);
+  };
+
+  const handleImageError = (index) => {
+    setVisibility((prevVisibility) => {
+      const updatedVisibility = [...prevVisibility];
+      updatedVisibility[index] = false; // Set visibility to false for the failed image
+      return updatedVisibility;
+    });
   };
 
   return (
@@ -133,11 +141,10 @@ const Search = ({ setIsSearchVisible }) => {
       <div className="searchResults mt-3">
         {filteredResults.length > 0 ? (
           <div className="cardsGrid" onClick={() => setIsSearchVisible(false)}>
-            {filteredResults.map((result) => {
-              if (result.media_type === "person")
-                console.log(
-                  result.profile_path
-                );
+            {filteredResults.map((result, index) => {
+              if (!visibility[index]) {
+                return null; // Do not render the card if the image failed to load
+              }
 
               return (
                 <MovieCard2
@@ -145,14 +152,11 @@ const Search = ({ setIsSearchVisible }) => {
                   movie={{
                     id: result.id,
                     title: result.title || result.name,
-                    image:
-                      
-                        result.profile_path
-                          ? `${IMAGE_URL}${result.profile_path}`
-                          // : "https://www.svgrepo.com/show/508699/landscape-placeholder.svg" // Fallback for person images
-                        : result.poster_path
-                        ? `${IMAGE_URL}${result.poster_path}`
-                        : "https://www.svgrepo.com/show/508699/landscape-placeholder.svg", // Fallback for movie/TV images
+                    image: result.profile_path
+                      ? `${IMAGE_URL}${result.profile_path}`
+                      : result.poster_path
+                      ? `${IMAGE_URL}${result.poster_path}`
+                      : "/placeholder.jpg", // Local fallback image // Fallback for missing images
                     year: result.release_date
                       ? result.release_date.split("-")[0]
                       : result.first_air_date
@@ -160,6 +164,7 @@ const Search = ({ setIsSearchVisible }) => {
                       : "N/A",
                   }}
                   isMovie={result.media_type === "movie"}
+                  onImageError={() => handleImageError(index)} // Hide the card if the image fails to load
                 />
               );
             })}
