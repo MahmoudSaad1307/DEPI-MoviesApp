@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { fetchMovies, ENDPOINTS ,IMAGE_URL} from "../constants/constants";
+import { fetchMovies, ENDPOINTS, IMAGE_URL } from "../constants/constants";
 import MovieCard, { MovieCard2 } from "../constants/components/MovieCard";
 import "../components/search.css";
 
@@ -52,9 +52,8 @@ const Search = ({ setIsSearchVisible }) => {
 
         setResults(data.results || []);
         setFilteredResults(data.results || []);
-        if(type === "person")
+        if (type === "person")
           console.log(`${IMAGE_URL}${data.results[0].profile_path}`);
-          
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
@@ -135,33 +134,30 @@ const Search = ({ setIsSearchVisible }) => {
           <div className="cardsGrid" onClick={() => setIsSearchVisible(false)}>
             {filteredResults.map((result) => {
               if (result.media_type === "person")
-                console.log(
-                  result.profile_path
-                );
+                console.log(result.profile_path);
+              if (result.profile_path || result.poster_path)
+                return (
+                  <MovieCard2
+                    key={result.id}
+                    movie={{
+                      id: result.id,
+                      title: result.title || result.name,
 
-              return (
-                <MovieCard2
-                  key={result.id}
-                  movie={{
-                    id: result.id,
-                    title: result.title || result.name,
-                    image:
-                      
-                        result.profile_path
-                          ? `${IMAGE_URL}${result.profile_path}`
-                          // : "https://www.svgrepo.com/show/508699/landscape-placeholder.svg" // Fallback for person images
-                        : result.poster_path
+                      image: result.profile_path
+                        ? `${IMAGE_URL}${result.profile_path}`
+                        : // : "https://www.svgrepo.com/show/508699/landscape-placeholder.svg" // Fallback for person images
+                        result.poster_path
                         ? `${IMAGE_URL}${result.poster_path}`
                         : "https://www.svgrepo.com/show/508699/landscape-placeholder.svg", // Fallback for movie/TV images
-                    year: result.release_date
-                      ? result.release_date.split("-")[0]
-                      : result.first_air_date
-                      ? result.first_air_date.split("-")[0]
-                      : "N/A",
-                  }}
-                  isMovie={result.media_type === "movie"}
-                />
-              );
+                      year: result.release_date
+                        ? result.release_date.split("-")[0]
+                        : result.first_air_date
+                        ? result.first_air_date.split("-")[0]
+                        : "N/A",
+                    }}
+                    isMovie={result.media_type === "movie"}
+                  />
+                );
             })}
           </div>
         ) : (
