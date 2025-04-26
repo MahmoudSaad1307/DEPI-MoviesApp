@@ -28,6 +28,7 @@ const App = () => {
         <Route path="/watchlist" element={<Watchlist />} />
         <Route path="/recommendation" element={<Recommendation />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<UserLoginPage />} />
       </Route>
     </Routes>
   );
