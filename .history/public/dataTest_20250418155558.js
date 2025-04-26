@@ -1,0 +1,1 @@
+  // Stats counters (NEW)
