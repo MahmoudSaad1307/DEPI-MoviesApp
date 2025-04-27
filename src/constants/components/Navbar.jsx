@@ -48,8 +48,8 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/">
-                  Sign Out
+                <Link className="nav-link" to="/recommendation">
+                Recommendation 
                 </Link>
               </li> 
               
@@ -91,7 +91,7 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <Link className="dropdown-item" to="/watchlist">
                         Watchlist
                       </Link>
                     </li>
@@ -103,7 +103,8 @@ const Navbar = () => {
                   </ul>
                 </li>
               </ul>
-              <button className="btn btn-outline-light ms-3">LOG</button>
+              <Link className="nav-link" to="/signup"><button className="btn btn-outline-light ms-3">SignUp</button></Link>
+              <Link className="nav-link" to="/login"><button className="btn btn-success ms-3">Login</button></Link>
             </div>
           </div>
         </div>
