@@ -1,0 +1,107 @@
+/* MovieActionBar.css */
+.movie-page-container {
+  background-color: #1a1a1a;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.movie-actions-container {
+  background-color: #333333;
+  border-radius: 4px;
+  padding: 20px;
+  /* margin: 20px auto; */
+  max-width: 450px;
+}
+
+.action-buttons {
+  width: 100%;
+  flex-wrap: wrap;
+  display: flex;
+  
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.action-btn {
+  width: 48%;
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s;
+  font-size: 14px;
+}
+
+.action-btn:hover {
+  background-color: #555;
+  cursor: pointer;
+}
+
+.action-btn.active {
+  background-color: #4CAF50;
+}
+
+.action-btn i {
+  font-size: 16px;
+}
+
+.score-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.score-bar {
+  display: flex;
+  height: 30px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.segment {
+  background-color: #e6e6e6;
+  flex: 1;
+  height: 100%;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  position: relative;
+}
+
+.segment-low {
+  background-color: #FF6874;
+}
+
+.segment-medium {
+  background-color: #FFBD3F;
+}
+
+.segment-high {
+  background-color: #4CAF50;
+}
+
+.segment-divider {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.user-rating {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 14px;
+  color: #aaa;
+}
+
+.your-rating {
+  color: #4caf50;
+  font-weight: bold;
+}

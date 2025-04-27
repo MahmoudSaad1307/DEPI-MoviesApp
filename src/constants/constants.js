@@ -1,3 +1,15 @@
+export const API_KEY = "4464a9cd6c3e0ee26ee5e6a893515421";
+export const BASE_URL = "https://api.themoviedb.org/3";
+export const IMAGE_URL = "https://image.tmdb.org/t/p/w440_and_h660_face";
+export const BACKDROP_PATH = "https://image.tmdb.org/t/p/original";
+
+
+export const API_URL = 'http://localhost:3000/api'; // Replace with your actual back-end URL
+
+
+
+
+
 export const MOVIE_GENRES = [
   { id: 28, name: "Action" },
   { id: 12, name: "Adventure" },
@@ -38,10 +50,6 @@ export const TV_GENRES = [
   { id: 10768, name: "War & Politics" },
   { id: 37, name: "Western" },
 ];
-export const API_KEY = "4464a9cd6c3e0ee26ee5e6a893515421";
-export const BASE_URL = "https://api.themoviedb.org/3";
-export const IMAGE_URL = "https://image.tmdb.org/t/p/w440_and_h660_face";
-export const BACKDROP_PATH = "https://image.tmdb.org/t/p/original";
 export const ENDPOINTS = {
   movies: {
     popular: "/movie/popular",

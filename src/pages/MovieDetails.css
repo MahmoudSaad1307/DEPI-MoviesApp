@@ -6,8 +6,6 @@ body {
   padding: 0;
 }
 
-
-
 .movie-header {
   position: relative;
   padding: 2rem 0;
@@ -21,7 +19,13 @@ body {
   width: 100%;
   height: 100%;
   z-index: -1;
-  background: linear-gradient(90deg, #0a0a0a 0%, rgba(10,10,10,0.8) 30%, rgba(10,10,10,0.4) 60%, rgba(10,10,10,0) 100%);
+  background: linear-gradient(
+    90deg,
+    #0a0a0a 0%,
+    rgba(10, 10, 10, 0.8) 30%,
+    rgba(10, 10, 10, 0.4) 60%,
+    rgba(10, 10, 10, 0) 100%
+  );
 }
 
 .movie-poster {
@@ -33,8 +37,18 @@ body {
   background-size: cover;
   background-position: center;
   z-index: -2;
-  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 20%, rgba(0,0,0,1) 40%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 20%, rgba(0,0,0,1) 40%);
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.5) 20%,
+    rgba(0, 0, 0, 1) 40%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.5) 20%,
+    rgba(0, 0, 0, 1) 40%
+  );
 }
 
 .movie-title {
@@ -124,13 +138,14 @@ body {
   line-height: 1.6;
 }
 
-.more-btn {
-  color: #13c6b0;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
+.movie-interaction{
+width:600px ;
+height: 200px;
+background-color: gainsboro;
+
 }
+
+
 
 .action-buttons {
   display: flex;
@@ -146,10 +161,17 @@ body {
   margin-right: 0.8rem;
   display: flex;
   align-items: center;
+  transition: transform 0.3s ease;
+
+}
+.btn-play:hover{
+
+  background-color: #0b9887;
 }
 
-.btn-secondary {
-  background-color: rgba(255, 255, 255, 0.1);
+
+.btn-watch-later {
+  background-color: rgba(255, 255, 255, 0.203);
   color: white;
   border: none;
   padding: 0.6rem 1.5rem;
@@ -157,11 +179,22 @@ body {
   margin-right: 0.8rem;
   display: flex;
   align-items: center;
+  transition: transform 0.3s ease;
+
 }
+.btn-watch-later:hover{
+  background-color: rgba(255, 255, 255, 0.082);
+
+
+
+}
+
 
 .btn-icon {
   margin-right: 0.5rem;
 }
+
+
 
 .tabs-section {
   /* Added clear separation from movie info section */
@@ -197,6 +230,84 @@ body {
   height: 3px;
   background-color: #13c6b0;
 }
+.add-review {
+  background-color: #0ea896;
+  color: white;
+  padding: 0 0.6rem;
+  border-radius: 0.25rem;
+  margin: 0 0.8rem 4px auto;
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.add-review:hover {
+  background-color: #0b9887;
+}
+
+/* Add these styles to your MovieDetails.css file */
+
+/* Modal styling */
+.modal-content {
+  background-color: #1a1a1a;
+  color: #fff;
+  border-radius: 10px;
+  border: 1px solid #333;
+}
+
+.modal-header {
+  border-bottom: 1px solid #333;
+}
+
+.modal-footer {
+  border-top: 1px solid #333;
+}
+
+.btn-close {
+  color: #fff;
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Form styling */
+.form-control {
+  background-color: #5e5959;
+  border: 1px solid #444;
+  color: #fff;
+}
+
+.form-control:focus {
+  background-color: #8c8787;
+  border-color: grey;
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(208, 166, 168, 0.25);
+}
+
+.form-label {
+  color: #ddd;
+}
+
+/* Button styling */
+.modal .btn-primary {
+  background-color: #13c6b0;
+  border-color: transparent;
+}
+
+.modal .btn-primary:hover {
+  background-color: rgba(18, 169, 151, 0.858);
+  /* border-color: #b30710; */
+}
+
+.modal .btn-secondary {
+  background-color: #333;
+  border-color: #444;
+}
+
+.modal .btn-secondary:hover {
+  background-color: #444;
+  border-color: #555;
+}
+
+/* Make the add review tab look clickable */
 
 .cast-grid {
   display: grid;
@@ -247,8 +358,9 @@ body {
   display: block;
 }
 .reviews-container {
+  flex-wrap: wrap;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   gap: 20px;
   padding: 15px 0;
 }
@@ -275,9 +387,11 @@ body {
   display: flex;
   align-items: center;
   gap: 15px;
+  min-width: 0; /* هذا ضروري لو فيه flex */
 }
 
 .avatar {
+  flex-shrink: 0;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -291,11 +405,22 @@ body {
 .reviewer-details {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .reviewer-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-weight: 600;
+  display: block;
+  white-space: nowrap;
+  max-width: 100%;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  max-width: 100%;
 }
 
 .review-date {
@@ -307,7 +432,7 @@ body {
   background-color: rgba(255, 215, 0, 0.2);
   padding: 5px 10px;
   border-radius: 5px;
-  color: #FFD700;
+  color: #ffd700;
   font-weight: bold;
 }
 
@@ -332,7 +457,8 @@ body {
   color: #fff;
 }
 
-.btn-read-more, .btn-read-less {
+.btn-read-more,
+.btn-read-less {
   background: none;
   border: none;
   color: #5799ef;
@@ -342,7 +468,8 @@ body {
   margin-left: 5px;
 }
 
-.btn-read-more:hover, .btn-read-less:hover {
+.btn-read-more:hover,
+.btn-read-less:hover {
   color: #fff;
   text-decoration: underline;
 }

@@ -8,6 +8,7 @@ import TVShowsPage from "./pages/tvshows";
 import MovieDetails from "./pages/MovieDetails";
 import UserEditPage from "./pages/UserEditPage";
 import Watchlist from "./pages/Watchlist";
+import { registerUser } from "./api/api";
 
 const App = () => {
   return (
@@ -27,3 +28,24 @@ const App = () => {
 };
 
 export default App;
+
+// <button
+//   style={{ background: "red" }}
+//   onClick={async () => {
+//     try {
+//       await registerUser(
+//         "Mahmoud ahmed",
+//         "mahmod2004saad@gmail.com",
+//         "123456"
+//       );
+//       console.log("Success");
+//     } catch (error) {
+//       if (error.response) {
+//         console.log("Error data:", error.response.data);
+//         console.log("Error status:", error.response.status);
+//       }
+//     }
+//   }}
+// >
+//   click
+// </button>

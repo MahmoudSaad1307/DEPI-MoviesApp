@@ -21,7 +21,7 @@ import {
   faExternalLink,
 } from "@fortawesome/free-solid-svg-icons";
 import MovieCard from "../constants/components/MovieCard";
-
+import InteractionPanel from "../constants/components/InteractionPanel";
 
 const MovieDetails = () => {
   const { id, media_type } = useParams();
@@ -30,6 +30,41 @@ const MovieDetails = () => {
   const [activeTab, setActiveTab] = useState("cast");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // Add this state variable inside your component
+const [reviewContent, setReviewContent] = useState('');
+
+// Simplified function to handle review submission
+const handleSubmitReview = () => {
+  // Check if user is logged in
+  if (localStorage.getItem("user") === null) {
+    alert("Please sign in to submit a review");
+    return;
+  }
+
+  // Validate form
+  if (!reviewContent.trim()) {
+    alert("Please enter your review");
+    return;
+  }
+
+  // Here you would typically send the review to your backend API
+  console.log("Submitting review:", {
+    movieId: id,
+    content: reviewContent,
+    user: JSON.parse(localStorage.getItem("user")).username
+  });
+
+  // Show success message
+  alert("Thank you for your review!");
+
+  // Clear form
+  setReviewContent('');
+
+  // Close modal
+  const modal = document.getElementById('addReviewModal');
+  const bootstrapModal = bootstrap.Modal.getInstance(modal);
+  bootstrapModal.hide();
+};
 
   useEffect(() => {
     if (id) {
@@ -149,7 +184,7 @@ const MovieDetails = () => {
           ></div>
         )}
 
-        <div className="container-fluid px-4">
+        <div className="container px-4">
           <div className="row movie-header">
             <div className="col-lg-7">
               <h1 className="movie-title">
@@ -200,7 +235,8 @@ const MovieDetails = () => {
                 <span id="description-text">{movieData.overview}</span>
               </div>
 
-              <div className="action-buttons">
+<InteractionPanel/>
+              {/* <div className="action-buttons">
                 <button
                   className="btn-play"
                   onClick={() =>
@@ -217,13 +253,13 @@ const MovieDetails = () => {
                   Play
                 </button>
 
-                <button className="btn-secondary" onClick={handleWatchLater}>
+                <button className="btn-secondary btn-watch-later" onClick={handleWatchLater}>
                   <span className="btn-icon">
                     <i className="fas fa-clock"></i>
                   </span>
                   Watch Later
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -231,7 +267,7 @@ const MovieDetails = () => {
 
       {/* Tabs Section */}
       <div className="tabs-section container">
-        <div className="container-fluid px-4">
+        <div className="container px-4">
           <div className="tabs">
             <div
               className={`tab ${activeTab === "cast" ? "active" : ""}`}
@@ -251,6 +287,13 @@ const MovieDetails = () => {
             >
               Reviews
             </div>
+            <div
+              className="add-review tab"
+              data-bs-toggle="modal"
+              data-bs-target="#addReviewModal"
+            >
+              Add Review
+            </div>{" "}
           </div>
 
           {/* Cast Tab */}
@@ -324,7 +367,7 @@ const MovieDetails = () => {
               </div>
             ) : (
               <div className="reviews-container">
-                {movieData.reviews.results.map((review, index) => {
+                {movieData.reviews.results.slice(0, 10).map((review, index) => {
                   const reviewDate = new Date(review.created_at);
                   const formattedDate = reviewDate.toLocaleDateString("en-US", {
                     year: "numeric",
@@ -358,12 +401,6 @@ const MovieDetails = () => {
                             <span className="review-date">{formattedDate}</span>
                           </div>
                         </div>
-                        {rating && (
-                          <div className="review-rating">
-                            <i className="fa-solid fa-star"></i>{" "}
-                            {rating.toFixed(1)}/10
-                          </div>
-                        )}
                       </div>
                       <div className="review-body">
                         {isLongReview ? (
@@ -372,22 +409,69 @@ const MovieDetails = () => {
                           <p>{review.content}</p>
                         )}
                       </div>
-                      <div className="review-footer">
-                        <a
-                          href={review.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn-view-original"
-                        >
-                          <i className="fa-solid fa-external-link"></i> View
-                          Original
-                        </a>
-                      </div>
                     </div>
                   );
                 })}
               </div>
             )}
+          </div>
+        </div>
+      </div>
+      <div
+        className="modal fade"
+        id="addReviewModal"
+        tabIndex="-1"
+        aria-labelledby="addReviewModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="addReviewModalLabel">
+                Add Your Review
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <form id="reviewForm">
+                <div className="mb-3">
+                  <label htmlFor="reviewContent" className="form-label">
+                    Your Review
+                  </label>
+                  <textarea
+                    className="form-control"
+                    id="reviewContent"
+                    rows="5"
+                    placeholder="Share your thoughts about this movie...
+                    "
+                    // style={{}}
+                    value={reviewContent}
+                    onChange={(e) => setReviewContent(e.target.value)}
+                  ></textarea>
+                </div>
+              </form>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleSubmitReview}
+              >
+                Submit Review
+              </button>
+            </div>
           </div>
         </div>
       </div>
