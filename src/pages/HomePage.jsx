@@ -3,15 +3,15 @@ import Popular from "../components/popular";
 import ContinueWatching from "../components/continueWatching";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./HomePage.css";
-import TopPicks from './../components/topPicks';
+import TopPicks from "./../components/topPicks";
 
 const HomePage = () => {
-
   return (
     <>
       <div
-      style={{zIndex:'0'}}
+        style={{ zIndex: "0" }}
         id="carouselExampleFade"
         className="carousel slide carousel-fade"
         data-bs-ride="carousel"
@@ -40,7 +40,10 @@ const HomePage = () => {
         </div>
 
         <div className="carousel-inner">
-          <div className="carousel-item active" data-bs-interval="3000">
+          <div
+            className="carousel-item main-carousel-item active"
+            data-bs-interval="3000"
+          >
             <img
               src="src\assets\images\movie1.jpeg"
               className="carouselImg"
@@ -75,7 +78,10 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-          <div className="carousel-item" data-bs-interval="3000">
+          <div
+            className="carousel-item main-carousel-item"
+            data-bs-interval="3000"
+          >
             <img
               src="src\assets\images\movie2.jpeg"
               className="carouselImg"
@@ -110,7 +116,10 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-          <div className="carousel-item" data-bs-interval="3000">
+          <div
+            className="carousel-item main-carousel-item"
+            data-bs-interval="3000"
+          >
             <img
               src="src\assets\images\movie3.jpeg"
               className="carouselImg"

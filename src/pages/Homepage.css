@@ -146,14 +146,27 @@
 
 .carousel {
   width: 100%;
-  height: 130vh;
-  margin-bottom: 200px;
+  margin-bottom: 20px;
+}
+
+.carousel-inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .carousel-item {
   width: 100%;
-  height: 130vh;
   z-index: 0;
+  padding: 10px 0;
+}
+
+.main-carousel-item {
+  width: 100%;
+  z-index: 0;
+  height: 100vh;
+  padding: 10px 0;
 }
 
 .carousel-item img {
@@ -263,40 +276,31 @@
   opacity: 0.8;
 }
 
-/* Move previous button closer to the left edge */
-.carousel-control-prev {
-  left: 0 !important;
-  /* Align to the left edge */
-}
-
-/* Move next button closer to the right edge */
-.carousel-control-next {
-  right: 0 !important;
-  /* Align to the right edge */
-}
-
-/* Make sure icons are positioned correctly */
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  width: 40px !important;
-  /* Adjust the button size */
-  height: 40px !important;
-  background-size: contain !important;
-  /* Ensure the icon doesn't stretch */
-  background-repeat: no-repeat !important;
-  pointer-events: auto;
-  /* Enable clicking only on the icon */
-
-}
-
+/* Position carousel arrows beside the movies */
 .carousel-control-prev,
 .carousel-control-next {
-  width: auto !important;
-  /* Remove unnecessary width */
-  height: auto !important;
-  /* Remove unnecessary height */
-  pointer-events: none;
-  /* Disable clicking on full area */
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  z-index: 1;
+  background-color: rgba(0, 0, 0);
+  border-radius: 50%;
+}
+
+.carousel-control-prev {
+  left: -50px;
+}
+
+.carousel-control-next {
+  right: -50px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 30px;
+  height: 30px;
 }
 
 /* for debuging */
@@ -325,15 +329,14 @@
 
 /* Multi-Card Carousel Styles */
 .multi-card-carousel {
-  position: absolute;
-  bottom: -500px;
-  left: 0;
-  right: 0;
-  z-index: 1;
+  padding: 40px 0;
+  width: 90%;
+  height: 80vh;
+  margin: 0 auto;
 }
 
 .multi-card-carousel h2 {
-  text-align: center;
+  text-align: start;
   font-size: 35px;
 }
 
@@ -354,34 +357,10 @@
   width: 100%;
 }
 
-.carousel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 60px;
-  height: 60px;
-  background: rgba(0, 0, 0);
-  border: none;
-  border-radius: 20px;
-  color: white;
-  font-size: 25px;
-  cursor: pointer;
-  z-index: 2;
-  transition: all 0.3s ease;
-  display: none;
+.movie-card-link {
+  text-decoration: none;
 }
 
-.carousel-arrow:hover {
-  transform: scale(1.1) translateY(-50%);
-}
-
-.carousel-arrow.left {
-  left: -60px;
-}
-
-.carousel-arrow.right {
-  right: -60px;
-}
 /* Delayed Disable
 .movie-card {
   cursor: pointer;
@@ -425,14 +404,16 @@
 /* .movie-card-info {
   font-size: 0.8rem;
   color: #aaa;
-} */  
+} */
 
 .watchContainer {
-  margin-top: 250px;
+  padding: 40px 0;
+  width: 95%;
+  margin: 0 auto;
 }
 
 .watchContainer h2 {
-  text-align: center;
+  text-align: start;
   font-size: 35px;
 }
 
@@ -481,14 +462,9 @@
 
 .top-picks-section {
   padding: 40px 0;
-  width: 95%;
+  width: 90%;
+  height: 80vh;
   margin: 0 auto;
-}
-
-.top-picks-section .carousel-title {
-  text-align: center;
-  font-size: 35px;
-  margin-bottom: 30px;
 }
 
 .hidden {
@@ -500,37 +476,36 @@
     font-size: 25px !important;
   }
 
-  .carousel-arrow {
-    display: none;
-  }
-
-  /* .movie-card {
-    flex: 0 0 calc((100% - 20px) / 2);
-    max-width: calc((100% - 20px) / 2);
-  } */
-
   .card-carousel-container {
     width: 95%;
     height: auto;
   }
-  .card-carousel{
+
+  .card-carousel {
     overflow: hidden;
-  }
-  .carousel-arrow.left {
-    left: 10px;
-  }
-
-  .carousel-arrow.right {
-    right: 10px;
-  }
-
-  .carousel-arrow {
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
   }
 
   .multi-card-carousel {
-    bottom: -500px;
+    width: 75%;
+    height: 40vh;
+  }
+
+  .top-picks-section {
+    width: 75%;
+    height: 50vh;
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    top: 40%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 22px;
+    height: 22px;
   }
 }
