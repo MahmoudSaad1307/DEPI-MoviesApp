@@ -1,127 +1,90 @@
 import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
+import MovieCard from "./../constants/components/MovieCard";
+import { fetchMovies, ENDPOINTS } from "../constants/constants";
 
 const Popular = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [cardsPerView, setCardsPerView] = useState(6);
+  const [movies, setMovies] = useState([]);
 
-    const movies = [
-      {
-        id: 530915,
-        title: "1917",
-        year: "2019",
-        genre: "Drama",
-        image: "src\\assets\\images\\movie2.jpeg",
-      },
-      {
-        id: 458156,
-        title: "John Wick",
-        year: "2019",
-        genre: "Action",
-        image: "src\\assets\\images\\movie3.jpeg",
-      },
-      {
-        id: 603,
-        title: "The Matrix",
-        year: "2021",
-        genre: "Sci-fi",
-        image: "src\\assets\\images\\movie4.jpeg",
-      },
-      {
-          id: 1,
-          title: "Fields of Destiny",
-          year: "2020",
-          genre: "Action",
-          image: "src\\assets\\images\\movie1.jpeg",
-      },
-        {
-            id: 5,
-            title: "Inception",
-            year: "2020",
-            genre: "Thriller",
-            image: "src\\assets\\images\\movie5.jpeg",
-        },
-        {
-            id: 6,
-            title: "Interstellar",
-            year: "2020",
-            genre: "Sci-fi",
-            image: "src\\assets\\images\\movie6.jpeg",
-        },
-    ];
-
-    useEffect(() => {
-        const handleResize = () => {
-            setCardsPerView(window.innerWidth <= 768 ? 2 : 6);
-        };
-
-        handleResize(); // Set initial value
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    const handlePrev = () => {
-        setCurrentIndex((prevIndex) => {
-            const newIndex = prevIndex - cardsPerView;
-            return newIndex < 0 ? 0 : newIndex;
-        });
+  useEffect(() => {
+    const fetchPopularMovies = async () => {
+      const data = await fetchMovies(ENDPOINTS.movies.popular, "", 1);
+      if (data && data.results) {
+        setMovies(data.results.slice(0, 18)); // Fetch 18 movies to create multiple slides
+      }
     };
 
-    const handleNext = () => {
-        setCurrentIndex((prevIndex) => {
-            const newIndex = prevIndex + cardsPerView;
-            const maxIndex = movies.length - cardsPerView;
-            return newIndex > maxIndex ? maxIndex : newIndex;
-        });
-    };
+    fetchPopularMovies();
+  }, []);
 
-    return (
-        <>
-            <div className="multi-card-carousel">
-                <h2 className="carousel-title container " >Popular Movies</h2>
-                <br />
-                <div className="card-carousel-container">
-                    <button
-                        className="carousel-arrow left"
-                        onClick={handlePrev}
-                        disabled={currentIndex === 0}
-                    >
-                        <i className="bi bi-arrow-left-short"></i>
-                    </button>
+  const getMoviesPerSlide = () => {
+    const isMobile = window.innerWidth <= 768; // Check if the screen width is mobile size
+    return isMobile ? 2 : 6; // 2 movies per slide for mobile, 6 for larger screens
+  };
 
-                    <div className="card-carousel">
-                        {movies.map((movie, index) => (
-                          <Link
-                          to={`/movie-details/movie/${movie.id}`}
-                          className="movie-card-link"
-                        >
-                            <div
-                                key={movie.id}
-                                className='movie-card'
-                            >
-                                <img src={movie.image} alt={movie.title} />
-                                <div className="movie-card-content">
-                                    <h3 className="movie-card-title">{movie.title}</h3>
-                                    <div className="movie-card-info">
-                                        <span>{movie.year}</span> • <span>{movie.genre}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            </Link>
-                        ))}
-                    </div>
+  const moviesPerSlide = getMoviesPerSlide();
 
-                    <button
-                        className="carousel-arrow right"
-                        onClick={handleNext}
-                        disabled={currentIndex >= movies.length - cardsPerView}
-                    >
-                        <i className="bi bi-arrow-right-short"></i>
-                    </button>
+  return (
+    <div className="multi-card-carousel">
+      <h2 className="carousel-title">Popular Movies</h2>
+      <br />
+      <div id="popularMoviesCarousel" className="carousel">
+        <div className="carousel-inner">
+          {Array.from({
+            length: Math.ceil(movies.length / moviesPerSlide),
+          }).map((_, slideIndex) => {
+            const isActive = slideIndex === 0 ? "active" : "";
+            return (
+              <div
+                className={`carousel-item ${isActive}`}
+                key={`slide-${slideIndex}`}
+              >
+                <div className="row">
+                  {movies
+                    .slice(
+                      slideIndex * moviesPerSlide,
+                      slideIndex * moviesPerSlide + moviesPerSlide
+                    )
+                    .map((movie, subIndex) => (
+                      <div
+                        className="col-6 col-md-4 col-lg-2"
+                        key={`movie-${movie.id}-${subIndex}`}
+                      >
+                        <MovieCard movie={movie} index={subIndex} />
+                      </div>
+                    ))}
                 </div>
-            </div>
-        </>
-    );
-}
+              </div>
+            );
+          })}
+        </div>
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#popularMoviesCarousel"
+          data-bs-slide="prev"
+        >
+          <span
+            className="carousel-control-prev-icon"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#popularMoviesCarousel"
+          data-bs-slide="next"
+        >
+          <span
+            className="carousel-control-next-icon"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default Popular;

@@ -1,120 +1,87 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import MovieCard from "./../constants/components/MovieCard";
+import { fetchMovies, ENDPOINTS } from "../constants/constants";
 
 const TopPicks = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-
-  const topPicksMovies = [
-    {
-      id: 1,
-      title: "Breaking Bad",
-      year: "2008",
-      genre: "Drama",
-      image: "src\\assets\\images\\breakingbad.jpg",
-    },
-    {
-      id: 2,
-      title: "Stranger Things",
-      year: "2016",
-      genre: "Sci-Fi",
-      image: "src\\assets\\images\\stranger things.jpg",
-    },
-    {
-      id: 3,
-      title: "The Crown",
-      year: "2016",
-      genre: "Drama",
-      image: "src\\assets\\images\\topPicks2.jpeg",
-    },
-    {
-      id: 4,
-      title: "Dark",
-      year: "2017",
-      genre: "Mystery",
-      image: "src\\assets\\images\\topPicks3.jpeg",
-    },
-    {
-      id: 5,
-      title: "Money Heist",
-      year: "2017",
-      genre: "Crime",
-      image: "src\\assets\\images\\topPicks4.jpeg",
-    },
-    {
-      id: 6,
-      title: "The Witcher",
-      year: "2019",
-      genre: "Fantasy",
-      image: "src\\assets\\images\\topPicks5.jpeg",
-    },
-  ];
+  const [tvShows, setTvShows] = useState([]);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-      setCurrentIndex(0); // Reset index on resize
+    const fetchPopularTvShows = async () => {
+      const data = await fetchMovies(ENDPOINTS.tv.popular, "", 1);
+      if (data && data.results) {
+        setTvShows(data.results.slice(0, 18)); // Fetch 18 TV shows to create multiple slides
+      }
     };
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    fetchPopularTvShows();
   }, []);
 
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 2));
+  const getTvShowsPerSlide = () => {
+    const isMobile = window.innerWidth <= 768; // Check if the screen width is mobile size
+    return isMobile ? 2 : 6; // 2 TV shows per slide for mobile, 6 for larger screens
   };
 
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      Math.min(prevIndex + 2, topPicksMovies.length - 2)
-    );
-  };
+  const tvShowsPerSlide = getTvShowsPerSlide();
 
   return (
     <div className="top-picks-section">
-      <h2 className="carousel-title">Top Picks For You</h2>
-      
-      <div className="card-carousel-container">
-        {isMobile && (
-          <button
-            className="carousel-arrow left"
-            onClick={handlePrev}
-            disabled={currentIndex === 0}
-          >
-            <i className="bi bi-arrow-left-short"></i>
-          </button>
-        )}
-
-        <div className="card-carousel">
-          {topPicksMovies.map((movie, index) => (
-            <div
-              key={movie.id}
-              className={`movie-card ${
-                isMobile && (index < currentIndex || index >= currentIndex + 2)
-                  ? "hidden"
-                  : ""
-              }`}
-            >
-              <img src={movie.image} alt={movie.title} />
-              <div className="movie-card-content">
-                <h3 className="movie-card-title">{movie.title}</h3>
-                <div className="movie-card-info">
-                  <span>{movie.year}</span> • <span>{movie.genre}</span>
+      <h2 className="carousel-title">Popular TV Shows</h2>
+      <br />
+      <div id="topPicksCarousel" className="carousel slide">
+        <div className="carousel-inner">
+          {Array.from({
+            length: Math.ceil(tvShows.length / tvShowsPerSlide),
+          }).map((_, slideIndex) => {
+            const isActive = slideIndex === 0 ? "active" : "";
+            return (
+              <div
+                className={`carousel-item ${isActive}`}
+                key={`slide-${slideIndex}`}
+              >
+                <div className="row">
+                  {tvShows
+                    .slice(
+                      slideIndex * tvShowsPerSlide,
+                      slideIndex * tvShowsPerSlide + tvShowsPerSlide
+                    )
+                    .map((tvShow, subIndex) => (
+                      <div
+                        className="col-6 col-md-4 col-lg-2"
+                        key={`tvShow-${tvShow.id}-${subIndex}`}
+                      >
+                        <MovieCard movie={tvShow} index={subIndex} />
+                      </div>
+                    ))}
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
-
-        {isMobile && (
-          <button
-            className="carousel-arrow right"
-            onClick={handleNext}
-            disabled={currentIndex >= topPicksMovies.length - 2}
-          >
-            <i className="bi bi-arrow-right-short"></i>
-          </button>
-        )}
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#topPicksCarousel"
+          data-bs-slide="prev"
+        >
+          <span
+            className="carousel-control-prev-icon"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#topPicksCarousel"
+          data-bs-slide="next"
+        >
+          <span
+            className="carousel-control-next-icon"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden">Next</span>
+        </button>
       </div>
     </div>
   );
