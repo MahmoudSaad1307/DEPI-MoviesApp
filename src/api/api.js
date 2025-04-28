@@ -7,6 +7,13 @@ const api = axios.create({
 });
 
 
+export const registerUser = (name, email, password) => {
+  return api.post('/users/register', { name, email, password });
+};
+
+export const loginUser = (email, password) => {
+  return api.post('/users/login', { email, password });
+};
 
 export const getReviewsByMovieId = (movieId) => {
   return api.get(`/reviews/movie/${movieId}`);
@@ -22,14 +29,6 @@ export const getUserList = (userId) => {
 
 export const updateUserList = (userId, movieId, action) => {
   return api.put(`/userlists/${userId}`, { movieId, action });
-};
-export const registerUser = (name, email, password) => {
-  return api.post('/users/register', { name, email, password });
-};
-
-// Login user
-export const loginUser = (email, password) => {
-  return api.post('/users/login', { email, password });
 };
 
 // Get user profile (requires token)
