@@ -156,8 +156,8 @@ const HomePage = () => {
         </div>
       </div>
       <Popular />
-      <ContinueWatching />
       <TopPicks />
+      <ContinueWatching />
     </>
   );
 };
