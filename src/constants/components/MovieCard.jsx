@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 import { getGenreNames, IMAGE_URL } from "../constants";
 
 export default function MovieCard(props) {
-  const { movie, index, hoverWindow = false } = props;
+  const { movie, index, hoverWindow = false ,isMovie=false} = props;
   const genreNames = getGenreNames(movie.genre_ids, movie).slice(0, 3);
   console.log("=================================================");
-  console.log(movie.media_type);
   console.log("=================================================");
-
-  const title = movie.media_type === "movie" ? movie.title : movie.name;
+  const media_type=(isMovie ===  "movie" )?"movie":"tv";
+  console.log(media_type);
+  const title = media_type==="movie"? movie.title : movie.name;
   const year =
     movie.release_date?.substring(0, 4) ||
     movie.first_air_date?.substring(0, 4) ||
@@ -16,7 +16,7 @@ export default function MovieCard(props) {
 
   return (
     <Link
-      to={`/movie-details/${movie.media_type}/${movie.id}`}
+      to={`/movie-details/${media_type}/${movie.id}`}
       className="movie-card-link"
     >
       <div className="movie-card">
@@ -24,7 +24,7 @@ export default function MovieCard(props) {
         <img src={IMAGE_URL + movie.poster_path} alt={title} />
         <div className="overlay"></div>
         <div className="rating">
-          <i className="fa-solid fa-star"></i> {"movie.vote_average.toFixed(1)"}
+          <i className="fa-solid fa-star"></i> {movie.vote_average.toFixed(1)}
         </div>
         {/* </div> */}
 
@@ -43,7 +43,7 @@ export default function MovieCard(props) {
             <div className="detail-meta">
               <div className="detail-rating">
                 <i className="fa-solid fa-star"></i>{" "}
-                {"movie.vote_average.toFixed(1)"}
+                {movie.vote_average.toFixed(1)}
               </div>
               <div className="detail-year-time">{year}</div>
             </div>
@@ -54,7 +54,7 @@ export default function MovieCard(props) {
                 </span>
               ))}
               <span className="tag">
-                {movie.media_type === "movie" ? "MOVIE" : "TV"}
+                {media_type === "movie" ? "MOVIE" : "TV"}
               </span>
             </div>
             <div className="detail-description">

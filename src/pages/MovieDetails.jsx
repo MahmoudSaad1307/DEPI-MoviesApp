@@ -22,6 +22,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import MovieCard from "../constants/components/MovieCard";
 import InteractionPanel from "../constants/components/InteractionPanel";
+import CastCard from "../constants/components/CastCard";
 
 const MovieDetails = () => {
   const { id, media_type } = useParams();
@@ -304,23 +305,7 @@ const handleSubmitReview = () => {
             <div className="cast-grid">
               {movieData.credits &&
                 movieData.credits.cast.slice(0, 8).map((actor) => (
-                  <div className="cast-card" key={actor.id}>
-                    <Link to={`/actor/${actor.id}`}>
-                      <img
-                        src={
-                          actor.profile_path
-                            ? `${IMAGE_URL}${actor.profile_path}`
-                            : "/placeholder-image.jpg"
-                        }
-                        alt={actor.name}
-                        className="cast-img"
-                      />
-                    </Link>
-                    <div className="cast-info">
-                      <h3 className="cast-name">{actor.name}</h3>
-                      <p className="cast-character">{actor.character}</p>
-                    </div>
-                  </div>
+                  CastCard(actor)
                 ))}
             </div>
           </div>
@@ -343,7 +328,7 @@ const handleSubmitReview = () => {
                       key={movie.id}
                     >
                       <div className="movie-card">
-                        <MovieCard movie={movie} index={index} />
+                        <MovieCard movie={movie} index={index} isMovie={movie.title?'movie':'tv'} />
                       </div>
                     </div>
                   ))}
@@ -506,3 +491,5 @@ const ReviewContent = ({ content }) => {
 };
 
 export default MovieDetails;
+
+

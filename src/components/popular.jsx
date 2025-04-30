@@ -50,7 +50,7 @@ const Popular = () => {
                         className="col-6 col-md-4 col-lg-2"
                         key={`movie-${movie.id}-${subIndex}`}
                       >
-                        <MovieCard movie={movie} index={subIndex} />
+                        <MovieCard movie={movie} index={subIndex} isMovie={'movie'} />
                       </div>
                     ))}
                 </div>

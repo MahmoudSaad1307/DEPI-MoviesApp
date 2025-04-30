@@ -41,7 +41,7 @@ const UserEditPage = () => {
             <form onSubmit={handleSubmit}>
               {/* Profile Photo */}
               <div className="mb-3 text-center">
-                <i className="bi bi-person-circle" style={{ fontSize: "80px", color: "#6c757d" }}></i>
+                <i className="bi bi-person-circle" style={{ fontSize: "150px", color: "#6c757d" }}></i>
                 <div className="mt-2">
                   <input
                     type="file"

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { fetchMovies, ENDPOINTS, IMAGE_URL } from "../constants/constants";
 import MovieCard, { MovieCard2 } from "../constants/components/MovieCard";
 import "../components/search.css";
+import CastCard from "../constants/components/CastCard";
 
 const Search = ({ setIsSearchVisible }) => {
   const [query, setQuery] = useState("");
@@ -54,7 +55,7 @@ const Search = ({ setIsSearchVisible }) => {
 
         setResults(data.results || []);
         setFilteredResults(data.results || []);
-        setVisibility(data.results.map(() => true)); // Initialize visibility for all cards
+        setVisibility(data.results.map(() => true)); 
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
@@ -142,31 +143,26 @@ const Search = ({ setIsSearchVisible }) => {
         {filteredResults.length > 0 ? (
           <div className="cardsGrid" onClick={() => setIsSearchVisible(false)}>
             {filteredResults.map((result, index) => {
-              if (!visibility[index]) {
+ const type = result.title?"movie":result.first_air_date?"tv":"cast";
+
+              if (!visibility[index]||!(result.poster_path||result.profile_path)) {
                 return null; // Do not render the card if the image failed to load
               }
-
+              
+if(type==='movie'||type==='tv')
               return (
-                <MovieCard2
+                <MovieCard
                   key={result.id}
-                  movie={{
-                    id: result.id,
-                    title: result.title || result.name,
-                    image: result.profile_path
-                      ? `${IMAGE_URL}${result.profile_path}`
-                      : result.poster_path
-                      ? `${IMAGE_URL}${result.poster_path}`
-                      : "/placeholder.jpg", // Local fallback image // Fallback for missing images
-                    year: result.release_date
-                      ? result.release_date.split("-")[0]
-                      : result.first_air_date
-                      ? result.first_air_date.split("-")[0]
-                      : "N/A",
-                  }}
-                  isMovie={result.media_type === "movie"}
+                  movie={result}
+                  isMovie={type}
                   onImageError={() => handleImageError(index)} // Hide the card if the image fails to load
                 />
               );
+            else
+            return (
+              CastCard( result)
+
+            )
             })}
           </div>
         ) : (
