@@ -169,11 +169,17 @@
   padding: 10px 0;
 }
 
+/* carousel-item */
+.main-carousel-item img{
+  /* max-height: 80%; */
+
+
+filter: brightness(80%);
+}
 .carousel-item img {
-  object-fit: cover;
   height: 100%;
+  object-fit: cover;
   width: 100%;
-  filter: brightness(50%);
 }
 
 .carousel-indicators {
