@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useParams, Link } from "react-router-dom";
 import {
   API_KEY,
@@ -7,10 +8,10 @@ import {
   IMAGE_URL,
   ENDPOINTS,
 } from "../constants/constants";
+import 'animate.css';
 import "./MovieDetails.css";
 import "./styles.css";
 import "./responsive.css";
-// import Test from "../Vanilla/shared/test";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar,
@@ -24,49 +25,86 @@ import MovieCard from "../constants/components/MovieCard";
 import InteractionPanel from "../constants/components/InteractionPanel";
 import CastCard from "../constants/components/CastCard";
 import ReviewCard from "../constants/components/ReviewCard";
+import { addReview } from "../api/api";
+import CustomToast from "../constants/components/Toast";
+
 
 const MovieDetails = () => {
+  const [showListModal, setShowListModal] = useState(false);
+  const toggleModal = () => {
+    if (showListModal) {
+      // If closing, add a delay to allow for animation
+      const modalElement = document.querySelector('.modal-dialog');
+      if (modalElement) {
+        modalElement.classList.remove('animate__fadeInDown');
+        modalElement.classList.add('animate__fadeOutUp');
+        
+        setTimeout(() => {
+          setShowListModal(false);
+        }, 300); // Match this delay with your CSS transition duration
+      } else {
+        setShowListModal(false);
+      }
+    } else {
+      // If opening, just show it
+      setShowListModal(true);
+    }
+  };
+  
+  const userLists = [
+    { id: 1, name: "Favorites" },
+    { id: 2, name: "Watch Later" },
+    { id: 3, name: "Holiday Movies" },
+    { id: 4, name: "Documentaries" },
+  ];
+
+  const addToList = (listId) => {
+    // This would handle the actual adding to the list functionality
+    console.log(`Added to list with ID: ${listId}`);
+    toggleModal();
+  };
+  
   const { id, media_type } = useParams();
   const isMovie = media_type === "movie";
   const [movieData, setMovieData] = useState(null);
   const [activeTab, setActiveTab] = useState("cast");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // Add this state variable inside your component
-const [reviewContent, setReviewContent] = useState('');
+  const [reviewContent, setReviewContent] = useState("");
 
-// Simplified function to handle review submission
-const handleSubmitReview = () => {
-  // Check if user is logged in
-  if (localStorage.getItem("user") === null) {
-    alert("Please sign in to submit a review");
-    return;
-  }
+  // Simplified function to handle review submission
+  const handleSubmitReview = async () => {
+    // Validate form
+    if (!reviewContent.trim()) {
+      alert("Please enter your review");
+      return;
+    }
 
-  // Validate form
-  if (!reviewContent.trim()) {
-    alert("Please enter your review");
-    return;
-  }
+    // Here you would typically send the review to your backend API
+    try {
+      await addReview({
+        userId: "680f57fe84a68879a79ff410",
+        movieId: id,
+        mediaType: media_type,
+        content: {
+          text: `review from ${
+            movieData.title ? movieData.title : movieData.name
+          }`,
+        },
+      });
+      alert("Thanks for the review");
+    } catch (error) {
+      console.error("Error adding review:", error);
+    }
 
-  // Here you would typically send the review to your backend API
-  console.log("Submitting review:", {
-    movieId: id,
-    content: reviewContent,
-    user: JSON.parse(localStorage.getItem("user")).username
-  });
+    // Clear form
+    setReviewContent("");
 
-  // Show success message
-  alert("Thank you for your review!");
-
-  // Clear form
-  setReviewContent('');
-
-  // Close modal
-  const modal = document.getElementById('addReviewModal');
-  const bootstrapModal = bootstrap.Modal.getInstance(modal);
-  bootstrapModal.hide();
-};
+    // Close modal
+    const modal = document.getElementById("addReviewModal");
+    const bootstrapModal = window.bootstrap.Modal.getInstance(modal);
+    bootstrapModal.hide();
+  };
 
   useEffect(() => {
     if (id) {
@@ -237,9 +275,8 @@ const handleSubmitReview = () => {
                 <span id="description-text">{movieData.overview}</span>
               </div>
 
-<InteractionPanel/>
               {/* <div className="action-buttons">
-                <button
+                 <button
                   className="btn-play"
                   onClick={() =>
                     bestTrailer &&
@@ -250,18 +287,25 @@ const handleSubmitReview = () => {
                   }
                 >
                   <span className="btn-icon">
-                    <i className="fas fa-play"></i>
+                    <FontAwesomeIcon icon={faPlay} />
                   </span>
                   Play
-                </button>
+                </button> 
 
-                <button className="btn-secondary btn-watch-later" onClick={handleWatchLater}>
+                
+                <button className="btn-secondary btn-add-to-list" onClick={toggleModal}>
                   <span className="btn-icon">
-                    <i className="fas fa-clock"></i>
+                    <i className="fas fa-list"></i>
                   </span>
-                  Watch Later
+                  Add to List
                 </button>
               </div> */}
+              <InteractionPanel
+                showModal={showListModal}
+                setShowModal={setShowListModal}
+              />
+
+
             </div>
           </div>
         </div>
@@ -295,7 +339,7 @@ const handleSubmitReview = () => {
               data-bs-target="#addReviewModal"
             >
               Add Review
-            </div>{" "}
+            </div>
           </div>
 
           {/* Cast Tab */}
@@ -305,12 +349,11 @@ const handleSubmitReview = () => {
           >
             <div className="cast-grid">
               {movieData.credits &&
-                movieData.credits.cast.slice(0, 8).map((actor) => (
-                  CastCard(actor)
-                ))}
+                movieData.credits.cast
+                  .slice(0, 8)
+                  .map((actor) => actor.profile_path && CastCard(actor))}
             </div>
           </div>
-          {/* {} */}
 
           {/* Recommended Tab */}
           <div
@@ -329,7 +372,11 @@ const handleSubmitReview = () => {
                       key={movie.id}
                     >
                       <div className="movie-card">
-                        <MovieCard movie={movie} index={index} isMovie={movie.title?'movie':'tv'} />
+                        <MovieCard
+                          movie={movie}
+                          index={index}
+                          isMovie={movie.title ? "movie" : "tv"}
+                        />
                       </div>
                     </div>
                   ))}
@@ -344,7 +391,7 @@ const handleSubmitReview = () => {
             {!movieData.reviews || movieData.reviews.results.length === 0 ? (
               <div className="no-reviews">
                 <div className="text-center py-5">
-                  <i className="fa-solid fa-comment-slash fa-3x mb-3 text-muted"></i>
+                  <FontAwesomeIcon icon={faCommentSlash} className="fa-3x mb-3 text-muted" />
                   <h3>No Reviews Yet</h3>
                   <p>
                     Be the first to review this {isMovie ? "movie" : "show"}!
@@ -354,14 +401,15 @@ const handleSubmitReview = () => {
             ) : (
               <div className="reviews-container">
                 {movieData.reviews.results.slice(0, 10).map((review, index) => {
-
-                return <ReviewCard review={review} index={index}/>
+                  return <ReviewCard review={review} index={index} key={index} />;
                 })}
               </div>
             )}
           </div>
         </div>
       </div>
+      
+      {/* Add Review Modal */}
       <div
         className="modal fade"
         id="addReviewModal"
@@ -392,9 +440,7 @@ const handleSubmitReview = () => {
                     className="form-control"
                     id="reviewContent"
                     rows="5"
-                    placeholder="Share your thoughts about this movie...
-                    "
-                    // style={{}}
+                    placeholder="Share your thoughts about this movie..."
                     value={reviewContent}
                     onChange={(e) => setReviewContent(e.target.value)}
                   ></textarea>
@@ -420,13 +466,56 @@ const handleSubmitReview = () => {
           </div>
         </div>
       </div>
+      
+      {/* Add to List Modal */}
+      {showListModal && (
+  <div 
+    className="modal fade show" 
+    style={{
+      display: 'block',
+      backgroundColor: 'rgba(0,0,0,0.5)'
+    }}
+  >
+    <div className="modal-dialog modal-dialog-centered animate__animated animate__fadeInDown">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title">Add to List</h5>
+          <button type="button" className="btn-close" onClick={toggleModal}></button>
+        </div>
+        
+        <div className="modal-body">
+          <ul className="list-group list-group-flush">
+            {userLists.map(list => (
+              <li key={list.id} className="list-group-item">
+                <button 
+                  onClick={() => addToList(list.id)}
+                  className="btn btn-link text-decoration-none d-flex justify-content-between align-items-center w-100"
+                >
+                  <span>{list.name}</span>
+                  <i className="fas fa-plus"></i>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+        <div className="modal-footer">
+          <button 
+            className="btn btn-primary w-100"
+            onClick={() => {
+              console.log("Create new list");
+              toggleModal();
+            }}
+          >
+            Create New List
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
     </>
   );
 };
 
-// Component for handling expandable review content
-
-
 export default MovieDetails;
-
-

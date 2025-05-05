@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css"; // Import Bootstrap Icons
 import Search from "../../components/search";
+import '../../pages/Layout.css'
 
 const Navbar = () => {
   // State to manage the visibility of the search input
@@ -18,7 +19,7 @@ const Navbar = () => {
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark container">
         <div className="container-fluid">
           <Link className="navbar-brand d-flex align-items-center" to="/">
-            <i className="bi bi-film fs-4 me-2"></i>
+            <i className="bi bi-film  me-2"></i>
             <span className="fw-bold">MovieRecom</span>
           </Link>
 
@@ -50,6 +51,11 @@ const Navbar = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="/recommendation">
                 Recommendation 
+                </Link>
+              </li> 
+              <li className="nav-item">
+                <Link className="nav-link" to="/whatIsMovie">
+                What Is Movie 
                 </Link>
               </li> 
               

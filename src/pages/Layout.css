@@ -3,6 +3,12 @@
     padding: 0;
     box-sizing: border-box;
   }
+  :root{
+
+    --main-color: #13c6b0;
+    --hover-color:#139D8DFF
+
+  }
   
   @font-face {
     font-family: TiemposHeadlineWeb-Bold;
@@ -124,8 +130,17 @@
     padding: 10px 0;
   }
   
+  .btn {
+    border:none;
+    background-color: var(--main-color);
+
+  }
+  .btn:hover{
+  background:  var(--hover-color)
+
+  }
   .btnLog {
-    background-color: #15ad2d;
+    background-color: var(--main-color);
     color: #fff;
     padding: 7px 15px;
     border-radius: 5px;
@@ -138,7 +153,8 @@
   }
   
   .btnLog:hover {
-    background-color: #009d1a;
+    background-color: var(--hover-color);
+  
   }
   
   hr {

@@ -366,6 +366,7 @@ background-color: gainsboro;
 }
 
 .review-card {
+  max-width:100%
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
   padding: 20px;
@@ -437,6 +438,7 @@ background-color: gainsboro;
 }
 
 .review-body {
+  
   margin-bottom: 15px;
   line-height: 1.6;
 }
@@ -476,4 +478,188 @@ background-color: gainsboro;
 
 .no-reviews {
   color: #999;
+}
+
+/* Add these styles to your CSS file */
+
+/* Modal transition effects */
+.modal.fade {
+  transition: opacity 0.15s linear;
+}
+
+.modal.fade .modal-dialog {
+  transition: transform 0.3s ease-out;
+}
+
+.modal.show .modal-dialog {
+  transform: none;
+}
+
+.reviews-container {
+  flex-wrap: wrap;
+  display: flex;
+  gap: 20px;
+  padding: 15px 0;
+}
+
+.review-card {
+  max-width: 100%;
+  width: 100%; /* Add this to ensure the card takes full width */
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-sizing: border-box; /* Add this to include padding in width calculation */
+}
+
+.review-card:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  width: 100%; /* Ensure header takes full width */
+}
+
+.reviewer-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%; /* Give it a defined width */
+  max-width: 100%; /* Add a maximum width */
+  overflow: hidden; /* Hide overflow */
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.reviewer-details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* Allow shrinking below content size */
+  width: calc(100% - 55px); /* Width minus avatar width and gap */
+  overflow: hidden; /* Hide overflow */
+}
+
+.reviewer-name {
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.review-date {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.review-rating {
+  background-color: rgba(255, 215, 0, 0.2);
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #ffd700;
+  font-weight: bold;
+}
+
+.review-body {
+  text-align:start;
+  margin-bottom: 15px;
+  line-height: 1.6;
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
+}
+
+.review-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Style for read more/less buttons */
+.btn-read-more,
+.btn-read-less {
+  background: none;
+  border: none;
+  color: #3498db;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.btn-read-more:hover,
+.btn-read-less:hover {
+  color: #2980b9;
+}
+/* If you can't use animate.css library, add these animations directly */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -50px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeOutUp {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -50px, 0);
+  }
+}
+
+.animate__animated {
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+}
+
+.animate__fadeInDown {
+  animation-name: fadeInDown;
+}
+
+.animate__fadeOutUp {
+  animation-name: fadeOutUp;
+}
+
+/* Make modal appearance smoother */
+.modal-content {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* List item hover effect */
+.list-group-item {
+  transition: background-color 0.2s ease;
+}
+
+.list-group-item:hover {
+  background-color: #f0f0f0;
+}
+
+.list-group-item button .fas {
+  transition: transform 0.2s ease;
+}
+
+.list-group-item:hover button .fas {
+  transform: scale(1.2);
 }

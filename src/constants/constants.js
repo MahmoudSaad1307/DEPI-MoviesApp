@@ -4,7 +4,8 @@ export const IMAGE_URL = "https://image.tmdb.org/t/p/w440_and_h660_face";
 export const BACKDROP_PATH = "https://image.tmdb.org/t/p/original";
 
 
-export const API_URL = 'https://diplomatic-kris-malik1307-9371a6ef.koyeb.app/api'; 
+// export const API_URL = 'https://diplomatic-kris-malik1307-9371a6ef.koyeb.app/api'; 
+export const API_URL = 'http://localhost:3000/api'; 
 
 
 
@@ -108,3 +109,4 @@ export async function fetchMovies(endPoint, query, pageNumber) {
     console.error("Error fetching movies:", error);
   }
 }
+

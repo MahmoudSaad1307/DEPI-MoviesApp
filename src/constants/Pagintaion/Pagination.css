@@ -1,0 +1,28 @@
+/* Optional custom styling for the pagination component */
+.pagination-container {
+  margin: 2rem 0;
+}
+
+/* Make the pagination buttons more touch-friendly on mobile */
+@media (max-width: 576px) {
+  .pagination .page-link {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Custom styles for active page */
+.pagination .page-item.active .page-link {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+/* Custom hover effect */
+.pagination .page-item:not(.active):not(.disabled) .page-link:hover {
+  background-color: #f8f9fa;
+}
+
+/* Smoother disabled state */
+.pagination .page-item.disabled .page-link {
+  opacity: 0.65;
+}

@@ -11,28 +11,38 @@ import Watchlist from "./pages/Watchlist";
 import { registerUser } from "./api/api";
 import Recommendation from "./pages/Recommendation";
 import SignUp from "./pages/SignUp";
-import UserLoginPage from './pages/LoginPage'
-
+import UserLoginPage from "./pages/LoginPage";
+import store from "./redux/store";
+import { Provider } from "react-redux";
+import MyReviews from "./pages/MyReviews";
+import WhatIsMovie from "./pages/WhatIsMovie";
 const App = () => {
+  console.log(window.bootstrap, "boobobobob"); // Should not be undefined
+
   return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<HomePage />} />
-        <Route
-          path="/movie-details/:media_type/:id"
-          element={<MovieDetails />}
-        />
-        <Route path="/user" element={<UserPage />} />
-        <Route path="/user/edit" element={<UserEditPage />} />
-        <Route path="/actor/:id" element={<ActorPage />} />
-        <Route path="/movies" element={<MoviesPage />} />
-        <Route path="/tv-shows" element={<TVShowsPage />} />
-        <Route path="/watchlist" element={<Watchlist />} />
-        <Route path="/recommendation" element={<Recommendation />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<UserLoginPage />} />
-      </Route>
-    </Routes>
+    <Provider store={store}>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/movie-details/:media_type/:id"
+            element={<MovieDetails />}
+          />
+          <Route path="/user" element={<UserPage />} />
+          <Route path="/user/edit" element={<UserEditPage />} />
+          <Route path="/actor/:id" element={<ActorPage />} />
+          <Route path="/movies" element={<MoviesPage />} />
+          <Route path="/tv-shows" element={<TVShowsPage />} />
+          <Route path="/watchlist" element={<Watchlist />} />
+          <Route path="/recommendation" element={<Recommendation />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<UserLoginPage />} />
+          <Route path="/myReviews" element={<MyReviews />} />
+          <Route path="/whatIsMovie" element={<WhatIsMovie />} />
+        </Route>
+      </Routes>   
+      {/* <MyReviews/> */}
+    </Provider>
   );
 };
 

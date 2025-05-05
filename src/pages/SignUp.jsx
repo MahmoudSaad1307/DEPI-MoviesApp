@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Use useNavigate for React Router v6
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css"; // Import Bootstrap Icons
+import { registerUser } from "../api/api";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -12,7 +13,7 @@ const SignUp = () => {
   const navigate = useNavigate(); // useNavigate for redirecting
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Simple validation
@@ -24,6 +25,14 @@ const SignUp = () => {
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
+    }
+    try {
+      await registerUser({ name: username, email: email, password: password });
+      alert("user registered successfully");
+    } catch (error) {
+
+alert(error.toString)
+
     }
 
     // Redirect to login page after successful registration
@@ -50,7 +59,10 @@ const SignUp = () => {
         <div className="container py-5">
           <section
             className="card p-4 border-0 mx-auto"
-            style={{ maxWidth: "450px", backgroundColor: "rgba(27, 27, 27, 0.82)" }}
+            style={{
+              maxWidth: "450px",
+              backgroundColor: "rgba(27, 27, 27, 0.82)",
+            }}
           >
             <h2 className="h5 text-white mb-4 text-center">Sign Up</h2>
             {error && <div className="alert alert-danger">{error}</div>}
@@ -93,7 +105,9 @@ const SignUp = () => {
 
               {/* Confirm Password */}
               <div className="mb-4">
-                <label className="form-label text-white">Confirm Password</label>
+                <label className="form-label text-white">
+                  Confirm Password
+                </label>
                 <input
                   type="password"
                   className="form-control bg-dark text-white border-secondary"
@@ -111,7 +125,9 @@ const SignUp = () => {
             </form>
             <div className="mt-3 text-center">
               <p>
-                <span style={{color: "white"}}>Already have an account?{" "}</span>
+                <span style={{ color: "white" }}>
+                  Already have an account?{" "}
+                </span>
                 <Link to="/login" className="text-primary">
                   Log in
                 </Link>

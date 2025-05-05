@@ -2,25 +2,41 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useState } from "react";
+import { loginUser } from "../api/api";
+import { getToken, setToken } from "../utilites/auth";
+import { useDispatch, useSelector } from "react-redux";
+import {login} from '../redux/slices/authSlice';
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch=useDispatch()
+  const {isAuthenticated,token} =useSelector((state)=>state.auth)
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Handle login logic here (e.g., authentication request)
-    console.log({ email, password });
+    try {
+      const response = await loginUser({ email: email, password: password });
+
+      const to = response.data.token;
+      // setToken(to);
+      dispatch(login({token:getToken()}))
+// console.log(isAuthenticated);
+
+      // console.log(token);
+      // console.log(to);
+      
+
+      alert("login success");
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
     <div
       className="d-flex justify-content-center align-items-center min-vh-100 position-relative"
-      style={{
-        backgroundImage: "url('/src/pages/UserPageEditBG.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+    
     >
       {/* Dark Overlay */}
       <div
@@ -33,7 +49,10 @@ const LoginPage = () => {
         <div className="container py-5">
           <section
             className="card p-4 border-0 mx-auto"
-            style={{ maxWidth: "450px", backgroundColor: "rgba(27, 27, 27, 0.82)" }}
+            style={{
+              maxWidth: "450px",
+              backgroundColor: "rgba(27, 27, 27, 0.82)",
+            }}
           >
             <h2 className="h5 text-white mb-4 text-center">Login</h2>
             <form onSubmit={handleLogin}>

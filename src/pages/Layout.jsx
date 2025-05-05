@@ -6,12 +6,16 @@ import { Outlet } from "react-router-dom";
 const Layout = () => {
   return (
     <>
-      <Navbar />
-      <main className="flex-grow-1">
-        <Outlet />
-      </main>
-<br />
-      <Footer />
+  <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+  <Navbar />
+
+  <main style={{ flex: 1, overflowY: 'auto' }}>
+    <Outlet />
+  </main>
+
+  <Footer />
+</div>
+
     </>
   );
 };

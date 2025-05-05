@@ -17,8 +17,12 @@
 /* Navbar Brand */
 .navbar-brand {
   font-size: 2rem;
-  color: limegreen !important;
   font-weight: bold;
+}
+.navbar-brand i {
+  font-size: 30px;
+  margin-right:30px;
+  color: black;
 }
 
 /* Nav Links */
@@ -143,7 +147,6 @@
   font-weight: bold;
 }
 
-
 .carousel {
   width: 100%;
   margin-bottom: 20px;
@@ -169,12 +172,12 @@
   padding: 10px 0;
 }
 
+
 /* carousel-item */
-.main-carousel-item img{
+.main-carousel-item img {
   /* max-height: 80%; */
 
-
-filter: brightness(80%);
+  filter: brightness(80%);
 }
 .carousel-item img {
   height: 100%;
@@ -367,6 +370,7 @@ filter: brightness(80%);
   text-decoration: none;
 }
 
+
 /* Delayed Disable
 .movie-card {
   cursor: pointer;
@@ -427,7 +431,7 @@ filter: brightness(80%);
   position: relative;
   width: 300px;
   height: 200px;
-  background-image: url('../assets/images/breakingbad.jpg');
+  background-image: url("../assets/images/breakingbad.jpg");
   background-size: cover;
   background-position: center;
   border-radius: 10px;
@@ -436,7 +440,7 @@ filter: brightness(80%);
 }
 
 .watching-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
