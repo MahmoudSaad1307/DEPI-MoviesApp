@@ -170,12 +170,13 @@
 }
 
 /* carousel-item */
-.main-carousel-item img{
+.main-carousel-item img {
   /* max-height: 80%; */
 
 
-filter: brightness(80%);
+  filter: brightness(80%);
 }
+
 .carousel-item img {
   height: 100%;
   object-fit: cover;
@@ -499,6 +500,17 @@ filter: brightness(80%);
   .top-picks-section {
     width: 75%;
     height: 50vh;
+  }
+
+  .watchContainer {
+    margin-top: 90px;
+    width: 75%;
+    height: 50vh;
+  }
+
+  .watching-card {
+    width: 200px;
+    height: 150px;
   }
 
   .carousel-control-prev,
