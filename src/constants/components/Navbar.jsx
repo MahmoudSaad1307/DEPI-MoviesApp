@@ -125,9 +125,7 @@ const Navbar = () => {
                       <li className="dropdown-item no-hover">
                         <Link to="/user">Profile</Link>
                       </li>
-                      <li className="dropdown-item no-hover">
-                        <Link to="/watchlist">Watchlist</Link>
-                      </li>
+                      
                       <li id="logOut" className="li-log-out px-3 dropdown-item">
                         <button
                           style={{

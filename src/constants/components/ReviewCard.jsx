@@ -1,6 +1,6 @@
 import { findUserById } from "../../api/api";
-import "../../pages/MovieDetails.css";
 import React, { useEffect, useState } from "react";
+import "../../pages/MovieDetails.css";
 
 export default function ReviewCard(props) {
   const { review } = props;
@@ -34,7 +34,7 @@ export default function ReviewCard(props) {
   const isLongReview = text?.length > 300;
 
   return (
-    <div className="review-card" key={review._id}>
+    <div className="review-card mx-2" key={review._id}>
       <div className="review-header">
         <div className="reviewer-info">
           <img src={user?.photoURL} style={{ width: "50px", height: "50px", borderRadius:'50%' }} alt="" />

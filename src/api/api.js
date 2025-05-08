@@ -12,7 +12,10 @@ export const registerUser = ({name, email, password}) => {
 export const loginUser = ({email, password}) => {
   return api.post("/users/login", { email, password });
 };
+export const updateUser=(props)=>{
 
+  return api.put(`/users/${props.userId}`,{props})
+}
 export const getProfile = ({token}) => {
   return api.get("/users/profile", {
     headers: {
@@ -47,9 +50,9 @@ export const addReview = ({ type, userId, movieId, content }) => {
   return api.post(`/reviews/${type}`, { userId, movieId, content });
 };
 
-export const getMyReviews = (userId) => {
-  return api.get(`/reviews/myReviews/${userId}`);
-};
+export const getMyReviews = ({userId}) => {
+  return api.get(`reviews/user/${userId}`);
+}
 export const getMovieReviews = ({ type, movieId }) => {
   return api.get(`/reviews/${type}/${movieId}`);
 };

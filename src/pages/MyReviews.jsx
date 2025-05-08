@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { getMyReviews } from "../api/api";
 import ReviewCard from "../constants/components/ReviewCard";
 import "../pages/MovieDetails.css"
+import { useSelector } from "react-redux";
 
 export const MyReviews = () => {
   const [reviews, setReviews] = useState([]);
+  const {user}=useSelector((state)=>state.user)
 
   useEffect(() => {
     fetchReviews();
@@ -13,7 +15,7 @@ export const MyReviews = () => {
   const fetchReviews = async () => {
     try {
       const response = await getMyReviews({
-        userId: "680f57fe84a68879a79ff410",
+        userId: user._id,
       });
       setReviews(response.data);
       console.log("Fetched reviews:", response.data);
@@ -23,14 +25,12 @@ export const MyReviews = () => {
   };
 
   return (
-    <div className="container">
-      <h1 className="mb-5">Mahmoud Saad's Reviews</h1>
+    <div className="container mt-5">
+      <h1 className="mb-5">{user.name}'s Reviews</h1>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-5 ">
         {reviews.map((review) => (
-          <div>
 
             <ReviewCard key={review._id} review={review} />
-          </div>
         ))}
       </div>
     </div>

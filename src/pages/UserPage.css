@@ -1,43 +1,232 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* Main container and background */
+.film-profile-container {
+  background-color: #141414;
+  color: #e5e5e5;
+  min-height: 100vh;
+  padding-top: 30px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Profile header section */
+.profile-header-container {
+  margin-bottom: 30px;
+}
+
+/* Avatar styling */
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* User info styling */
+.profile-name {
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.btn-edit-profile {
+  background-color: #333;
+  color: #ccc;
+  text-transform: uppercase;
+  font-size: 12px;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.btn-edit-profile:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  color: #999;
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-icon:hover {
+  color: #fff;
+}
+
+/* Stats styling */
+.profile-stats {
+  padding-top: 10px;
+}
+
+.stats-number {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.stats-label {
+  color: #999;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Navigation styling */
+.profile-nav {
+  margin-bottom: 30px;
+}
+
+.nav-tabs {
+  border-bottom: 1px solid #333;
+}
+
+.nav-tabs .nav-link {
+  color: #999;
+  border: none;
+  padding: 10px 16px;
+  margin-right: 6px;
+  font-size: 14px;
+  background: transparent;
+}
+
+.nav-tabs .nav-link:hover {
+  color: #ccc;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-tabs .nav-link.active {
+  color: #fff;
+  background-color: transparent;
+  border-bottom: 2px solid #fff;
+}
+
+/* Section titles */
+.section-title {
+  color: #999;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+}
+
+.view-all-link {
+  color: #999;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.view-all-link:hover {
+  color: #fff;
+}
+
+/* Stats badge */
+.stats-badge {
+  background-color: #333;
+  color: #999;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 12px;
+}
+
+/* Movie posters */
+.poster-container {
+  aspect-ratio: 2/3;
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: #282828;
+}
+
+.poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Activity cards */
+.activity-card {
+  height: 120px;
+  background-color: #222;
+  border-radius: 4px;
+}
+
+/* Ratings chart */
+.film-profile-container {
+  /* Your existing container styles */
+}
+
+.ratings-chart {
+  margin-top: 15px;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+.rating-bars {
+  height: 120px;
+  margin-bottom: 5px;
+  gap: 3px;
+}
+
+.rating-bar {
+  width: 12px;
+  background-color: #444;
+  border-radius: 2px;
+}
+
+.rating-bar.active {
+  background-color: #666;
+}
+
+.rating-stars {
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+/* Additional styles for the pie chart */
+.custom-tooltip {
+  background-color: rgba(33, 33, 33, 0.9);
+  border: 1px solid #444;
+  padding: 8px;
+  border-radius: 4px;
+}
+/* No activity message */
+.no-activity {
+  color: #777;
   text-align: center;
+  padding: 20px 0;
+  font-size: 14px;
 }
 
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Upgrade banner */
+.upgrade-banner {
+  border-radius: 4px;
+  overflow: hidden;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Media queries for responsiveness */
+@media (max-width: 767px) {
+  .profile-stats {
+    justify-content: flex-start;
+    margin-top: 15px;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .nav-tabs .nav-link {
+    padding: 8px 10px;
+    font-size: 13px;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  
+  .profile-avatar {
+    width: 60px;
+    height: 60px;
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+  
+  .profile-name {
+    font-size: 22px;
+  }
 }

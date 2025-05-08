@@ -16,6 +16,7 @@ import MyReviews from "./pages/MyReviews";
 import WhatIsMovie from "./pages/WhatIsMovie";
 import  './pages/styles.css';
 import GlobalStyle from "./constants/GlobalStyling";
+import Movies4User from "./pages/Movies4User";
 
 const App = () => {
   console.log(window.bootstrap, "boobobobob"); // Should not be undefined
@@ -42,6 +43,7 @@ const App = () => {
         <Route path="/login" element={<UserLoginPage />} />
         <Route path="/myReviews" element={<MyReviews />} />
         <Route path="/whatIsMovie" element={<WhatIsMovie />} />
+        <Route path="/movies4User/:moviesType" element={<Movies4User />} />
       </Route>
     </Routes>
     </>

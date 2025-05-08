@@ -1,0 +1,289 @@
+/* MovieQuiz.module.css */
+
+/* Main container and card styling */
+.movieQuizContainer {
+  /* padding: 200px 20px; */
+  
+}
+
+.quizCard {
+  padding:100px;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+/* Header styling */
+.quizHeader {
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: white;
+  padding: 25px;
+  text-align: center;
+}
+
+.quizHeader h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.quizHeader p {
+  opacity: 0.9;
+  margin-bottom: 15px;
+}
+
+/* Progress bar styling */
+.progressSection {
+  margin-top: 15px;
+}
+
+.customProgress {
+  height: 8px !important;
+  border-radius: 4px !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.customProgress > div {
+  background-color: #ffffff !important;
+  transition: width 0.5s ease !important;
+}
+
+.progressInfo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Question styling */
+.questionText {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* Options styling */
+.optionsContainer {
+  margin-bottom: 25px;
+}
+
+.optionCard {
+  background-color: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.optionCard:hover, .optionCard.hovered {
+  border-color: #6a11cb;
+  background-color: #f0f4ff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(106, 17, 203, 0.1);
+}
+
+.optionCard.selected {
+  border-color: #6a11cb;
+  background-color: #f0f4ff;
+  box-shadow: 0 5px 15px rgba(106, 17, 203, 0.2);
+}
+
+.optionContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.checkCircle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #adb5bd;
+  border-radius: 50%;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.checkCircle.checked {
+  background-color: #6a11cb;
+  border-color: #6a11cb;
+}
+
+.checkMark {
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Button styling */
+.buttonContainer {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.nextButton {
+  flex: 1;
+  padding: 12px 25px !important;
+  font-weight: 600 !important;
+  background: linear-gradient(to right, #6a11cb, #2575fc) !important;
+  border: none !important;
+  border-radius: 50px !important;
+  transition: all 0.3s ease !important;
+}
+
+.nextButton:hover:not(:disabled) {
+  box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3) !important;
+  transform: translateY(-2px) !important;
+}
+
+.nextButton:active:not(:disabled) {
+  transform: translateY(0) !important;
+}
+
+.backButton {
+  padding: 12px 25px !important;
+  font-weight: 600 !important;
+  color: #6a11cb !important;
+  border: 1px solid #6a11cb !important;
+  border-radius: 50px !important;
+  transition: all 0.3s ease !important;
+  background-color: transparent !important;
+}
+
+.backButton:hover {
+  background-color: rgba(106, 17, 203, 0.1) !important;
+}
+
+/* Results section styling */
+.resultsContainer {
+  padding: 25px;
+}
+
+.resultHeader {
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.resultHeader h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.resultItems {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.resultItem {
+  border: none !important;
+  border-radius: 10px !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.3s ease !important;
+}
+
+.resultItem:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.resultItem h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.answerDisplay {
+  margin-top: 10px;
+}
+
+.tagContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.answerTag {
+  background-color: #f0f4ff;
+  color: #6a11cb;
+  padding: 5px 12px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  display: inline-block;
+}
+
+.singleAnswer {
+  color: #333;
+  font-weight: 500;
+}
+
+.noAnswer {
+  color: #adb5bd;
+  font-style: italic;
+}
+
+.restartButton {
+  width: 100%;
+  padding: 15px !important;
+  font-weight: 600 !important;
+  background: linear-gradient(to right, #6a11cb, #2575fc) !important;
+  border: none !important;
+  border-radius: 50px !important;
+  transition: all 0.3s ease !important;
+  margin-top: 10px;
+}
+
+.restartButton:hover {
+  box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Footer styling */
+.quizFooter {
+  background-color: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  padding: 15px;
+  text-align: center;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .quizHeader h1 {
+    font-size: 1.5rem;
+  }
+  
+  .questionText {
+    font-size: 1.2rem;
+  }
+  
+  .buttonContainer {
+    flex-direction: column;
+  }
+  
+  .backButton {
+    order: 2;
+  }
+  
+  .nextButton {
+    order: 1;
+    margin-bottom: 10px;
+  }
+}
