@@ -4,7 +4,13 @@ import MovieCard from "./../constants/components/MovieCard";
 import { fetchMovies, ENDPOINTS } from "../constants/constants";
 
 const Popular = () => {
+  const getMoviesPerSlide = () => {
+    const isMobile = window.innerWidth <= 768; // Check if the screen width is mobile size
+    return isMobile ? 2 : 6; // 2 movies per slide for mobile, 6 for larger screens
+  };
+
   const [movies, setMovies] = useState([]);
+  const [moviesPerSlide, setMoviesPerSlide] = useState(getMoviesPerSlide());
 
   useEffect(() => {
     const fetchPopularMovies = async () => {
@@ -17,18 +23,24 @@ const Popular = () => {
     fetchPopularMovies();
   }, []);
 
-  const getMoviesPerSlide = () => {
-    const isMobile = window.innerWidth <= 768; // Check if the screen width is mobile size
-    return isMobile ? 2 : 6; // 2 movies per slide for mobile, 6 for larger screens
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      setMoviesPerSlide(getMoviesPerSlide());
+    };
 
-  const moviesPerSlide = getMoviesPerSlide();
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className="multi-card-carousel container">
       <h2 className="carousel-title">Popular Movies</h2>
       <br />
-      <div id="popularMoviesCarousel" className="carousel">
+      <div id="popularMoviesCarousel" className="carousel slide">
         <div className="carousel-inner">
           {Array.from({
             length: Math.ceil(movies.length / moviesPerSlide),

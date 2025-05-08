@@ -4,7 +4,13 @@ import MovieCard from "./../constants/components/MovieCard";
 import { fetchMovies, ENDPOINTS } from "../constants/constants";
 
 const TopPicks = () => {
+  const getTvShowsPerSlide = () => {
+    const isMobile = window.innerWidth <= 768; // Check if the screen width is mobile size
+    return isMobile ? 2 : 6; // 2 TV shows per slide for mobile, 6 for larger screens
+  };
+
   const [tvShows, setTvShows] = useState([]);
+  const [tvShowsPerSlide, setTvShowsPerSlide] = useState(getTvShowsPerSlide());
 
   useEffect(() => {
     const fetchPopularTvShows = async () => {
@@ -17,15 +23,21 @@ const TopPicks = () => {
     fetchPopularTvShows();
   }, []);
 
-  const getTvShowsPerSlide = () => {
-    const isMobile = window.innerWidth <= 768; // Check if the screen width is mobile size
-    return isMobile ? 2 : 6; // 2 TV shows per slide for mobile, 6 for larger screens
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      setTvShowsPerSlide(getTvShowsPerSlide());
+    };
 
-  const tvShowsPerSlide = getTvShowsPerSlide();
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
-    <div className="top-picks-section container">
+    <div className="multi-card-carousel container">
       <h2 className="carousel-title">Popular TV Shows</h2>
       <br />
       <div id="topPicksCarousel" className="carousel slide">
@@ -50,7 +62,12 @@ const TopPicks = () => {
                         className="col-6 col-md-4 col-lg-2"
                         key={`tvShow-${tvShow.id}-${subIndex}`}
                       >
-                        <MovieCard movie={tvShow} index={subIndex} />
+                        <Link
+                          to={`/movie-details/tv/${tvShow.id}`}
+                          className="movie-card-link"
+                        >
+                          <MovieCard movie={tvShow} index={subIndex} />
+                        </Link>
                       </div>
                     ))}
                 </div>
