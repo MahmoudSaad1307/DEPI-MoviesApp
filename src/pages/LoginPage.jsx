@@ -1,35 +1,54 @@
 // src/pages/LoginPage.jsx
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { loginUser } from "../api/api";
 import { getToken, setToken } from "../utilites/auth";
 import { useDispatch, useSelector } from "react-redux";
-import {login} from '../redux/slices/authSlice';
+import {login} from '../redux/slices/userSlice';
+import { useNavigate } from "react-router-dom";
+import { setFavorites, setWatched, setWatchlist } from "../redux/slices/userMoviesSlice";
 
 const LoginPage = () => {
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch=useDispatch()
-  const {isAuthenticated,token} =useSelector((state)=>state.auth)
+  const {isAuthenticated,token,user} =useSelector((state)=>state.user)
+  const {favorites,watchlist,watched} =useSelector((state)=>state.userMovies)
+  const navigate = useNavigate(); // useNavigate for redirecting
+  useEffect(()=>{
+  // console.log(user);
+
+
+  console.log(favorites,"dasjkflk");
+  },[favorites])
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await loginUser({ email: email, password: password });
+const userMovies=response.data.userWithoutPassword.movies;
+dispatch(setFavorites(userMovies.favorites))
+dispatch(setWatchlist(userMovies.watchlist))
+dispatch(setWatched(userMovies.watched))
 
       const to = response.data.token;
-      // setToken(to);
-      dispatch(login({token:getToken()}))
+      setToken(to);
+      dispatch(login({token:getToken(),user:response.data.userWithoutPassword,}))
+      alert("login success");
+
+      navigate("/");
+
 // console.log(isAuthenticated);
 
       // console.log(token);
       // console.log(to);
       
 
-      alert("login success");
     } catch (error) {
-      alert(error);
+      console.log(error);
+      alert("Please check your email and password");
     }
   };
 

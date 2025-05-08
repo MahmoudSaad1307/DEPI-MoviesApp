@@ -1,9 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
-
-:root {
-  --main-color: #13c6b0;
-  --secondary-color: #c61328;
-}
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Playwrite+BE+VLG:wght@100..400&family=Roboto:ital,wght@0,100..900;1,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 
 * {
   margin: 0;
@@ -17,8 +12,8 @@ a {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
-
+  font-family: "Roboto", sans-serif;
+  line-height: 1.6;
   background-color: black;
 }
 #navbar-container {
@@ -104,7 +99,7 @@ body {
   position: absolute;
   top: 8px;
   right: 8px;
-  background-color: var(--main-color);
+  background-color: var(--secondary-color);
   color: white;
   font-size: 12px;
   font-weight: bold;
@@ -262,4 +257,7 @@ body {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+.text-muted {
+  color: white;
 }

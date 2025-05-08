@@ -25,7 +25,7 @@ const Popular = () => {
   const moviesPerSlide = getMoviesPerSlide();
 
   return (
-    <div className="multi-card-carousel">
+    <div className="multi-card-carousel container">
       <h2 className="carousel-title">Popular Movies</h2>
       <br />
       <div id="popularMoviesCarousel" className="carousel">
@@ -50,7 +50,7 @@ const Popular = () => {
                         className="col-6 col-md-4 col-lg-2"
                         key={`movie-${movie.id}-${subIndex}`}
                       >
-                        <MovieCard movie={movie} index={subIndex} isMovie={'movie'} />
+                        <MovieCard movie={movie} index={subIndex} isMovie={'movie'} hoverWindow={true} />
                       </div>
                     ))}
                 </div>

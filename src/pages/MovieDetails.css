@@ -218,7 +218,7 @@ background-color: gainsboro;
 }
 
 .tab.active {
-  color: #13c6b0;
+  color: var(--main-color);
 }
 
 .tab.active::after {
@@ -228,7 +228,7 @@ background-color: gainsboro;
   left: 0;
   width: 100%;
   height: 3px;
-  background-color: #13c6b0;
+  background-color: var(--secondary-color);
 }
 .add-review {
   background-color: #0ea896;
@@ -357,21 +357,7 @@ background-color: gainsboro;
 .tab-content.active {
   display: block;
 }
-.reviews-container {
-  flex-wrap: wrap;
-  display: flex;
-  /* flex-direction: column; */
-  gap: 20px;
-  padding: 15px 0;
-}
 
-.review-card {
-  max-width:100%
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  padding: 20px;
-  transition: all 0.3s ease;
-}
 
 .review-card:hover {
   background-color: rgba(255, 255, 255, 0.1);
@@ -503,8 +489,8 @@ background-color: gainsboro;
 }
 
 .review-card {
-  max-width: 100%;
-  width: 100%; /* Add this to ensure the card takes full width */
+  max-width: calc(100% / 3 - 20px);
+  /* width: 100%;  */
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
   padding: 20px;
@@ -554,7 +540,8 @@ background-color: gainsboro;
 }
 
 .reviewer-name {
-  font-weight: 600;
+  font-weight: 800  ;
+  color: #68646AFF;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;

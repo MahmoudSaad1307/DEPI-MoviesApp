@@ -1,12 +1,29 @@
+import { findUserById } from "../../api/api";
 import "../../pages/MovieDetails.css";
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 
 export default function ReviewCard(props) {
-  const { review, index } = props;
+  const { review } = props;
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    // console.log(review);
+    // console.log("review from the card:",review);
+    
+    findUser();
+  }, []);
 
-  let text = review.content.text;
+  const findUser = async () => {
+    try {
+      const response = await findUserById({userId: review?.userId});
+      setUser(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  let text = review?.content.text;
   // text = "jsdkljgklasklfj;klasd;jklfjklsjs;fkljsdjklfkkfsjklgjkldjgklj;kl";
-  const reviewDate = new Date(review.timestamps.createdAt);
+  const reviewDate = new Date(review?.timestamps.createdAt);
   const formattedDate = reviewDate.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -15,26 +32,20 @@ export default function ReviewCard(props) {
 
   // Handle long reviews with read more/less
   const isLongReview = text?.length > 300;
-  
+
   return (
-    <div className="review-card" key={review._id || index}>
+    <div className="review-card" key={review._id}>
       <div className="review-header">
         <div className="reviewer-info">
-          <div className="avatar">
-            <i className="fa-solid fa-user"></i>
-          </div>
+          <img src={user?.photoURL} style={{ width: "50px", height: "50px", borderRadius:'50%' }} alt="" />
           <div className="reviewer-details">
-            <h4 className="reviewer-name">review.author</h4>
+            <h4 className="reviewer-name">{user?.name}</h4>
             <span className="review-date">{formattedDate}</span>
           </div>
         </div>
       </div>
       <div className="review-body p-2">
-        {isLongReview ? (
-          <ReviewContent content={text} />
-        ) : (
-          <p>{text}</p>
-        )}
+        {isLongReview ? <ReviewContent content={text} /> : <p>{text}</p>}
       </div>
     </div>
   );
@@ -63,4 +74,4 @@ const ReviewContent = ({ content }) => {
       )}
     </>
   );
-}
+};

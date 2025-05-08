@@ -1,7 +1,7 @@
 const ContinueWatching = () => {
   return (
     <>
-      <div className="watchContainer">
+      <div className="watchContainer container">
         <h2 className="watchTitle">Continue Watching</h2>
         <br />
         <div className="watching-card">

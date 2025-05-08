@@ -4,10 +4,10 @@ import { getGenreNames, IMAGE_URL } from "../constants";
 export default function MovieCard(props) {
   const { movie, index, hoverWindow = false ,isMovie=false} = props;
   const genreNames = getGenreNames(movie.genre_ids, movie).slice(0, 3);
-  console.log("=================================================");
-  console.log("=================================================");
+  // console.log("=================================================");
+  // console.log("=================================================");
   const media_type=(isMovie ===  "movie" )?"movie":"tv";
-  console.log(media_type);
+  // console.log(media_type);
   const title = media_type==="movie"? movie.title : movie.name;
   const year =
     movie.release_date?.substring(0, 4) ||
@@ -42,7 +42,7 @@ export default function MovieCard(props) {
           <div className="detail-info">
             <div className="detail-meta">
               <div className="detail-rating">
-                <i className="fa-solid fa-star"></i>{" "}
+                <i className="fa-solid fa-star " style={{color:'gold'}}></i>{" "}
                 {movie.vote_average.toFixed(1)}
               </div>
               <div className="detail-year-time">{year}</div>

@@ -4,12 +4,13 @@ import { BrowserRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import  './pages/styles.css';
 import { StrictMode, useEffect } from "react";
-// import app from "./firebase/firebase";
+import { Provider } from "react-redux";
+import { PersistGate } from 'redux-persist/integration/react'; // Add this import
+import store, { persistor } from "./redux/store";
+import  './App.css'
 
 import App from "./App";
 // import { registerUser } from "./firebase/firebaseServices";
@@ -17,7 +18,11 @@ import App from "./App";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
+      </Provider>
     </BrowserRouter>
   </StrictMode>
 );

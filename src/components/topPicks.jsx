@@ -25,7 +25,7 @@ const TopPicks = () => {
   const tvShowsPerSlide = getTvShowsPerSlide();
 
   return (
-    <div className="top-picks-section">
+    <div className="top-picks-section container">
       <h2 className="carousel-title">Popular TV Shows</h2>
       <br />
       <div id="topPicksCarousel" className="carousel slide">

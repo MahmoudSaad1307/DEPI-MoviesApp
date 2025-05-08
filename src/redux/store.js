@@ -1,13 +1,38 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./slices/authSlice";
-import userMoviesReducer from "./slices/userMoviesSlice";
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import { combineReducers } from 'redux';
 
-const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    // movies: moviesReducer,
-    userMovies: userMoviesReducer,
-  },
+// Import your reducers
+import filtersReducer from "./slices/filtersSlice";
+import userMoviesReducer from "./slices/userMoviesSlice";
+import userReducer from "./slices/userSlice";
+
+// Configure persist for all reducers
+const persistConfig = {
+  key: 'root',
+  storage,
+  // No whitelist means all reducers will be persisted
+};
+
+const rootReducer = combineReducers({
+  filters: filtersReducer,
+  user: userReducer,
+  userMovies: userMoviesReducer,
 });
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// Create store with persisted reducer
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // needed for redux-persist
+    }),
+});
+
+// Create persistor
+export const persistor = persistStore(store);
 
 export default store;

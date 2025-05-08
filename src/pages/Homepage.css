@@ -3,7 +3,10 @@
   padding: 0;
   box-sizing: border-box;
 }
+main{
 
+  background:black
+}
 /* General Navbar Styles */
 .custom-navbar {
   background-color: black !important;
@@ -27,7 +30,6 @@
 
 /* Nav Links */
 .custom-navbar .nav-link {
-  color: grey !important;
   transition: color 0.3s ease-in-out;
   margin: 0 10px;
   display: flex;
@@ -51,9 +53,6 @@
   color: white !important;
 }
 
-.custom-navbar .nav-link:hover {
-  color: limegreen !important;
-}
 
 /* Dropdown Menu */
 .dropdown {
@@ -169,7 +168,7 @@
   width: 100%;
   z-index: 0;
   height: 100vh;
-  padding: 10px 0;
+  padding: 0 0;
 }
 
 
@@ -306,11 +305,7 @@
   right: -50px;
 }
 
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  width: 30px;
-  height: 30px;
-}
+
 
 /* for debuging */
 /* .carousel-control-prev, .carousel-control-next {
@@ -481,6 +476,103 @@
   display: none !important;
 }
 
+/* Direct Image Animation Styles */
+
+/* Main carousel image animation */
+.carousel-item {
+  transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+  transform: scale(0.95);
+  opacity: 0;
+}
+
+.carousel-item.active {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Target the actual images directly */
+.carousel-item img {
+  transition: transform 0.8s ease-in-out;
+  transform-origin: center center;
+}
+
+/* Add animation to active image */
+.carousel-item.active img {
+  animation: zoomInOut 10s ease-in-out infinite;
+}
+
+/* Keyframe animation for smooth zoom effect */
+@keyframes zoomInOut {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* For multi-card carousel images */
+.movie-card img {
+  transition: all 0.5s ease;
+  transform-origin: center center;
+}
+
+.movie-card:hover img {
+  transform: scale(1.1);
+}
+
+/* Ensure Bootstrap's default transitions don't interfere */
+.carousel-fade .carousel-item {
+  opacity: 0;
+  transition-property: opacity;
+}
+
+.carousel-fade .carousel-item.active {
+  opacity: 1;
+}
+
+/* Direct style for main carousel large images */
+.main-carousel-item img {
+  animation: kenBurnsEffect 20s ease-in-out infinite alternate;
+}
+
+@keyframes kenBurnsEffect {
+  0% {
+    transform: scale(1) translateX(0);
+  }
+  100% {
+    transform: scale(1.05) translateX(-10px);
+  }
+}
+
+/* JavaScript animation trigger class */
+.animate-carousel-image {
+  animation: fadeZoomIn 1s ease-in-out forwards !important;
+}
+
+@keyframes fadeZoomIn {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Force hardware acceleration for smoother animations */
+.carousel-item img {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  transform: translateZ(0);
+}
 @media screen and (max-width: 768px) {
   h2 {
     font-size: 25px !important;

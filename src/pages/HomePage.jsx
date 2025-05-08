@@ -1,160 +1,129 @@
-// src/pages/HomePage.jsx
+import { useEffect, useState } from "react";
 import Popular from "../components/popular";
 import ContinueWatching from "../components/continueWatching";
+import TopPicks from "./../components/topPicks";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./HomePage.css";
-import TopPicks from "./../components/topPicks";
+import {
+  BASE_URL,
+  API_KEY,
+  BACKDROP_PATH,
+  getGenreNames,
+} from "../constants/constants";
 
 const HomePage = () => {
+  const [trendingItems, setTrendingItems] = useState([]);
+
+  useEffect(() => {
+    const fetchTrending = async () => {
+      try {
+        const response = await fetch(
+          `${BASE_URL}/trending/all/week?api_key=${API_KEY}&language=en-US`
+        );
+        const data = await response.json();
+        // Limit to 5 items for the carousel
+        setTrendingItems(data.results.slice(0, 5));
+      } catch (error) {
+        console.error("Error fetching trending items:", error);
+      }
+    };
+
+    fetchTrending();
+  }, []);
+
   return (
     <>
       <div
-        style={{ zIndex: "0" }}
         id="carouselExampleFade"
-        className="carousel slide carousel-fade"
+        className="carousel slide auto-play carousel-fade container py-0"
         data-bs-ride="carousel"
+        data-bs-interval="3000" // This sets the interval for auto-play globally
       >
         <div className="carousel-indicators">
-          <button
-            type="button"
-            data-bs-target="#carouselExampleFade"
-            data-bs-slide-to="0"
-            className="active"
-            aria-current="true"
-            aria-label="Slide 1"
-          ></button>
-          <button
-            type="button"
-            data-bs-target="#carouselExampleFade"
-            data-bs-slide-to="1"
-            aria-label="Slide 2"
-          ></button>
-          <button
-            type="button"
-            data-bs-target="#carouselExampleFade"
-            data-bs-slide-to="2"
-            aria-label="Slide 3"
-          ></button>
+          {trendingItems.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              data-bs-target="#carouselExampleFade"
+              data-bs-slide-to={index}
+              className={index === 0 ? "active" : ""}
+              aria-label={`Slide ${index + 1}`}
+            ></button>
+          ))}
         </div>
 
         <div className="carousel-inner">
-          <div
-            className="carousel-item main-carousel-item active"
-            data-bs-interval="3000"
-          >
-            <img
-              src="src\assets\images\movie1.jpeg"
-              className="carouselImg"
-              alt="Slide 1"
-            />
-            <div className="carousel-caption">
-              <h1>Fields of Destiny</h1>
-              <div className="info">
-                <div className="infocap">
-                  <i
-                    className="fa-solid fa-star"
-                    style={{ color: "#01a227" }}
-                  ></i>{" "}
-                  8.7
+          {trendingItems.map((item, index) => (
+            <div
+              key={item.id}
+              className={`carousel-item ${index === 0 ? "active" : ""}`}
+            >
+              <img
+                src={`${BACKDROP_PATH}${item.backdrop_path}`}
+                className="d-block w-100"
+                alt={item.title || item.name}
+              />
+              <div className="carousel-caption">
+                <h1  style={{color:'var(--secondary-color)'}}>{item.title || item.name}</h1>
+                <div className="info">
+                  <div className="infocap">
+                    <i
+                      className="fa-solid fa-star me-2"
+                      style={{ color: "gold" }}
+                    ></i>{" "}
+                    {typeof item.vote_average === "number"
+                      ? item.vote_average.toFixed(1)
+                      : ""}
+                  </div>
+                  <div className="infocap">
+                    {new Date(
+                      item.release_date || item.first_air_date
+                    ).getFullYear()}
+                  </div>
+                  <div className="infocap">+13</div>
                 </div>
-                <div className="infocap">2020</div>
-                <div className="infocap">+13</div>
-              </div>
-              <div className="genres">
-                <div className="gcontent">Action</div>
-                <div className="gcontent">Drama</div>
-                <div className="gcontent">Sci-fi</div>
-              </div>
-
-              <div className="buttons d-flex justify-content-center align-items-center">
-                <button className="btn btn-success me-2 playbutton">
-                  <i className="bi bi-play-fill"></i>
-                </button>
-                <button className="btn btn-outline-light">
-                  <i className="fa-solid fa-plus"></i> Add to Watchlist
-                </button>
+                <div className="genres">
+                  {getGenreNames(item.genre_ids, item)
+                    .slice(0, 3)
+                    .map((genre) => (
+                      <div  key={genre} className="gcontent bg-transparent ">
+                        {genre}
+                      </div>
+                    ))}
+                </div>
               </div>
             </div>
-          </div>
-          <div
-            className="carousel-item main-carousel-item"
-            data-bs-interval="3000"
-          >
-            <img
-              src="src\assets\images\movie2.jpeg"
-              className="carouselImg"
-              alt="Slide 2"
-            />
-            <div className="carousel-caption">
-              <h1>1917</h1>
-              <div className="info">
-                <div className="infocap">
-                  <i
-                    className="fa-solid fa-star"
-                    style={{ color: "#01a227" }}
-                  ></i>{" "}
-                  8.7
-                </div>
-                <div className="infocap">2020</div>
-                <div className="infocap">+16</div>
-              </div>
-              <div className="genres">
-                <div className="gcontent">Action</div>
-                <div className="gcontent">Drama</div>
-                <div className="gcontent">Sci-fi</div>
-              </div>
-
-              <div className="buttons d-flex justify-content-center align-items-center">
-                <button className="btn btn-success me-2 playbutton">
-                  <i className="bi bi-play-fill"></i>
-                </button>
-                <button className="btn btn-outline-light ">
-                  <i className="fa-solid fa-plus"></i> Add to Watchlist
-                </button>
-              </div>
-            </div>
-          </div>
-          <div
-            className="carousel-item main-carousel-item"
-            data-bs-interval="3000"
-          >
-            <img
-              src="src\assets\images\movie3.jpeg"
-              className="carouselImg"
-              alt="Slide 2"
-            />
-            <div className="carousel-caption">
-              <h1>John Wick</h1>
-              <div className="info">
-                <div className="infocap">
-                  <i
-                    className="fa-solid fa-star"
-                    style={{ color: "#01a227" }}
-                  ></i>{" "}
-                  8.7
-                </div>
-                <div className="infocap">2020</div>
-                <div className="infocap">+18</div>
-              </div>
-              <div className="genres">
-                <div className="gcontent">Action</div>
-                <div className="gcontent">Drama</div>
-                <div className="gcontent">Sci-fi</div>
-              </div>
-              <div className="buttons d-flex justify-content-center align-items-center">
-                <button className="btn btn-success me-2 playbutton">
-                  <i className="bi bi-play-fill"></i>
-                </button>
-                <button className="btn btn-outline-light">
-                  <i className="fa-solid fa-plus"></i> Add to Watchlist
-                </button>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
+
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleFade"
+          data-bs-slide="prev"
+        >
+          <span
+            className="carousel-control-prev-icon ms-2"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleFade"
+          data-bs-slide="next"
+        >
+          <span
+            className="carousel-control-next-icon me-2"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden">Next</span>
+        </button>
       </div>
+
       <Popular />
       <TopPicks />
       <ContinueWatching />

@@ -1,4 +1,4 @@
-import './Pagination.css';
+import "./Pagination.css";
 
 // Function to handle page navigation
 export const paginate = (pageNumber) => {
@@ -9,10 +9,10 @@ export const paginate = (pageNumber) => {
 export const getPageNumbers = (currentPage, totalItems, itemsPerPage = 10) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const pageNumbers = [];
-  
+
   let startPage = Math.max(1, currentPage - 2);
   let endPage = Math.min(totalPages, currentPage + 2);
-  
+
   if (endPage - startPage < 4 && totalPages > 4) {
     if (startPage === 1) {
       endPage = Math.min(5, totalPages);
@@ -37,19 +37,27 @@ export const getItemRange = (currentPage, totalItems, itemsPerPage = 10) => {
 
 const Pagination = () => {
   const itemsPerPage = 10; // Default value
-  const totalItems = 50;   // Default value
-  const currentPage = 1;   // Default value
+  const totalItems = 50; // Default value
+  const currentPage = 1; // Default value
 
-  const { pageNumbers, totalPages, startPage, endPage } = getPageNumbers(currentPage, totalItems, itemsPerPage);
-  const { indexOfFirstItem, indexOfLastItem } = getItemRange(currentPage, totalItems, itemsPerPage);
+  const { pageNumbers, totalPages, startPage, endPage } = getPageNumbers(
+    currentPage,
+    totalItems,
+    itemsPerPage
+  );
+  const { indexOfFirstItem, indexOfLastItem } = getItemRange(
+    currentPage,
+    totalItems,
+    itemsPerPage
+  );
 
   return (
     <div className="pagination-container">
       <nav aria-label="Page navigation">
         <ul className="pagination justify-content-center">
-          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-            <button 
-              className="page-link" 
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button
+              className="page-link"
               onClick={() => paginate(currentPage - 1)}
               disabled={currentPage === 1}
               aria-label="Previous page"
@@ -57,12 +65,12 @@ const Pagination = () => {
               Previous
             </button>
           </li>
-          
+
           {startPage > 1 && (
             <>
               <li className="page-item">
-                <button 
-                  className="page-link" 
+                <button
+                  className="page-link"
                   onClick={() => paginate(1)}
                   aria-label="First page"
                 >
@@ -76,11 +84,14 @@ const Pagination = () => {
               )}
             </>
           )}
-          
-          {pageNumbers.map(number => (
-            <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
-              <button 
-                className="page-link" 
+
+          {pageNumbers.map((number) => (
+            <li
+              key={number}
+              className={`page-item ${currentPage === number ? "active" : ""}`}
+            >
+              <button
+                className="page-link"
                 onClick={() => paginate(number)}
                 aria-label={`Page ${number}`}
                 aria-current={currentPage === number ? "page" : null}
@@ -89,7 +100,7 @@ const Pagination = () => {
               </button>
             </li>
           ))}
-          
+
           {endPage < totalPages && (
             <>
               {endPage < totalPages - 1 && (
@@ -98,8 +109,8 @@ const Pagination = () => {
                 </li>
               )}
               <li className="page-item">
-                <button 
-                  className="page-link" 
+                <button
+                  className="page-link"
                   onClick={() => paginate(totalPages)}
                   aria-label={`Last page, page ${totalPages}`}
                 >
@@ -108,10 +119,14 @@ const Pagination = () => {
               </li>
             </>
           )}
-          
-          <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-            <button 
-              className="page-link" 
+
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+          >
+            <button
+              className="page-link"
               onClick={() => paginate(currentPage + 1)}
               disabled={currentPage === totalPages}
               aria-label="Next page"
@@ -121,9 +136,9 @@ const Pagination = () => {
           </li>
         </ul>
       </nav>
-      
+
       {true && totalItems > 0 && (
-        <p className="text-center text-muted small mt-2">
+        <p className="text-center small mt-2" style={{ color: "white" }}>
           Showing {indexOfFirstItem}-{indexOfLastItem} of {totalItems} items
         </p>
       )}

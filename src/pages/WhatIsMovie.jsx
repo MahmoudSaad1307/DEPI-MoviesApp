@@ -81,12 +81,10 @@ export default function WhatIsMovie() {
   }, []);
 
   return (
-    <div className="container my-2">
+    <div className="container my-5" >
       <div className="card shadow-lg">
-        <div className="card-body bg-dark text-white" style={{border:'none'}} >
-          <h2 className="card-title text-center mb-4">
-            🎬 Movie Memory Assistant
-          </h2>
+        <div className="card-body  text-white" style={{border:'none',background:'black'}} >
+        
           <div className="mb-3">
             <label htmlFor="description" className="form-label fw-bold">
               Movie Description
@@ -100,8 +98,8 @@ export default function WhatIsMovie() {
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
-          <button style={{background:'black'}}
-            className="btn btn-primary w-100"
+          <button style={{background:'#13c6b0'}}
+            className="btn  w-100"
             onClick={guessMovie}
             disabled={loading || !description.trim()}
           >

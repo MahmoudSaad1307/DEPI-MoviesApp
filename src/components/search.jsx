@@ -1,16 +1,19 @@
-import React, { useState, useRef, useEffect } from "react";
-import { fetchMovies, ENDPOINTS, IMAGE_URL } from "../constants/constants";
-import MovieCard, { MovieCard2 } from "../constants/components/MovieCard";
+import { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "../components/search.css";
 import CastCard from "../constants/components/CastCard";
+import MovieCard from "../constants/components/MovieCard";
+import { ENDPOINTS, fetchMovies } from "../constants/constants";
+import { setFilter } from "../redux/slices/filtersSlice";
 
 const Search = ({ setIsSearchVisible }) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
-  const [activeFilter, setActiveFilter] = useState("all");
   const [visibility, setVisibility] = useState([]); // State to track visibility of cards
   const timeoutRef = useRef(null);
+  const dispatch = useDispatch();
+  const activeFilter = useSelector((state) => state.filters.activeFilter);
 
   const handleSearch = async (searchQuery, type = "all") => {
     if (!searchQuery.trim()) {
@@ -55,7 +58,7 @@ const Search = ({ setIsSearchVisible }) => {
 
         setResults(data.results || []);
         setFilteredResults(data.results || []);
-        setVisibility(data.results.map(() => true)); 
+        setVisibility(data.results.map(() => true));
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
@@ -63,7 +66,7 @@ const Search = ({ setIsSearchVisible }) => {
   };
 
   const handleFilter = (type) => {
-    setActiveFilter(type);
+    dispatch(setFilter(type));
     handleSearch(query, type);
   };
 
@@ -143,26 +146,29 @@ const Search = ({ setIsSearchVisible }) => {
         {filteredResults.length > 0 ? (
           <div className="cardsGrid" onClick={() => setIsSearchVisible(false)}>
             {filteredResults.map((result, index) => {
- const type = result.title?"movie":result.first_air_date?"tv":"cast";
+              const type = result.title
+                ? "movie"
+                : result.first_air_date
+                ? "tv"
+                : "cast";
 
-              if (!visibility[index]||!(result.poster_path||result.profile_path)) {
+              if (
+                !visibility[index] ||
+                !(result.poster_path || result.profile_path)
+              ) {
                 return null; // Do not render the card if the image failed to load
               }
-              
-if(type==='movie'||type==='tv')
-              return (
-                <MovieCard
-                  key={result.id}
-                  movie={result}
-                  isMovie={type}
-                  onImageError={() => handleImageError(index)} // Hide the card if the image fails to load
-                />
-              );
-            else
-            return (
-              CastCard( result)
 
-            )
+              if (type === "movie" || type === "tv")
+                return (
+                  <MovieCard
+                    key={result.id}
+                    movie={result}
+                    isMovie={type}
+                    onImageError={() => handleImageError(index)} // Hide the card if the image fails to load
+                  />
+                );
+              else return CastCard(result);
             })}
           </div>
         ) : (

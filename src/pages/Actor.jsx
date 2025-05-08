@@ -131,7 +131,7 @@ const ActorPage = () => {
       <div className="row">
         <div className="col-lg-8">
           <div className="mb-4">
-            <p className="text-muted mb-1">Appearances by</p>
+            <p className="  mb-1">Appearances by</p>
             <h1 className="mb-4">{actor.name}</h1>
             
             <ul className="nav nav-tabs mb-4">
@@ -164,7 +164,7 @@ const ActorPage = () => {
                     ))
                   ) : (
                     <div className="col-12">
-                      <p className="text-muted">No movie appearances found.</p>
+                      <p className=" ">No movie appearances found.</p>
                     </div>
                   )}
                 </div>
@@ -250,7 +250,7 @@ const ActorPage = () => {
                       </nav>
                       
                       {true && movies.length > 0 && (
-                        <p className="text-center text-muted small mt-2">
+                        <p className="text-center   small mt-2">
                           Showing {movieFirstItem}-{movieLastItem} of {movies.length} items
                         </p>
                       )}
@@ -271,7 +271,7 @@ const ActorPage = () => {
                     ))
                   ) : (
                     <div className="col-12">
-                      <p className="text-muted">No TV show appearances found.</p>
+                      <p className=" ">No TV show appearances found.</p>
                     </div>
                   )}
                 </div>
@@ -357,7 +357,7 @@ const ActorPage = () => {
                       </nav>
                       
                       {true && tvShows.length > 0 && (
-                        <p className="text-center text-muted small mt-2">
+                        <p className="text-center   small mt-2">
                           Showing {tvFirstItem}-{tvLastItem} of {tvShows.length} items
                         </p>
                       )}
@@ -379,7 +379,7 @@ const ActorPage = () => {
               />
             ) : (
               <div className="card-img-top bg-light d-flex align-items-center justify-content-center" style={{ height: '300px' }}>
-                <span className="text-muted">No image available</span>
+                <span className=" ">No image available</span>
               </div>
             )}
             <div className="card-body">
@@ -390,7 +390,7 @@ const ActorPage = () => {
                 {actor.biography || 'No biography available.'}
               </p>
               {actor.place_of_birth && (
-                <p className="text-muted small">From: {actor.place_of_birth}</p>
+                <p className="  small">From: {actor.place_of_birth}</p>
               )}
             </div>
           </div>

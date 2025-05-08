@@ -8,7 +8,6 @@ import {
   IMAGE_URL,
   ENDPOINTS,
 } from "../constants/constants";
-import 'animate.css';
 import "./MovieDetails.css";
 import "./styles.css";
 import "./responsive.css";
@@ -25,20 +24,24 @@ import MovieCard from "../constants/components/MovieCard";
 import InteractionPanel from "../constants/components/InteractionPanel";
 import CastCard from "../constants/components/CastCard";
 import ReviewCard from "../constants/components/ReviewCard";
-import { addReview } from "../api/api";
+import { addReview, getMovieReviews } from "../api/api";
 import CustomToast from "../constants/components/Toast";
-
+import { useDispatch, useSelector } from "react-redux";
 
 const MovieDetails = () => {
+  const {user}=useSelector((state)=>state.user)
+  const {favorites,watchlist,watched} =useSelector((state)=>state.userMovies)
+  const dispatch=useDispatch()
+
   const [showListModal, setShowListModal] = useState(false);
   const toggleModal = () => {
     if (showListModal) {
       // If closing, add a delay to allow for animation
-      const modalElement = document.querySelector('.modal-dialog');
+      const modalElement = document.querySelector(".modal-dialog");
       if (modalElement) {
-        modalElement.classList.remove('animate__fadeInDown');
-        modalElement.classList.add('animate__fadeOutUp');
-        
+        modalElement.classList.remove("animate__fadeInDown");
+        modalElement.classList.add("animate__fadeOutUp");
+
         setTimeout(() => {
           setShowListModal(false);
         }, 300); // Match this delay with your CSS transition duration
@@ -50,7 +53,7 @@ const MovieDetails = () => {
       setShowListModal(true);
     }
   };
-  
+
   const userLists = [
     { id: 1, name: "Favorites" },
     { id: 2, name: "Watch Later" },
@@ -63,10 +66,11 @@ const MovieDetails = () => {
     console.log(`Added to list with ID: ${listId}`);
     toggleModal();
   };
-  
+
   const { id, media_type } = useParams();
   const isMovie = media_type === "movie";
   const [movieData, setMovieData] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [activeTab, setActiveTab] = useState("cast");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -83,16 +87,17 @@ const MovieDetails = () => {
     // Here you would typically send the review to your backend API
     try {
       await addReview({
-        userId: "680f57fe84a68879a79ff410",
+        userId: user._id,
+        type: media_type,
         movieId: id,
-        mediaType: media_type,
         content: {
-          text: `review from ${
-            movieData.title ? movieData.title : movieData.name
-          }`,
+          text:reviewContent
         },
       });
-      alert("Thanks for the review");
+      console.log("Review added successfully");
+      window.location.reload(); 
+
+      // alert("Thanks for the review");
     } catch (error) {
       console.error("Error adding review:", error);
     }
@@ -102,15 +107,30 @@ const MovieDetails = () => {
 
     // Close modal
     const modal = document.getElementById("addReviewModal");
-    const bootstrapModal = window.bootstrap.Modal.getInstance(modal);
-    bootstrapModal.hide();
+    if (modal) {
+      const bootstrapModal = window.bootstrap.Modal.getInstance(modal);
+      if (bootstrapModal) {
+        bootstrapModal.hide();
+      }
+    }
   };
 
   useEffect(() => {
     if (id) {
       fetchMovieDetails();
+      getReviews();
     }
   }, [id]);
+
+  const getReviews = async () => {
+    try {
+      const response = await getMovieReviews({type:media_type,movieId:id} );
+      setReviews(response.data);
+      console.log("Reviews fetched:", response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // Function to fetch movie details
   const fetchMovieDetails = async () => {
@@ -130,6 +150,10 @@ const MovieDetails = () => {
 
       const data = await response.json();
       console.log("Movie data fetched:", data);
+      console.log(BACKDROP_PATH);
+
+      console.log(data.backdrop_path);
+
       setMovieData(data);
       setLoading(false);
     } catch (error) {
@@ -218,6 +242,8 @@ const MovieDetails = () => {
           <div
             className="movie-poster"
             style={{
+              zIndex: "0",
+              backgroundColor: "transparent",
               backgroundImage: `url(${BACKDROP_PATH}${movieData.backdrop_path})`,
               borderRadius: "5px",
             }}
@@ -232,7 +258,7 @@ const MovieDetails = () => {
               </h1>
 
               <div className="movie-rating">
-                <span className="rating-star">
+                <span style={{color:'gold'}} className="rating-star">
                   <i className="fas fa-star"></i>
                 </span>
                 <span className="fw-bold">
@@ -303,9 +329,9 @@ const MovieDetails = () => {
               <InteractionPanel
                 showModal={showListModal}
                 setShowModal={setShowListModal}
+                media_type={media_type}
+                movieId={id}
               />
-
-
             </div>
           </div>
         </div>
@@ -333,6 +359,8 @@ const MovieDetails = () => {
             >
               Reviews
             </div>
+            {
+              user&&
             <div
               className="add-review tab"
               data-bs-toggle="modal"
@@ -340,6 +368,7 @@ const MovieDetails = () => {
             >
               Add Review
             </div>
+}
           </div>
 
           {/* Cast Tab */}
@@ -388,10 +417,13 @@ const MovieDetails = () => {
             id="reviews"
             className={`tab-content ${activeTab === "reviews" ? "active" : ""}`}
           >
-            {!movieData.reviews || movieData.reviews.results.length === 0 ? (
+            {!reviews || reviews.length === 0 ? (
               <div className="no-reviews">
                 <div className="text-center py-5">
-                  <FontAwesomeIcon icon={faCommentSlash} className="fa-3x mb-3 text-muted" />
+                  <FontAwesomeIcon
+                    icon={faCommentSlash}
+                    className="fa-3x mb-3 text-muted"
+                  />
                   <h3>No Reviews Yet</h3>
                   <p>
                     Be the first to review this {isMovie ? "movie" : "show"}!
@@ -400,15 +432,16 @@ const MovieDetails = () => {
               </div>
             ) : (
               <div className="reviews-container">
-                {movieData.reviews.results.slice(0, 10).map((review, index) => {
-                  return <ReviewCard review={review} index={index} key={index} />;
+                {reviews.slice(0, 10).map((review, index) => {
+                  
+                  return <ReviewCard review={review}  key={review._id} />;
                 })}
               </div>
             )}
           </div>
         </div>
       </div>
-      
+
       {/* Add Review Modal */}
       <div
         className="modal fade"
@@ -466,54 +499,58 @@ const MovieDetails = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Add to List Modal */}
       {showListModal && (
-  <div 
-    className="modal fade show" 
-    style={{
-      display: 'block',
-      backgroundColor: 'rgba(0,0,0,0.5)'
-    }}
-  >
-    <div className="modal-dialog modal-dialog-centered animate__animated animate__fadeInDown">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h5 className="modal-title">Add to List</h5>
-          <button type="button" className="btn-close" onClick={toggleModal}></button>
-        </div>
-        
-        <div className="modal-body">
-          <ul className="list-group list-group-flush">
-            {userLists.map(list => (
-              <li key={list.id} className="list-group-item">
-                <button 
-                  onClick={() => addToList(list.id)}
-                  className="btn btn-link text-decoration-none d-flex justify-content-between align-items-center w-100"
+        <div
+          className="modal fade show"
+          style={{
+            display: "block",
+            backgroundColor: "rgba(0,0,0,0.5)",
+          }}
+        >
+          <div className="modal-dialog modal-dialog-centered animate__animated animate__fadeInDown">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Add to List</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={toggleModal}
+                ></button>
+              </div>
+
+              <div className="modal-body">
+                <ul className="list-group list-group-flush">
+                  {userLists.map((list) => (
+                    <li key={list.id} className="list-group-item">
+                      <button
+                        onClick={() => addToList(list.id)}
+                        className="btn btn-link text-decoration-none d-flex justify-content-between align-items-center w-100"
+                      >
+                        <span>{list.name}</span>
+                        <i className="fas fa-plus"></i>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="modal-footer">
+                <button
+                  className="btn btn-primary w-100"
+                  onClick={() => {
+                    console.log("Create new list");
+                    toggleModal();
+                  }}
                 >
-                  <span>{list.name}</span>
-                  <i className="fas fa-plus"></i>
+                  Create New List
                 </button>
-              </li>
-            ))}
-          </ul>
+              </div>
+            </div>
+          </div>
         </div>
-        
-        <div className="modal-footer">
-          <button 
-            className="btn btn-primary w-100"
-            onClick={() => {
-              console.log("Create new list");
-              toggleModal();
-            }}
-          >
-            Create New List
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
+      )}
     </>
   );
 };
