@@ -1,9 +1,7 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setFavorites } from "../../src/redux/slices/userMoviesSlice";
 import { api, getProfile } from "./api";
-import { setFavorites } from "../redux/slices/userMoviesSlice";
-
 
 export const Test = () => {
   const { favorites } = useSelector((state) => state.userMovies);

@@ -138,14 +138,11 @@ body {
   line-height: 1.6;
 }
 
-.movie-interaction{
-width:600px ;
-height: 200px;
-background-color: gainsboro;
-
+.movie-interaction {
+  width: 600px;
+  height: 200px;
+  background-color: gainsboro;
 }
-
-
 
 .action-buttons {
   display: flex;
@@ -162,13 +159,11 @@ background-color: gainsboro;
   display: flex;
   align-items: center;
   transition: transform 0.3s ease;
-
 }
-.btn-play:hover{
 
+.btn-play:hover {
   background-color: #0b9887;
 }
-
 
 .btn-watch-later {
   background-color: rgba(255, 255, 255, 0.203);
@@ -180,24 +175,17 @@ background-color: gainsboro;
   display: flex;
   align-items: center;
   transition: transform 0.3s ease;
-
 }
-.btn-watch-later:hover{
+
+.btn-watch-later:hover {
   background-color: rgba(255, 255, 255, 0.082);
-
-
-
 }
-
 
 .btn-icon {
   margin-right: 0.5rem;
 }
 
-
-
 .tabs-section {
-  /* Added clear separation from movie info section */
   margin-top: 80px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 30px;
@@ -230,6 +218,7 @@ background-color: gainsboro;
   height: 3px;
   background-color: var(--secondary-color);
 }
+
 .add-review {
   background-color: #0ea896;
   color: white;
@@ -245,9 +234,6 @@ background-color: gainsboro;
   background-color: #0b9887;
 }
 
-/* Add these styles to your MovieDetails.css file */
-
-/* Modal styling */
 .modal-content {
   background-color: #1a1a1a;
   color: #fff;
@@ -268,7 +254,6 @@ background-color: gainsboro;
   filter: invert(1) grayscale(100%) brightness(200%);
 }
 
-/* Form styling */
 .form-control {
   background-color: #5e5959;
   border: 1px solid #444;
@@ -286,7 +271,6 @@ background-color: gainsboro;
   color: #ddd;
 }
 
-/* Button styling */
 .modal .btn-primary {
   background-color: #13c6b0;
   border-color: transparent;
@@ -294,7 +278,6 @@ background-color: gainsboro;
 
 .modal .btn-primary:hover {
   background-color: rgba(18, 169, 151, 0.858);
-  /* border-color: #b30710; */
 }
 
 .modal .btn-secondary {
@@ -306,8 +289,6 @@ background-color: gainsboro;
   background-color: #444;
   border-color: #555;
 }
-
-/* Make the add review tab look clickable */
 
 .cast-grid {
   display: grid;
@@ -358,6 +339,14 @@ background-color: gainsboro;
   display: block;
 }
 
+.review-card {
+  max-width: calc(100% / 3 - 20px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
 
 .review-card:hover {
   background-color: rgba(255, 255, 255, 0.1);
@@ -368,13 +357,16 @@ background-color: gainsboro;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+  width: 100%;
 }
 
 .reviewer-info {
   display: flex;
   align-items: center;
   gap: 15px;
-  min-width: 0; /* هذا ضروري لو فيه flex */
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .avatar {
@@ -393,20 +385,17 @@ background-color: gainsboro;
   display: flex;
   flex-direction: column;
   min-width: 0;
+  width: calc(100% - 55px);
+  overflow: hidden;
 }
 
 .reviewer-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-weight: 600;
-  display: block;
-  white-space: nowrap;
-  max-width: 100%;
+  font-weight: 800;
+  color: #68646AFF;
   margin: 0;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
-  display: block;
   max-width: 100%;
 }
 
@@ -424,9 +413,11 @@ background-color: gainsboro;
 }
 
 .review-body {
-  
+  text-align: start;
   margin-bottom: 15px;
   line-height: 1.6;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .review-footer {
@@ -462,13 +453,11 @@ background-color: gainsboro;
   text-decoration: underline;
 }
 
-.no-reviews {
+.no-reviews,
+.no-providers {
   color: #999;
 }
 
-/* Add these styles to your CSS file */
-
-/* Modal transition effects */
 .modal.fade {
   transition: opacity 0.15s linear;
 }
@@ -488,110 +477,6 @@ background-color: gainsboro;
   padding: 15px 0;
 }
 
-.review-card {
-  max-width: calc(100% / 3 - 20px);
-  /* width: 100%;  */
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  padding: 20px;
-  transition: all 0.3s ease;
-  box-sizing: border-box; /* Add this to include padding in width calculation */
-}
-
-.review-card:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.review-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  width: 100%; /* Ensure header takes full width */
-}
-
-.reviewer-info {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  width: 100%; /* Give it a defined width */
-  max-width: 100%; /* Add a maximum width */
-  overflow: hidden; /* Hide overflow */
-}
-
-.avatar {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #444;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-}
-
-.reviewer-details {
-  display: flex;
-  flex-direction: column;
-  min-width: 0; /* Allow shrinking below content size */
-  width: calc(100% - 55px); /* Width minus avatar width and gap */
-  overflow: hidden; /* Hide overflow */
-}
-
-.reviewer-name {
-  font-weight: 800  ;
-  color: #68646AFF;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
-.review-date {
-  font-size: 0.8rem;
-  color: #999;
-}
-
-.review-rating {
-  background-color: rgba(255, 215, 0, 0.2);
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: #ffd700;
-  font-weight: bold;
-}
-
-.review-body {
-  text-align:start;
-  margin-bottom: 15px;
-  line-height: 1.6;
-  word-wrap: break-word; 
-  overflow-wrap: break-word; 
-}
-
-.review-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-/* Style for read more/less buttons */
-.btn-read-more,
-.btn-read-less {
-  background: none;
-  border: none;
-  color: #3498db;
-  cursor: pointer;
-  font-size: 0.9rem;
-  padding: 0;
-  text-decoration: underline;
-}
-
-.btn-read-more:hover,
-.btn-read-less:hover {
-  color: #2980b9;
-}
-/* If you can't use animate.css library, add these animations directly */
 @keyframes fadeInDown {
   from {
     opacity: 0;
@@ -627,14 +512,12 @@ background-color: gainsboro;
   animation-name: fadeOutUp;
 }
 
-/* Make modal appearance smoother */
 .modal-content {
   border: none;
   border-radius: 8px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* List item hover effect */
 .list-group-item {
   transition: background-color 0.2s ease;
 }
@@ -650,3 +533,49 @@ background-color: gainsboro;
 .list-group-item:hover button .fas {
   transform: scale(1.2);
 }
+
+.watch-providers-container {
+  margin-top: 2rem;
+}
+
+.watch-provider-region {
+  margin-bottom: 2rem;
+}
+
+.watch-provider-region h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.provider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.provider-card {
+  background-color: #151515;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.provider-card:hover {
+  transform: translateY(-5px);
+}
+
+.provider-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.provider-card span {
+  font-size: 0.9rem;
+  color: #ddd;
+} 

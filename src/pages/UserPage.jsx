@@ -201,11 +201,7 @@ const UserProfile = () => {
                   Reviews
                 </Link>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Lists
-                </a>
-              </li>
+              
             </ul>
           </nav>
         </div>

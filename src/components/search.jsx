@@ -97,7 +97,7 @@ const Search = ({ setIsSearchVisible }) => {
   return (
     <div className="mainSearchContainer">
       <button
-        className="mainExitSearch btn btn-primary"
+        className="mainExitSearch btn "
         onClick={() => setIsSearchVisible(false)}
       >
         <i className="bi bi-x-lg"></i>
@@ -112,40 +112,40 @@ const Search = ({ setIsSearchVisible }) => {
           onKeyUp={handleKeyUp}
         />
         <button
-          className="btn btn-primary"
+          className="btn search-btn btn-primary"
           onClick={() => handleSearch(query, activeFilter)}
         >
-          <i className="bi bi-search"></i>
+          <i className="bi bi-search" ></i>
         </button>
       </div>
       <div className="mainSearchTypeBtns">
         <button
-          className={`btn btn-outline-primary ${
-            activeFilter === "all" ? "active" : ""
+          className={`btn  ${
+            activeFilter === "all" ? "activesearch" : ""
           }`}
           onClick={() => handleFilter("all")}
         >
           All
         </button>
         <button
-          className={`btn btn-outline-primary ${
-            activeFilter === "movie" ? "active" : ""
+          className={`btn  ${
+            activeFilter === "movie" ? "activesearch" : ""
           }`}
           onClick={() => handleFilter("movie")}
         >
           Movies
         </button>
         <button
-          className={`btn btn-outline-primary ${
-            activeFilter === "tv" ? "active" : ""
+          className={`btn  ${
+            activeFilter === "tv" ? "activesearch" : ""
           }`}
           onClick={() => handleFilter("tv")}
         >
           TV Shows
         </button>
         <button
-          className={`btn btn-outline-primary ${
-            activeFilter === "person" ? "active" : ""
+          className={`btn  ${
+            activeFilter === "person" ? "activesearch" : ""
           }`}
           onClick={() => handleFilter("person")}
         >
@@ -155,7 +155,7 @@ const Search = ({ setIsSearchVisible }) => {
       <div className="mainSearchResults mt-3">
         {filteredResults.length > 0 ? (
           <div
-            className="mainCardsGrid"
+            className="mainCardsGrid row-cols-lg-6 row-cols-md-4 row-cols-1 g-3 row"
             onClick={() => setIsSearchVisible(false)}
           >
             {filteredResults.map((result, index) => {
@@ -182,7 +182,7 @@ const Search = ({ setIsSearchVisible }) => {
                     onImageError={() => handleImageError(index)} // Hide the card if the image fails to load
                   />
                 );
-              else return CastCard(result);
+              else return  CastCard(result);
             })}
           </div>
         ) : (

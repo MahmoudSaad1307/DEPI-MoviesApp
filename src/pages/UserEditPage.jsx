@@ -1,35 +1,47 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage"; // Import Firebase Storage functions
 import { useState } from "react";
-import "./UserEditPage.css";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../api/api";
+import { ClipLoader } from "react-spinners";
 import { ToastContainer, toast } from "react-toastify";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Import Firebase Storage functions
+import { updateUser } from "../../Backend/api/api";
 import { storage } from "../firebase/firebase"; // Import your Firebase storage instance (adjust the path as needed)
 import { setUser } from "../redux/slices/userSlice";
+import "./UserEditPage.css";
 
 const UserEditPage = () => {
   const { user } = useSelector((state) => state.user);
   const [name, setName] = useState(user.name || ""); // Default to current name if available
   const [bio, setBio] = useState(user.bio || ""); // Default to current bio if available
-  const [photo, setPhoto] = useState(null); // File object for new photo
+  const [photo, setPhoto] = useState(null);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
       let newPhotoURL = user.photoURL; // Default to existing photo URL
 
       // Upload new photo if selected
       if (photo) {
-        const photoPath = `profile_photos/${user._id}/${Date.now()}_${photo.name}`; // Unique path for each upload
+        const photoPath = `profile_photos/${user._id}/${Date.now()}_${
+          photo.name
+        }`; // Unique path for each upload
         newPhotoURL = await uploadFile(photoPath, photo); // Upload to Firebase Storage
       }
 
       // Update user data
-      const updatedUserData = { userId: user._id, name, bio, photo: newPhotoURL };
+      const updatedUserData = {
+        userId: user._id,
+        name,
+        bio,
+        photoURL: newPhotoURL,
+      };
       await updateUser(updatedUserData);
+      setLoading(false);
 
       // Dispatch updated user state
       dispatch(setUser({ name, bio, photoURL: newPhotoURL }));
@@ -113,7 +125,10 @@ const UserEditPage = () => {
                 boxShadow: "0 8px 20px rgba(0, 0, 0, 0.3)",
               }}
             >
-              <h2 className="h4 text-white mb-4 text-center" style={{ fontWeight: "600" }}>
+              <h2
+                className="h4 text-white mb-4 text-center"
+                style={{ fontWeight: "600" }}
+              >
                 Edit Profile
               </h2>
               <form onSubmit={handleSubmit}>
@@ -146,7 +161,10 @@ const UserEditPage = () => {
 
                 {/* Name */}
                 <div className="mb-4 position-relative">
-                  <label className="form-label text-white" style={{ fontSize: "0.9rem" }}>
+                  <label
+                    className="form-label text-white"
+                    style={{ fontSize: "0.9rem" }}
+                  >
                     Name
                   </label>
                   <div className="input-group">
@@ -174,7 +192,10 @@ const UserEditPage = () => {
 
                 {/* Bio */}
                 <div className="mb-4 position-relative">
-                  <label className="form-label text-white" style={{ fontSize: "0.9rem" }}>
+                  <label
+                    className="form-label text-white"
+                    style={{ fontSize: "0.9rem" }}
+                  >
                     Bio
                   </label>
                   <div className="input-group">
@@ -211,15 +232,26 @@ const UserEditPage = () => {
                       transition: "transform 0.2s, background 0.3s",
                     }}
                     onMouseEnter={(e) =>
-                      (e.target.style.background = "linear-gradient(to right, #218838, #1e7e34)")
+                      (e.target.style.background =
+                        "linear-gradient(to right, #218838, #1e7e34)")
                     }
                     onMouseLeave={(e) =>
-                      (e.target.style.background = "linear-gradient(to right, #28a745, #218838)")
+                      (e.target.style.background =
+                        "linear-gradient(to right, #28a745, #218838)")
                     }
-                    onMouseDown={(e) => (e.target.style.transform = "scale(0.98)")}
+                    onMouseDown={(e) =>
+                      (e.target.style.transform = "scale(0.98)")
+                    }
                     onMouseUp={(e) => (e.target.style.transform = "scale(1)")}
                   >
-                    Save Changes
+                    {loading ? (
+                      <>
+                        <ClipLoader color="var(--secondary-color)" size={20} />
+                        <span className="ms-2">Loading...</span>
+                      </>
+                    ) : (
+                      "Save Changes"
+                    )}
                   </button>
                 </div>
               </form>

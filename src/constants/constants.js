@@ -51,7 +51,7 @@ export const TV_GENRES = [
   { id: 37, name: "Western" },
 ];
 export const ENDPOINTS = {
-  movies: {
+ movies: {
     popular: "/movie/popular",
     topRated: "/movie/top_rated",
     nowPlaying: "/movie/now_playing",
@@ -61,6 +61,7 @@ export const ENDPOINTS = {
     similar: (id) => `/movie/${id}/similar`,
     videos: (id) => `/movie/${id}/videos`,
     reviews: (id) => `/movie/${id}/reviews`,
+    watchProviders: (id) => `/movie/${id}/watch/providers`,
     search: "/search/movie",
   },
   tv: {
@@ -74,6 +75,7 @@ export const ENDPOINTS = {
     videos: (id) => `/tv/${id}/videos`,
     reviews: (id) => `/tv/${id}/reviews`,
     seasonDetails: (tvId, seasonNumber) => `/tv/${tvId}/season/${seasonNumber}`,
+    watchProviders: (id) => `/tv/${id}/watch/providers`,
     search: "/search/tv",
   },
   person: {

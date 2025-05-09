@@ -32,7 +32,7 @@ export default function MovieCard(props) {
         <img src={IMAGE_URL + movie.poster_path} alt={title} />
         <div className="overlay"></div>
         <div className="rating">
-          <i className="fa-solid fa-star"></i> {movie.vote_average.toFixed(1)}
+          <i className="fa-solid fa-star"></i> { typeof movie.vote_average ==='number'&&movie.vote_average.toFixed(1)}
         </div>
         {/* </div> */}
 
@@ -51,8 +51,9 @@ export default function MovieCard(props) {
             <div className="detail-meta">
               <div className="detail-rating">
                 <i className="fa-solid fa-star " style={{color:'gold'}}></i>{" "}
-                {movie.vote_average.toFixed(1)}
-              </div>
+{typeof movie.vote_average === 'number' && isFinite(movie.vote_average)
+  ? movie.vote_average.toFixed(1)
+  : 'N/A'}              </div>
               <div className="detail-year-time">{year}</div>
             </div>
             <div className="detail-tags">

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { registerUser } from "../api/api";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 import Swal from "sweetalert2";
+import { registerUser } from "../../Backend/api/api";
+import "./SignUp.css";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -11,18 +13,22 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!username || !email || !password || !confirmPassword) {
       setError("All fields are required.");
+      setLoading(false);
       return;
     }
 
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
+      setLoading(false);
       return;
     }
 
@@ -31,11 +37,13 @@ const SignUp = () => {
       Swal.fire({
         title: "User Registered Successfully !",
         icon: "success",
-        html: '<style>.swal2-title { border: none }</style>',
+        html: "<style>.swal2-title { border: none }</style>",
       });
       navigate("/login");
     } catch (error) {
       alert(error.toString());
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,7 +72,10 @@ const SignUp = () => {
               boxShadow: "0 8px 20px rgba(0, 0, 0, 0.3)", // Subtle shadow
             }}
           >
-            <h2 className="h4 text-white mb-4 text-center" style={{ fontWeight: "600" }}>
+            <h2
+              className="h4 text-white mb-4 text-center"
+              style={{ fontWeight: "600" }}
+            >
               Create an Account
             </h2>
             {error && (
@@ -86,7 +97,10 @@ const SignUp = () => {
             <form onSubmit={handleSubmit}>
               {/* Username */}
               <div className="mb-4 position-relative">
-                <label className="form-label text-white" style={{ fontSize: "0.9rem" }}>
+                <label
+                  className="form-label text-white"
+                  style={{ fontSize: "0.9rem" }}
+                >
                   Username
                 </label>
                 <div className="input-group">
@@ -114,7 +128,10 @@ const SignUp = () => {
 
               {/* Email */}
               <div className="mb-4 position-relative">
-                <label className="form-label text-white" style={{ fontSize: "0.9rem" }}>
+                <label
+                  className="form-label text-white"
+                  style={{ fontSize: "0.9rem" }}
+                >
                   Email Address
                 </label>
                 <div className="input-group">
@@ -142,7 +159,10 @@ const SignUp = () => {
 
               {/* Password */}
               <div className="mb-4 position-relative">
-                <label className="form-label text-white" style={{ fontSize: "0.9rem" }}>
+                <label
+                  className="form-label text-white"
+                  style={{ fontSize: "0.9rem" }}
+                >
                   Password
                 </label>
                 <div className="input-group">
@@ -170,7 +190,10 @@ const SignUp = () => {
 
               {/* Confirm Password */}
               <div className="mb-4 position-relative">
-                <label className="form-label text-white" style={{ fontSize: "0.9rem" }}>
+                <label
+                  className="form-label text-white"
+                  style={{ fontSize: "0.9rem" }}
+                >
                   Confirm Password
                 </label>
                 <div className="input-group">
@@ -200,30 +223,52 @@ const SignUp = () => {
                 <button
                   type="submit"
                   className="btn btn-success"
+                  disabled={loading}
                   style={{
-                    background: "linear-gradient(to right, #28a745, #218838)",
+                    background: loading
+                      ? "linear-gradient(to right, #28a745, #218838)"
+                      : "linear-gradient(to right, #28a745, #218838)",
                     border: "none",
                     padding: "12px",
                     fontWeight: "500",
                     transition: "transform 0.2s, background 0.3s",
                   }}
                   onMouseEnter={(e) =>
-                    (e.target.style.background = "linear-gradient(to right, #218838, #1e7e34)")
+                    !loading &&
+                    (e.target.style.background =
+                      "linear-gradient(to right, #218838, #1e7e34)")
                   }
                   onMouseLeave={(e) =>
-                    (e.target.style.background = "linear-gradient(to right, #28a745, #218838)")
+                    !loading &&
+                    (e.target.style.background =
+                      "linear-gradient(to right, #28a745, #218838)")
                   }
-                  onMouseDown={(e) => (e.target.style.transform = "scale(0.98)")}
-                  onMouseUp={(e) => (e.target.style.transform = "scale(1)")}
+                  onMouseDown={(e) =>
+                    !loading && (e.target.style.transform = "scale(0.98)")
+                  }
+                  onMouseUp={(e) =>
+                    !loading && (e.target.style.transform = "scale(1)")
+                  }
                 >
-                  Sign Up
+                  {loading ? (
+                    <>
+                      <ClipLoader color="var(--secondary-color)" size={20} />
+                      <span className="ms-2">Loading...</span>
+                    </>
+                  ) : (
+                    "Sign Up"
+                  )}
                 </button>
               </div>
             </form>
             <div className="text-center mt-3">
               <p>
                 <span
-                  style={{ color: "white", fontSize: "0.85rem", opacity: "0.8" }}
+                  style={{
+                    color: "white",
+                    fontSize: "0.85rem",
+                    opacity: "0.8",
+                  }}
                 >
                   Already have an account?{" "}
                 </span>

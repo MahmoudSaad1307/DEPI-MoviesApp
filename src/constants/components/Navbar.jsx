@@ -98,7 +98,7 @@ const Navbar = () => {
                 </li>
 
                 {user && (
-                  <li className="nav-item dropdown ">
+                  <li className="nav-item dropdown fs-4 ">
                     <a
                       className=" dropdown-toggle d-flex align-items-center "
                       href="#"
@@ -108,12 +108,12 @@ const Navbar = () => {
                       aria-expanded="false"
                     >
                       <i
-                        className="mx-2"
+                        className="mx-3"
                         style={{
                           backgroundImage: `url(${user?.photoURL})`,
                           display: "inline-block",
-                          width: "40px",
-                          height: "40px",
+                          width: "50px",
+                          height: "50px",
                           backgroundSize: "cover",
                           backgroundPosition: "center",
                           borderRadius: "50%",
@@ -121,8 +121,8 @@ const Navbar = () => {
                       ></i>
                       {user?.name}
                     </a>
-                    <ul className="dropdown-menu dropdown-menu-end flex-column align-items-center rounded-3">
-                      <li className="dropdown-item no-hover">
+                    <ul className="dropdown-menu dropdown-menu-end flex-column align-items-center rounded-3 fs-4 ">
+                      <li className="dropdown-item no-hover py-2">
                         <Link to="/user">Profile</Link>
                       </li>
                       
@@ -149,8 +149,8 @@ const Navbar = () => {
                   <Link className="nav-link" to="/signup">
                     <button className="btn text-light ms-3">SignUp</button>
                   </Link>
-                  <Link className="nav-link" to="/login">
-                    <button className="btn ms-3 text-light">Login</button>
+                  <Link className="nav-link " to="/login">
+                    <button className="btn ms-3 text-light  ">Login</button>
                   </Link>
                 </div>
               )}

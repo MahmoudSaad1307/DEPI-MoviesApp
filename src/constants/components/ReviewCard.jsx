@@ -1,5 +1,5 @@
-import { findUserById } from "../../api/api";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { findUserById } from "../../../Backend/api/api";
 import "../../pages/MovieDetails.css";
 
 export default function ReviewCard(props) {
@@ -8,13 +8,13 @@ export default function ReviewCard(props) {
   useEffect(() => {
     // console.log(review);
     // console.log("review from the card:",review);
-    
+
     findUser();
   }, []);
 
   const findUser = async () => {
     try {
-      const response = await findUserById({userId: review?.userId});
+      const response = await findUserById({ userId: review?.userId });
       setUser(response.data);
     } catch (error) {
       console.log(error);
@@ -37,7 +37,11 @@ export default function ReviewCard(props) {
     <div className="review-card mx-0" key={review._id}>
       <div className="review-header">
         <div className="reviewer-info">
-          <img src={user?.photoURL} style={{ width: "50px", height: "50px", borderRadius:'50%' }} alt="" />
+          <img
+            src={user?.photoURL}
+            style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+            alt=""
+          />
           <div className="reviewer-details">
             <h4 className="reviewer-name">{user?.name}</h4>
             <span className="review-date">{formattedDate}</span>

@@ -1,20 +1,29 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from "react";
-import { loginUser } from "../api/api";
-import { getToken, setToken } from "../utilites/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../redux/slices/userSlice";
 import { useNavigate } from "react-router-dom";
-import { setFavorites, setWatched, setWatchlist } from "../redux/slices/userMoviesSlice";
+import { ClipLoader } from "react-spinners";
 import Swal from "sweetalert2";
-import './LoginPage.css'
+import { loginUser } from "../../Backend/api/api";
+import {
+  setFavorites,
+  setWatched,
+  setWatchlist,
+} from "../redux/slices/userMoviesSlice";
+import { login } from "../redux/slices/userSlice";
+import { getToken, setToken } from "../utilites/auth";
+import "./LoginPage.css";
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { isAuthenticated, token, user } = useSelector((state) => state.user);
-  const { favorites, watchlist, watched } = useSelector((state) => state.userMovies);
+  const { favorites, watchlist, watched } = useSelector(
+    (state) => state.userMovies
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,25 +32,30 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await loginUser({ email: email, password: password });
       const userMovies = response.data.userWithoutPassword.movies;
-      dispatch(setFavorites({favorites:userMovies.favorites}));
-      dispatch(setWatchlist({watchlist:userMovies.watchlist}));
-      dispatch(setWatched({watched :userMovies.watched}));
+      dispatch(setFavorites({ favorites: userMovies.favorites }));
+      dispatch(setWatchlist({ watchlist: userMovies.watchlist }));
+      dispatch(setWatched({ watched: userMovies.watched }));
 
       const to = response.data.token;
       setToken(to);
-      dispatch(login({ token: getToken(), user: response.data.userWithoutPassword }));
+      dispatch(
+        login({ token: getToken(), user: response.data.userWithoutPassword })
+      );
       Swal.fire({
         title: "Login Success !",
         icon: "success",
-        html: '<style>.swal2-title { border: none }</style>',
+        html: "<style>.swal2-title { border: none }</style>",
       });
       navigate("/");
     } catch (error) {
       console.log(error);
       alert("Please check your email and password");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,13 +84,19 @@ const LoginPage = () => {
               boxShadow: "0 8px 20px rgba(0, 0, 0, 0.3)", // Subtle shadow
             }}
           >
-            <h2 className="h4 text-white mb-4 text-center" style={{ fontWeight: "600" }}>
+            <h2
+              className="h4 text-white mb-4 text-center"
+              style={{ fontWeight: "600" }}
+            >
               Sign In
             </h2>
             <form onSubmit={handleLogin}>
               {/* Email */}
               <div className="mb-4 position-relative">
-                <label className="form-label text-white" style={{ fontSize: "0.9rem" }}>
+                <label
+                  className="form-label text-white"
+                  style={{ fontSize: "0.9rem" }}
+                >
                   Email Address
                 </label>
                 <div className="input-group">
@@ -104,7 +124,10 @@ const LoginPage = () => {
 
               {/* Password */}
               <div className="mb-4 position-relative">
-                <label className="form-label text-white" style={{ fontSize: "0.9rem" }}>
+                <label
+                  className="form-label text-white"
+                  style={{ fontSize: "0.9rem" }}
+                >
                   Password
                 </label>
                 <div className="input-group">
@@ -134,23 +157,41 @@ const LoginPage = () => {
                 <button
                   type="submit"
                   className="btn btn-success"
+                  disabled={loading}
                   style={{
-                    background: "linear-gradient(to right, #28a745, #218838)",
+                    background: loading
+                      ? "linear-gradient(to right, #28a745, #218838)"
+                      : "linear-gradient(to right, #28a745, #218838)",
                     border: "none",
                     padding: "12px",
                     fontWeight: "500",
                     transition: "transform 0.2s, background 0.3s",
                   }}
                   onMouseEnter={(e) =>
-                    (e.target.style.background = "linear-gradient(to right, #218838, #1e7e34)")
+                    !loading &&
+                    (e.target.style.background =
+                      "linear-gradient(to right, #218838, #1e7e34)")
                   }
                   onMouseLeave={(e) =>
-                    (e.target.style.background = "linear-gradient(to right, #28a745, #218838)")
+                    !loading &&
+                    (e.target.style.background =
+                      "linear-gradient(to right, #28a745, #218838)")
                   }
-                  onMouseDown={(e) => (e.target.style.transform = "scale(0.98)")}
-                  onMouseUp={(e) => (e.target.style.transform = "scale(1)")}
+                  onMouseDown={(e) =>
+                    !loading && (e.target.style.transform = "scale(0.98)")
+                  }
+                  onMouseUp={(e) =>
+                    !loading && (e.target.style.transform = "scale(1)")
+                  }
                 >
-                  Login
+                  {loading ? (
+                    <>
+                      <ClipLoader color="var(--secondary-color)" size={20} />
+                      <span className="ms-2">Loading...</span>
+                    </>
+                  ) : (
+                    "Login"
+                  )}
                 </button>
               </div>
             </form>

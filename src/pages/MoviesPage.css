@@ -10,7 +10,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
-  justify-content: center;
+  justify-content: start;
   padding: 20px 0;
 }
 
@@ -164,5 +164,129 @@ h2 {
   h2 {
     font-size: 1.5rem;
     text-align: center;
+  }
+}
+/* Filter Component Styles */
+
+/* Custom Select Styling */
+.custom-select-container {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-display {
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.custom-select-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0 0 0.25rem 0.25rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.custom-select-option {
+  padding: 0.375rem 0.75rem;
+  cursor: pointer;
+  color: #212529;
+}
+
+.custom-select-option:hover {
+  background-color: #f8f9fa;
+}
+
+.custom-select-option.selected {
+  background-color: #e9ecef;
+}
+
+/* Collapsible filter styling */
+.collapse-icon {
+  transition: transform 0.3s;
+}
+
+.collapsed .collapse-icon {
+  transform: rotate(180deg);
+}
+
+/* Card styling */
+.card.bg-dark {
+  background-color: #343a40;
+}
+
+/* Button styling */
+.btn-outline-light:hover {
+  background-color: #f8f9fa;
+  color: #343a40;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+/* Form control styling */
+.form-control-sm {
+  height: calc(1.5em + 0.5rem + 2px);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+}
+
+/* Spacing */
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.gx-2 {
+  --bs-gutter-x: 0.5rem;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+/* Transitions */
+.collapse {
+  transition: height 0.35s ease;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  .custom-select-options {
+    max-height: 150px;
+  }
+  
+  .row > div {
+    margin-bottom: 0.5rem;
   }
 }

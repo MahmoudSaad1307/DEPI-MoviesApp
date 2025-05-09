@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import MovieCard from "./../constants/components/MovieCard";
 import { fetchMovies, ENDPOINTS } from "../constants/constants";
 
-const TopPicks = () => {
-  const getTvShowsPerSlide = () => {
+const OnAir = () => {
+  const getMoviesPerSlide = () => {
     const width = window.innerWidth;
     if (width <= 576) return 2;
     if (width <= 768) return 3;
@@ -22,31 +22,31 @@ const TopPicks = () => {
     return "col-2";
   };
 
-  const [tvShows, setTvShows] = useState([]);
-  const [tvShowsPerSlide, setTvShowsPerSlide] = useState(getTvShowsPerSlide());
+  const [movies, setMovies] = useState([]);
+  const [moviesPerSlide, setMoviesPerSlide] = useState(getMoviesPerSlide());
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPopularTvShows = async () => {
+    const fetchOnAirShows = async () => {
       setLoading(true);
       try {
-        const data = await fetchMovies(ENDPOINTS.tv.popular, "", 1);
+        const data = await fetchMovies(ENDPOINTS.tv.onTheAir, "", 1);
         if (data && data.results) {
-          setTvShows(data.results.slice(0, 18));
+          setMovies(data.results.slice(0, 18));
         }
       } catch (error) {
-        console.error("Error fetching popular TV shows:", error);
+        console.error("Error fetching on air shows:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPopularTvShows();
+    fetchOnAirShows();
   }, []);
 
   useEffect(() => {
     const handleResize = () => {
-      setTvShowsPerSlide(getTvShowsPerSlide());
+      setMoviesPerSlide(getMoviesPerSlide());
     };
 
     handleResize();
@@ -66,16 +66,16 @@ const TopPicks = () => {
 
   return (
     <div className="multi-card-carousel container">
-      <h2 className="carousel-title">Popular TV Shows</h2>
+      <h2 className="carousel-title">Currently Playing Shows</h2>
       <div
-        id="topPicksCarousel"
+        id="OnAirMoviesCarousel"
         className="carousel slide"
         data-bs-ride="carousel"
         data-bs-touch="true"
       >
         <div className="carousel-inner">
           {Array.from({
-            length: Math.ceil(tvShows.length / tvShowsPerSlide),
+            length: Math.ceil(movies.length / moviesPerSlide),
           }).map((_, slideIndex) => {
             const isActive = slideIndex === 0 ? "active" : "";
             return (
@@ -84,22 +84,22 @@ const TopPicks = () => {
                 key={`slide-${slideIndex}`}
               >
                 <div className="row g-3">
-                  {tvShows
+                  {movies
                     .slice(
-                      slideIndex * tvShowsPerSlide,
-                      slideIndex * tvShowsPerSlide + tvShowsPerSlide
+                      slideIndex * moviesPerSlide,
+                      slideIndex * moviesPerSlide + moviesPerSlide
                     )
-                    .map((tvShow, subIndex) => (
+                    .map((movie, subIndex) => (
                       <div
                         className={getColumnClasses()}
-                        key={`tvShow-${tvShow.id}-${subIndex}`}
+                        key={`movie-${movie.id}-${subIndex}`}
                       >
-                        <Link
-                          to={`/movie-details/tv/${tvShow.id}`}
-                          className="movie-card-link"
-                        >
-                          <MovieCard movie={tvShow} index={subIndex} />
-                        </Link>
+                        <MovieCard
+                          movie={movie}
+                          index={subIndex}
+                          isMovie={"tv"}
+                          hoverWindow={true}
+                        />
                       </div>
                     ))}
                 </div>
@@ -110,7 +110,7 @@ const TopPicks = () => {
         <button
           className="carousel-control-prev"
           type="button"
-          data-bs-target="#topPicksCarousel"
+          data-bs-target="#OnAirMoviesCarousel"
           data-bs-slide="prev"
         >
           <span
@@ -122,7 +122,7 @@ const TopPicks = () => {
         <button
           className="carousel-control-next"
           type="button"
-          data-bs-target="#topPicksCarousel"
+          data-bs-target="#OnAirMoviesCarousel"
           data-bs-slide="next"
         >
           <span
@@ -136,4 +136,4 @@ const TopPicks = () => {
   );
 };
 
-export default TopPicks;
+export default OnAir;

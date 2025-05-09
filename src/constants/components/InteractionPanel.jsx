@@ -1,20 +1,25 @@
-import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./InteractionPanel.css";
-import "../../pages/AddToList.css";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleFavorite, toggleWatched, toggleWatchlist } from "../../api/api";
+import {
+  toggleFavorite,
+  toggleWatched,
+  toggleWatchlist,
+} from "../../../Backend/api/api";
+import "../../pages/AddToList.css";
 import {
   setFavorites,
   setWatched,
   setWatchlist,
 } from "../../redux/slices/userMoviesSlice";
+import "./InteractionPanel.css";
 
 export default function InteractionPanel({
   showModal,
   setShowModal,
   movieId,
   media_type,
+  bestTrailer,
 }) {
   movieId = Number(movieId);
   const { favorites, watchlist, watched } = useSelector(
@@ -30,36 +35,38 @@ export default function InteractionPanel({
     (item) => item.movieId === movieId
   );
   let isInWatched = watched.watched?.some((item) => item.movieId === movieId);
-  
+
   const [activeRating, setActiveRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(null);
-  
+  const trailerUrl = `https://www.youtube.com/watch?v=${bestTrailer?.key}`;
+  console.log(``);
   // Use useEffect to set initial rating value from watched data
   useEffect(() => {
     if (isInWatched) {
-      const watchedItem = watched.watched?.find((item) => item.movieId === movieId);
+      const watchedItem = watched.watched?.find(
+        (item) => item.movieId === movieId
+      );
       if (watchedItem?.ratingProvided) {
         setActiveRating(watchedItem.rating);
       }
     }
   }, [isInWatched, watched.watched, movieId]);
-  
+
   const toggleModal = () => {
     setShowModal(!showModal);
   };
 
   // Get effective rating (hovered or active)
   const effectiveRating = hoveredRating !== null ? hoveredRating : activeRating;
-  
+
   // Handle clicking on action buttons
   const toggleButton = async (buttonName) => {
     let response;
-    
+
     if (buttonName === "watched") {
       try {
         response = await toggleWatched({ userId: user._id, movieId });
-        if(isInWatched)
-          setActiveRating(0)
+        if (isInWatched) setActiveRating(0);
         dispatch(setWatched({ watched: response.data.watched }));
       } catch (error) {
         console.log(error);
@@ -125,21 +132,26 @@ export default function InteractionPanel({
               <i className="fa-solid fa-eye"></i> Watched
             </button>
 
-            <button className="action-btn mx-1 my-1" onClick={toggleModal}>
-              <i className="fas fa-plus"></i> Add to List
+            <button
+              className="action-btn mx-1 my-1 "
+              onClick={() => window.open(trailerUrl, "_blank")}
+            >
+              <i className="fas fa-film"></i> Watch Trailer
             </button>
 
             <button
-              className={`action-btn mx-1 my-1 ${isInWatchlist ? "active" : ""}`}
+              className={`action-btn mx-1 my-1 ${
+                isInWatchlist ? "active" : ""
+              }`}
               onClick={() => toggleButton("watchLater")}
             >
               <i className="fas fa-clock"></i> Watch Later
             </button>
 
             <button
-            style={{
-              background: isInFavorites && '#FA0845' 
-            }}
+              style={{
+                background: isInFavorites && "#FA0845",
+              }}
               className={`action-btn mx-1 my-1 `}
               onClick={() => toggleButton("favorite")}
             >
@@ -183,5 +195,5 @@ export default function InteractionPanel({
         <div>Please log in to interact with this movie.</div>
       )}
     </div>
-  )
+  );
 }

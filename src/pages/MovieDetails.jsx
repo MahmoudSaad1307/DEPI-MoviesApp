@@ -1,61 +1,51 @@
-import React, { useState, useEffect } from "react";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { ToastContainer, toast } from "react-toastify";
-import { useParams, Link } from "react-router-dom";
 import {
-  API_KEY,
-  BASE_URL,
-  BACKDROP_PATH,
-  IMAGE_URL,
-  ENDPOINTS,
-} from "../constants/constants";
-import "./MovieDetails.css";
-import "./styles.css";
-import "./responsive.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faStar,
-  faPlay,
-  faClock,
   faCommentSlash,
-  faUser,
   faExternalLink,
 } from "@fortawesome/free-solid-svg-icons";
-import MovieCard from "../constants/components/MovieCard";
-import InteractionPanel from "../constants/components/InteractionPanel";
-import CastCard from "../constants/components/CastCard";
-import ReviewCard from "../constants/components/ReviewCard";
-import { addReview, getMovieReviews } from "../api/api";
-import CustomToast from "../constants/components/Toast";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
+import { useParams } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
+import { ToastContainer, toast } from "react-toastify";
+import { addReview, getMovieReviews } from "../../Backend/api/api";
+import CastCard from "../constants/components/CastCard";
+import InteractionPanel from "../constants/components/InteractionPanel";
+import MovieCard from "../constants/components/MovieCard";
+import ReviewCard from "../constants/components/ReviewCard";
+import {
+  API_KEY,
+  BACKDROP_PATH,
+  BASE_URL,
+  ENDPOINTS,
+  IMAGE_URL,
+} from "../constants/constants";
+import "./MovieDetails.css";
+import "./responsive.css";
+import "./styles.css";
 
 const MovieDetails = () => {
-  
   const { user } = useSelector((state) => state.user);
   const { favorites, watchlist, watched } = useSelector(
     (state) => state.userMovies
   );
   const dispatch = useDispatch();
-  const notify = () => toast("Wow so easy!");
 
   const [showListModal, setShowListModal] = useState(false);
   const toggleModal = () => {
     if (showListModal) {
-      // If closing, add a delay to allow for animation
       const modalElement = document.querySelector(".modal-dialog");
       if (modalElement) {
         modalElement.classList.remove("animate__fadeInDown");
         modalElement.classList.add("animate__fadeOutUp");
-
         setTimeout(() => {
           setShowListModal(false);
-        }, 300); // Match this delay with your CSS transition duration
+        }, 300);
       } else {
         setShowListModal(false);
       }
     } else {
-      // If opening, just show it
       setShowListModal(true);
     }
   };
@@ -68,7 +58,6 @@ const MovieDetails = () => {
   ];
 
   const addToList = (listId) => {
-    // This would handle the actual adding to the list functionality
     console.log(`Added to list with ID: ${listId}`);
     toggleModal();
   };
@@ -77,66 +66,48 @@ const MovieDetails = () => {
   const isMovie = media_type === "movie";
   const [movieData, setMovieData] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [watchProviders, setWatchProviders] = useState(null);
   const [activeTab, setActiveTab] = useState("cast");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [reviewContent, setReviewContent] = useState("");
 
-  // Simplified function to handle review submission
   const handleSubmitReview = async () => {
-    // Validate form
     if (!reviewContent.trim()) {
       alert("Please enter your review");
       return;
     }
-
-    // Here you would typically send the review to your backend API
     try {
       await addReview({
         userId: user._id,
         type: media_type,
         movieId: id,
-        content: {
-          text: reviewContent,
-        },
+        content: { text: reviewContent },
       });
-      // Swal.fire({
-      //         title: "Login Success !",
-
-      //         icon: "success",
-      //         draggable: true,
-      //         html: '<style>.swal2-title  { border: none  }</style>'
-      //       });
       toast.success("Review added successfully", {
-        position: "bottom-right", // Bottom-right corner
-        autoClose: 3000, // 3 seconds
+        position: "bottom-right",
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         style: {
-          background: "linear-gradient(to right, #4caf50, #45a049)", // Green gradient
-          color: "#ffffff", // White text
-          borderRadius: "8px", // Rounded corners
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Subtle shadow
-          width: "300px", // Smaller width
-          padding: "12px 20px", // Adjusted padding
-          fontSize: "14px", // Readable font size
+          background: "linear-gradient(to right, #4caf50, #45a049)",
+          color: "#ffffff",
+          borderRadius: "8px",
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          width: "300px",
+          padding: "12px 20px",
+          fontSize: "14px",
         },
       });
-setTimeout(() => {
-  window.location.reload();
-}, 500);
-
-      // alert("Thanks for the review");
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     } catch (error) {
       console.error("Error adding review:", error);
     }
-
-    // Clear form
     setReviewContent("");
-
-    // Close modal
     const modal = document.getElementById("addReviewModal");
     if (modal) {
       const bootstrapModal = window.bootstrap.Modal.getInstance(modal);
@@ -163,29 +134,40 @@ setTimeout(() => {
     }
   };
 
-  // Function to fetch movie details
   const fetchMovieDetails = async () => {
     try {
       setLoading(true);
       const endpoint = isMovie
         ? ENDPOINTS.movies.details(id)
         : ENDPOINTS.tv.details(id);
+      const watchProviderEndpoint = isMovie
+        ? ENDPOINTS.movies.watchProviders(id)
+        : ENDPOINTS.tv.watchProviders(id);
 
-      const response = await fetch(
-        `${BASE_URL}${endpoint}?api_key=${API_KEY}&append_to_response=credits,recommendations,videos,reviews`
-      );
+      const [detailsResponse, providersResponse] = await Promise.all([
+        fetch(
+          `${BASE_URL}${endpoint}?api_key=${API_KEY}&append_to_response=credits,recommendations,videos,reviews`
+        ),
+        fetch(`${BASE_URL}${watchProviderEndpoint}?api_key=${API_KEY}`),
+      ]);
 
-      if (!response.ok) {
+      if (!detailsResponse.ok) {
         throw new Error("Failed to fetch movie details");
       }
+      if (!providersResponse.ok) {
+        console.warn("Failed to fetch watch providers");
+      }
 
-      const data = await response.json();
-      console.log("Movie data fetched:", data);
-      console.log(BACKDROP_PATH);
+      const detailsData = await detailsResponse.json();
+      const providersData = providersResponse.ok
+        ? await providersResponse.json()
+        : { results: {} };
 
-      console.log(data.backdrop_path);
+      console.log("Movie data fetched:", detailsData);
+      console.log("Watch providers fetched:", providersData);
 
-      setMovieData(data);
+      setMovieData(detailsData);
+      setWatchProviders(providersData.results);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching movie details:", error);
@@ -194,20 +176,14 @@ setTimeout(() => {
     }
   };
 
-  // Function to find the best trailer
   const findBestTrailer = (videos) => {
     if (!videos || videos.length === 0) return null;
-
-    // Filter for YouTube trailers
     const trailers = videos.filter(
       (video) => video.site === "YouTube" && video.type === "Trailer"
     );
-
-    // Return the first trailer
     return trailers.length > 0 ? trailers[0] : null;
   };
 
-  // Handle watch later button click
   const handleWatchLater = () => {
     if (localStorage.getItem("user") !== null) {
       alert("Added to watch later list successfully");
@@ -216,7 +192,6 @@ setTimeout(() => {
     }
   };
 
-  // Format runtime to hours and minutes
   const formatRuntime = (minutes) => {
     if (!minutes) return "";
     const hours = Math.floor(minutes / 60);
@@ -224,10 +199,14 @@ setTimeout(() => {
     return `${hours} h ${mins} m`;
   };
 
-  // Return loading or error state
   if (loading) {
     return (
-      <div className="container text-center my-5">Loading movie details...</div>
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "50vh" }}
+      >
+        <ClipLoader color="var(--secondary-color)" size={60} />
+      </div>
     );
   }
 
@@ -245,19 +224,16 @@ setTimeout(() => {
     );
   }
 
-  // Get best trailer
   const bestTrailer = movieData.videos
     ? findBestTrailer(movieData.videos.results)
     : null;
 
-  // Find director
   const director =
     isMovie && movieData.credits
       ? movieData.credits.crew.find((person) => person.job === "Director")
           ?.name || "Unknown"
       : "Unknown";
 
-  // Get main cast for summary
   const mainCast = movieData.credits
     ? movieData.credits.cast
         .slice(0, 3)
@@ -267,7 +243,7 @@ setTimeout(() => {
 
   return (
     <>
-    <ToastContainer
+      <ToastContainer
         position="bottom-right"
         autoClose={3000}
         hideProgressBar={false}
@@ -278,7 +254,6 @@ setTimeout(() => {
         draggable
         pauseOnHover
       />
-      {/* Movie Info Section */}
       <div className="movie-container container">
         {movieData.backdrop_path && (
           <div
@@ -291,14 +266,12 @@ setTimeout(() => {
             }}
           ></div>
         )}
-
         <div className="container px-4">
           <div className="row movie-header">
             <div className="col-lg-7">
               <h1 className="movie-title">
                 {isMovie ? movieData.title : movieData.name}
               </h1>
-
               <div className="movie-rating">
                 <span style={{ color: "gold" }} className="rating-star">
                   <i className="fas fa-star"></i>
@@ -307,7 +280,6 @@ setTimeout(() => {
                   {movieData.vote_average.toFixed(1)}
                 </span>
               </div>
-
               <div className="movie-info">
                 <span>
                   {new Date(
@@ -318,7 +290,6 @@ setTimeout(() => {
                   <span>{formatRuntime(movieData.runtime)}</span>
                 )}
               </div>
-
               <div className="movie-tags">
                 {movieData.genres &&
                   movieData.genres.map((genre) => (
@@ -327,48 +298,20 @@ setTimeout(() => {
                     </span>
                   ))}
               </div>
-
               <div className="movie-meta">
                 <span className="meta-label">Director:</span>
                 <span className="director-name">{director}</span>
               </div>
-
               <div className="movie-meta">
                 <span className="meta-label">Cast:</span>
                 <span>{mainCast}</span>
               </div>
-
               <div className="movie-description">
                 <span className="meta-label">Description:</span>
                 <span id="description-text">{movieData.overview}</span>
               </div>
-
-              {/* <div className="action-buttons">
-                 <button
-                  className="btn-play"
-                  onClick={() =>
-                    bestTrailer &&
-                    window.open(
-                      `https://www.youtube.com/watch?v=${bestTrailer.key}`,
-                      "_blank"
-                    )
-                  }
-                >
-                  <span className="btn-icon">
-                    <FontAwesomeIcon icon={faPlay} />
-                  </span>
-                  Play
-                </button> 
-
-                
-                <button className="btn-secondary btn-add-to-list" onClick={toggleModal}>
-                  <span className="btn-icon">
-                    <i className="fas fa-list"></i>
-                  </span>
-                  Add to List
-                </button>
-              </div> */}
               <InteractionPanel
+                bestTrailer={bestTrailer}
                 showModal={showListModal}
                 setShowModal={setShowListModal}
                 media_type={media_type}
@@ -378,8 +321,6 @@ setTimeout(() => {
           </div>
         </div>
       </div>
-
-      {/* Tabs Section */}
       <div className="tabs-section container">
         <div className="container px-4">
           <div className="tabs">
@@ -401,6 +342,12 @@ setTimeout(() => {
             >
               Reviews
             </div>
+            <div
+              className={`tab ${activeTab === "watch" ? "active" : ""}`}
+              onClick={() => setActiveTab("watch")}
+            >
+              Where to Watch
+            </div>
             {user && (
               <div
                 className="add-review tab"
@@ -411,8 +358,6 @@ setTimeout(() => {
               </div>
             )}
           </div>
-
-          {/* Cast Tab */}
           <div
             id="cast"
             className={`tab-content ${activeTab === "cast" ? "active" : ""}`}
@@ -424,8 +369,6 @@ setTimeout(() => {
                   .map((actor) => actor.profile_path && CastCard(actor))}
             </div>
           </div>
-
-          {/* Recommended Tab */}
           <div
             id="recommended"
             className={`tab-content ${
@@ -452,8 +395,6 @@ setTimeout(() => {
                   ))}
             </div>
           </div>
-
-          {/* Reviews Tab */}
           <div
             id="reviews"
             className={`tab-content ${activeTab === "reviews" ? "active" : ""}`}
@@ -473,16 +414,70 @@ setTimeout(() => {
               </div>
             ) : (
               <div className="reviews-container">
-                {reviews.slice(0, 10).map((review, index) => {
-                  return <ReviewCard review={review} key={review._id} />;
-                })}
+                {reviews.slice(0, 10).map((review) => (
+                  <ReviewCard review={review} key={review._id} />
+                ))}
+              </div>
+            )}
+          </div>
+          <div
+            id="watch"
+            className={`tab-content ${activeTab === "watch" ? "active" : ""}`}
+          >
+            {watchProviders && watchProviders.EG ? (
+              <div className="watch-providers-container">
+                <div className="watch-provider-region">
+                  <h3>Egypt</h3>
+                  <div className="provider-grid">
+                    {watchProviders.EG.flatrate &&
+                      watchProviders.EG.flatrate.map((provider) => (
+                        <div
+                          key={provider.provider_id}
+                          className="provider-card"
+                        >
+                          <img
+                            src={`${IMAGE_URL}${provider.logo_path}`}
+                            alt={provider.provider_name}
+                            className="provider-logo"
+                          />
+                          <span>{provider.provider_name} (Stream)</span>
+                        </div>
+                      ))}
+                    {watchProviders.EG.buy &&
+                      watchProviders.EG.buy.map((provider) => (
+                        <div
+                          key={provider.provider_id}
+                          className="provider-card"
+                        >
+                          <img
+                            src={`${IMAGE_URL}${provider.logo_path}`}
+                            alt={provider.provider_name}
+                            className="provider-logo"
+                          />
+                          <span>{provider.provider_name} (Buy/Rent)</span>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="no-providers">
+                <div className="text-center py-5">
+                  <FontAwesomeIcon
+                    icon={faExternalLink}
+                    className="fa-3x mb-3 text-muted"
+                  />
+                  <h3>No Streaming Options Available in Egypt</h3>
+                  <p>
+                    Streaming options for this {isMovie ? "movie" : "show"} are
+                    not available in Egypt.
+                  </p>
+                </div>
               </div>
             )}
           </div>
         </div>
       </div>
-
-      {/* Add Review Modal */}
       <div
         className="modal fade"
         id="addReviewModal"
@@ -539,58 +534,6 @@ setTimeout(() => {
           </div>
         </div>
       </div>
-
-      {/* Add to List Modal */}
-      {showListModal && (
-        <div
-          className="modal fade show"
-          style={{
-            display: "block",
-            backgroundColor: "rgba(0,0,0,0.5)",
-          }}
-        >
-          <div className="modal-dialog modal-dialog-centered animate__animated animate__fadeInDown">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Add to List</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={toggleModal}
-                ></button>
-              </div>
-
-              <div className="modal-body">
-                <ul className="list-group list-group-flush">
-                  {userLists.map((list) => (
-                    <li key={list.id} className="list-group-item">
-                      <button
-                        onClick={() => addToList(list.id)}
-                        className="btn btn-link text-decoration-none d-flex justify-content-between align-items-center w-100"
-                      >
-                        <span>{list.name}</span>
-                        <i className="fas fa-plus"></i>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="modal-footer">
-                <button
-                  className="btn btn-primary w-100"
-                  onClick={() => {
-                    console.log("Create new list");
-                    toggleModal();
-                  }}
-                >
-                  Create New List
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 };

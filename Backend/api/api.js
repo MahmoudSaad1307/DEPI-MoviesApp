@@ -1,35 +1,37 @@
 import axios from "axios";
-import { API_URL } from "../constants/constants";
+import { API_URL } from "../../src/constants/constants";
 
 export const api = axios.create({
   baseURL: API_URL,
 });
 
-export const registerUser = ({name, email, password}) => {
+export const registerUser = ({ name, email, password }) => {
   return api.post("/users/register", { name, email, password });
 };
 
-export const loginUser = ({email, password}) => {
+export const loginUser = ({ email, password }) => {
   return api.post("/users/login", { email, password });
 };
 export const updateUser = ({ userId, ...updates }) => {
   return api.put(`/users/${userId}`, updates);
 };
 
-export const getProfile = ({token}) => {
+export const getProfile = ({ token }) => {
   return api.get("/users/profile", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 };
-export const findUserById = ({userId}) => {
+export const findUserById = ({ userId }) => {
+  console.log(userId);
+
   return api.get(`/users/findUser/${userId}`);
-}
+};
 // ==================== Favorites (من users.js) ====================
-  export const toggleFavorite = ({ userId, movieId }) => {
-    return api.patch(`/users/${userId}/favorites`, { movieId });
-  };
+export const toggleFavorite = ({ userId, movieId }) => {
+  return api.patch(`/users/${userId}/favorites`, { movieId });
+};
 
 // ==================== Watchlist (من users.js) ====================
 export const toggleWatchlist = ({ userId, movieId }) => {
@@ -50,9 +52,9 @@ export const addReview = ({ type, userId, movieId, content }) => {
   return api.post(`/reviews/${type}`, { userId, movieId, content });
 };
 
-export const getMyReviews = ({userId}) => {
+export const getMyReviews = ({ userId }) => {
   return api.get(`reviews/user/${userId}`);
-}
+};
 export const getMovieReviews = ({ type, movieId }) => {
   return api.get(`/reviews/${type}/${movieId}`);
 };

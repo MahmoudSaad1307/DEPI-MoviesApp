@@ -5,18 +5,39 @@ import { fetchMovies, ENDPOINTS } from "../constants/constants";
 
 const Popular = () => {
   const getMoviesPerSlide = () => {
-    const isMobile = window.innerWidth <= 768; // Check if the screen width is mobile size
-    return isMobile ? 2 : 6; // 2 movies per slide for mobile, 6 for larger screens
+    const width = window.innerWidth;
+    if (width <= 576) return 2;
+    if (width <= 768) return 3;
+    if (width <= 992) return 4;
+    if (width <= 1200) return 5;
+    return 6;
+  };
+
+  const getColumnClasses = () => {
+    const width = window.innerWidth;
+    if (width <= 576) return "col-6";
+    if (width <= 768) return "col-4";
+    if (width <= 992) return "col-3";
+    if (width <= 1200) return "col-2";
+    return "col-2";
   };
 
   const [movies, setMovies] = useState([]);
   const [moviesPerSlide, setMoviesPerSlide] = useState(getMoviesPerSlide());
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPopularMovies = async () => {
-      const data = await fetchMovies(ENDPOINTS.movies.popular, "", 1);
-      if (data && data.results) {
-        setMovies(data.results.slice(0, 18)); // Fetch 18 movies to create multiple slides
+      setLoading(true);
+      try {
+        const data = await fetchMovies(ENDPOINTS.movies.topRated, "", 1);
+        if (data && data.results) {
+          setMovies(data.results.slice(0, 18));
+        }
+      } catch (error) {
+        console.error("Error fetching popular movies:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -28,19 +49,30 @@ const Popular = () => {
       setMoviesPerSlide(getMoviesPerSlide());
     };
 
+    handleResize();
     window.addEventListener("resize", handleResize);
-
-    // Cleanup the event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  if (loading) {
+    return (
+      <div className="container d-flex justify-content-center py-5">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="multi-card-carousel">
-      <h2 className="carousel-title">Popular Movies</h2>
-      <br />
-      <div id="popularMoviesCarousel" className="carousel slide">
+    <div className="multi-card-carousel container">
+      <h2 className="carousel-title">Top Rated Movies</h2>
+      <div
+        id="popularMoviesCarousel"
+        className="carousel slide"
+        data-bs-ride="carousel"
+        data-bs-touch="true"
+      >
         <div className="carousel-inner">
           {Array.from({
             length: Math.ceil(movies.length / moviesPerSlide),
@@ -51,7 +83,7 @@ const Popular = () => {
                 className={`carousel-item ${isActive}`}
                 key={`slide-${slideIndex}`}
               >
-                <div className="row">
+                <div className="row g-3">
                   {movies
                     .slice(
                       slideIndex * moviesPerSlide,
@@ -59,7 +91,7 @@ const Popular = () => {
                     )
                     .map((movie, subIndex) => (
                       <div
-                        className="col-6 col-md-4 col-lg-2"
+                        className={getColumnClasses()}
                         key={`movie-${movie.id}-${subIndex}`}
                       >
                         <MovieCard

@@ -13,6 +13,9 @@ import {
   getGenreNames,
 } from "../constants/constants";
 import { ClipLoader } from "react-spinners";
+import OnAir from "../components/onAir";
+import NowPlaying from "../components/NowPlaying";
+import UpComing from "../components/UpComing";
 
 const HomePage = () => {
   const [trendingItems, setTrendingItems] = useState([]);
@@ -138,9 +141,11 @@ const HomePage = () => {
       </>
     )}
 
-      <Popular />
+      <UpComing/>
       <TopPicks />
-      <ContinueWatching />
+      <NowPlaying/>
+      <Popular />
+      <OnAir/>
     </>
   );
 };

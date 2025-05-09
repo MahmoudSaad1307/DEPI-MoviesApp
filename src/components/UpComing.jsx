@@ -3,56 +3,65 @@ import { Link } from "react-router-dom";
 import MovieCard from "./../constants/components/MovieCard";
 import { fetchMovies, ENDPOINTS } from "../constants/constants";
 
-const TopPicks = () => {
-  const getTvShowsPerSlide = () => {
+const UpComing = () => {
+  // More granular breakpoints for better responsiveness
+  const getMoviesPerSlide = () => {
     const width = window.innerWidth;
-    if (width <= 576) return 2;
-    if (width <= 768) return 3;
-    if (width <= 992) return 4;
-    if (width <= 1200) return 5;
-    return 6;
+    if (width <= 576) return 2;      // Extra small devices
+    if (width <= 768) return 3;      // Small devices
+    if (width <= 992) return 4;      // Medium devices
+    if (width <= 1200) return 5;     // Large devices
+    return 6;                         // Extra large devices
   };
 
-  const getColumnClasses = () => {
-    const width = window.innerWidth;
-    if (width <= 576) return "col-6";
-    if (width <= 768) return "col-4";
-    if (width <= 992) return "col-3";
-    if (width <= 1200) return "col-2";
-    return "col-2";
-  };
-
-  const [tvShows, setTvShows] = useState([]);
-  const [tvShowsPerSlide, setTvShowsPerSlide] = useState(getTvShowsPerSlide());
+  const [movies, setMovies] = useState([]);
+  const [moviesPerSlide, setMoviesPerSlide] = useState(getMoviesPerSlide());
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPopularTvShows = async () => {
+    const fetchUpComingMovies = async () => {
       setLoading(true);
       try {
-        const data = await fetchMovies(ENDPOINTS.tv.popular, "", 1);
+        const data = await fetchMovies(ENDPOINTS.movies.upcoming, "", 1);
         if (data && data.results) {
-          setTvShows(data.results.slice(0, 18));
+          setMovies(data.results.slice(0, 18)); // Fetch 18 movies to create multiple slides
         }
       } catch (error) {
-        console.error("Error fetching popular TV shows:", error);
+        console.error("Error fetching upcoming movies:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPopularTvShows();
+    fetchUpComingMovies();
   }, []);
 
   useEffect(() => {
     const handleResize = () => {
-      setTvShowsPerSlide(getTvShowsPerSlide());
+      setMoviesPerSlide(getMoviesPerSlide());
     };
 
+    // Initial setup
     handleResize();
+    
+    // Add event listener
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
+
+  // Dynamic column classes based on movies per slide
+  const getColumnClasses = () => {
+    const width = window.innerWidth;
+    if (width <= 576) return "col-6"; // 2 per row on extra small
+    if (width <= 768) return "col-4"; // 3 per row on small
+    if (width <= 992) return "col-3"; // 4 per row on medium
+    if (width <= 1200) return "col-2"; // 5-6 per row on large and up
+    return "col-2";
+  };
 
   if (loading) {
     return (
@@ -66,16 +75,11 @@ const TopPicks = () => {
 
   return (
     <div className="multi-card-carousel container">
-      <h2 className="carousel-title">Popular TV Shows</h2>
-      <div
-        id="topPicksCarousel"
-        className="carousel slide"
-        data-bs-ride="carousel"
-        data-bs-touch="true"
-      >
+      <h2 className="carousel-title">Upcoming</h2>
+      <div id="UpComingMoviesCarousel" className="carousel slide" data-bs-ride="carousel" data-bs-touch="true">
         <div className="carousel-inner">
           {Array.from({
-            length: Math.ceil(tvShows.length / tvShowsPerSlide),
+            length: Math.ceil(movies.length / moviesPerSlide),
           }).map((_, slideIndex) => {
             const isActive = slideIndex === 0 ? "active" : "";
             return (
@@ -84,22 +88,21 @@ const TopPicks = () => {
                 key={`slide-${slideIndex}`}
               >
                 <div className="row g-3">
-                  {tvShows
+                  {movies
                     .slice(
-                      slideIndex * tvShowsPerSlide,
-                      slideIndex * tvShowsPerSlide + tvShowsPerSlide
+                      slideIndex * moviesPerSlide,
+                      slideIndex * moviesPerSlide + moviesPerSlide
                     )
-                    .map((tvShow, subIndex) => (
+                    .map((movie, subIndex) => (
                       <div
                         className={getColumnClasses()}
-                        key={`tvShow-${tvShow.id}-${subIndex}`}
+                        key={`movie-${movie.id}-${subIndex}`}
                       >
-                        <Link
-                          to={`/movie-details/tv/${tvShow.id}`}
-                          className="movie-card-link"
-                        >
-                          <MovieCard movie={tvShow} index={subIndex} />
-                        </Link>
+                        <MovieCard
+                          movie={movie}
+                          index={subIndex}
+                          isMovie={"movie"}
+                        />
                       </div>
                     ))}
                 </div>
@@ -110,7 +113,7 @@ const TopPicks = () => {
         <button
           className="carousel-control-prev"
           type="button"
-          data-bs-target="#topPicksCarousel"
+          data-bs-target="#UpComingMoviesCarousel"
           data-bs-slide="prev"
         >
           <span
@@ -122,7 +125,7 @@ const TopPicks = () => {
         <button
           className="carousel-control-next"
           type="button"
-          data-bs-target="#topPicksCarousel"
+          data-bs-target="#UpComingMoviesCarousel"
           data-bs-slide="next"
         >
           <span
@@ -136,4 +139,4 @@ const TopPicks = () => {
   );
 };
 
-export default TopPicks;
+export default UpComing;

@@ -549,6 +549,12 @@ filter: brightness(80%);
   animation: kenBurnsEffect 20s ease-in-out infinite alternate;
 }
 
+.carousel-title{
+  padding-bottom:20px;
+  padding-top:20px;
+  /* border:none */
+}
+
 @keyframes kenBurnsEffect {
   0% {
     transform: scale(1) translateX(0);
@@ -631,4 +637,406 @@ filter: brightness(80%);
     width: 22px;
     height: 22px;
   }
+}
+/* Responsive Multi-Card Carousel Styles */
+.multi-card-carousel {
+  padding: 30px 0;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.multi-card-carousel h2 {
+  text-align: start;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.card-carousel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: visible;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.card-carousel {
+  display: flex;
+  gap: 15px;
+  transition: transform 0.5s ease;
+  width: 100%;
+}
+
+/* Enhanced Movie Card Styles */
+.movie-card {
+  cursor: pointer;
+  background-color: #000000;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.movie-card img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  transition: all 0.5s ease;
+}
+
+.movie-card-content {
+  padding: 10px;
+  color: white;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.movie-card-title {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+
+.movie-card-info {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+/* Better Carousel Controls */
+.carousel-control-prev,
+.carousel-control-next {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  top: 45%;
+  opacity: 0.7;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Responsive breakpoints - match these with your JS component logic */
+@media screen and (max-width: 1200px) {
+  .multi-card-carousel {
+    padding: 25px 0;
+  }
+  
+  .multi-card-carousel h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .multi-card-carousel {
+    padding: 20px 0;
+  }
+  
+  .multi-card-carousel h2 {
+    font-size: 1.6rem;
+  }
+  
+  .movie-card-title {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .multi-card-carousel {
+    padding: 15px 0;
+    width: 95%;
+    height: auto;
+  }
+  
+  .multi-card-carousel h2 {
+    font-size: 1.4rem;
+  }
+  
+  .movie-card-content {
+    padding: 8px;
+  }
+  
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .multi-card-carousel {
+    padding: 12px 0;
+    width: 100%;
+  }
+  
+  .multi-card-carousel h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .movie-card-title {
+    font-size: 0.8rem;
+  }
+  
+  .movie-card-info {
+    font-size: 0.7rem;
+  }
+  
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 30px;
+    height: 30px;
+    top: 40%;
+  }
+  
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* Touch swipe support styling - smoother animations */
+.carousel-inner {
+  touch-action: pan-y;
+}
+
+/* Fix for spacing between rows in movie cards */
+.row.g-3 {
+  --bs-gutter-y: 1rem;
+}
+/* Responsive Multi-Card Carousel Styles */
+.multi-card-carousel {
+  padding: 30px 0;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.multi-card-carousel h2 {
+  text-align: start;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.card-carousel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: visible;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.card-carousel {
+  display: flex;
+  gap: 15px;
+  transition: transform 0.5s ease;
+  width: 100%;
+}
+
+/* Enhanced Movie Card Styles */
+.movie-card {
+  cursor: pointer;
+  background-color: #000000;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.movie-card img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  transition: all 0.5s ease;
+}
+
+.movie-card-content {
+  padding: 10px;
+  color: white;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.movie-card-title {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+
+.movie-card-info {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+/* Better Carousel Controls */
+.carousel-control-prev,
+.carousel-control-next {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  top: 45%;
+  opacity: 0.7;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Responsive breakpoints - match these with your JS component logic */
+@media screen and (max-width: 1200px) {
+  .multi-card-carousel {
+    padding: 25px 0;
+  }
+  
+  .multi-card-carousel h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .multi-card-carousel {
+    padding: 20px 0;
+  }
+  
+  .multi-card-carousel h2 {
+    font-size: 1.6rem;
+  }
+  
+  .movie-card-title {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .multi-card-carousel {
+    padding: 15px 0;
+    width: 95%;
+    height: auto;
+  }
+  
+  .multi-card-carousel h2 {
+    font-size: 1.4rem;
+  }
+  
+  .movie-card-content {
+    padding: 8px;
+  }
+  
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .multi-card-carousel {
+    padding: 12px 0;
+    width: 100%;
+  }
+  
+  .multi-card-carousel h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .movie-card-title {
+    font-size: 0.8rem;
+  }
+  
+  .movie-card-info {
+    font-size: 0.7rem;
+  }
+  
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 30px;
+    height: 30px;
+    top: 40%;
+  }
+  
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* Touch swipe support styling - smoother animations */
+.carousel-inner {
+  touch-action: pan-y;
+}
+
+/* Fix for spacing between rows in movie cards */
+.row.g-3 {
+  --bs-gutter-y: 1rem;
 }

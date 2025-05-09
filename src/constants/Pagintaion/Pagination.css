@@ -13,8 +13,8 @@
 
 /* Custom styles for active page */
 .pagination .page-item.active .page-link {
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: var(--secondary-color);
+  /* border-color: #007bff; */
 }
 
 /* Custom hover effect */
