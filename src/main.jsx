@@ -17,7 +17,7 @@ import App from "./App";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/DEPI-MoviesApp">
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <App />

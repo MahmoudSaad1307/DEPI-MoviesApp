@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Card, Container, Row, Col, ProgressBar, Image } from 'react-bootstrap';
 import styles from './Recommendation.module.css';
 import { API_KEY, BASE_URL, IMAGE_URL, MOVIE_GENRES } from '../constants/constants';
+import { Link } from 'react-router-dom';
 
 const questions = [
   {
@@ -284,26 +285,28 @@ const MovieQuiz = () => {
             {loading && <p>Loading recommendations...</p>}
             {error && <p className={styles.error}>{error}</p>}
             {!loading && !error && recommendedMovies.length > 0 && (
-              <Row className={styles.movieGrid}>
+              <Row className={`${styles.movieGrid} g-5`} >
                 {recommendedMovies.map(movie => (
                   <Col xs={12} sm={6} md={4} key={movie.id} className={styles.movieCard}>
-                    <Card>
-                      <Image
-                        src={movie.poster_path ? `${IMAGE_URL}${movie.poster_path}` : 'https://via.placeholder.com/150'}
-                        alt={movie.title}
-                        className={styles.moviePoster}
-                        fluid
-                      />
-                      <Card.Body>
-                        <Card.Title>{movie.title}</Card.Title>
-                        <Card.Text className={styles.movieOverview}>
-                          {movie.overview.length > 100
-                            ? `${movie.overview.substring(0, 100)}...`
-                            : movie.overview}
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
-                  </Col>
+  <Link to={`/movie-details/movie/${movie.id}`} className={styles.movieLink}>
+    <Card>
+      <Image
+        src={movie.poster_path ? `${IMAGE_URL}${movie.poster_path}` : 'https://via.placeholder.com/150'}
+        alt={movie.title}
+        className={styles.moviePoster}
+        fluid
+      />
+      <Card.Body>
+        <Card.Title>{movie.title}</Card.Title>
+        <Card.Text className={styles.movieOverview}>
+          {movie.overview.length > 100
+            ? `${movie.overview.substring(0, 100)}...`
+            : movie.overview}
+        </Card.Text>
+      </Card.Body>
+    </Card>
+  </Link>
+</Col>
                 ))}
               </Row>
             )}

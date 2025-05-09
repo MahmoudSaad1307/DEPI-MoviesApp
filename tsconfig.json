@@ -1,11 +1,16 @@
 {
   "compilerOptions": {
+        "types": ["vite/client"],
+
     "target": "es2017",
     "module": "commonjs",
     "allowJs": true,
     "jsx": "react-jsx",
     "checkJs": false,
-    "noEmit": true
+    "noEmit": true,
+    "esModuleInterop": true,              // Fixes default import errors (e.g., React, PropTypes)
+    "skipLibCheck": true,                  // Temporarily ignores library type errorsnpm install --save-dev @types/styled-components @types/stylis
+    "moduleResolution": "node"             // Ensures proper Node.js-style module resolution
   },
   "include": ["src"]
 }

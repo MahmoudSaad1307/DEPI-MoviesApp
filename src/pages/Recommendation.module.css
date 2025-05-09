@@ -1,13 +1,13 @@
-/* MovieQuiz.module.css */
+/* Define main and secondary colors as CSS variables for reusability */
+
 
 /* Main container and card styling */
 .movieQuizContainer {
   /* padding: 200px 20px; */
-  
 }
 
 .quizCard {
-  padding:100px;
+  padding: 100px;
   border: none;
   border-radius: 15px;
   overflow: hidden;
@@ -17,7 +17,7 @@
 
 /* Header styling */
 .quizHeader {
-  background: linear-gradient(to right, #6a11cb, #2575fc);
+  background: linear-gradient(to right, var(--main-color), var(--secondary-color));
   color: white;
   padding: 25px;
   text-align: center;
@@ -46,7 +46,7 @@
 }
 
 .customProgress > div {
-  background-color: #ffffff !important;
+  background-color: var(--secondary-color) !important;
   transition: width 0.5s ease !important;
 }
 
@@ -83,14 +83,14 @@
 }
 
 .optionCard:hover, .optionCard.hovered {
-  border-color: #6a11cb;
+  border-color: var(--main-color);
   background-color: #f0f4ff;
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(106, 17, 203, 0.1);
 }
 
 .optionCard.selected {
-  border-color: #6a11cb;
+  border-color: var(--main-color);
   background-color: #f0f4ff;
   box-shadow: 0 5px 15px rgba(106, 17, 203, 0.2);
 }
@@ -114,8 +114,8 @@
 }
 
 .checkCircle.checked {
-  background-color: #6a11cb;
-  border-color: #6a11cb;
+  background-color: var(--main-color);
+  border-color: var(--main-color);
 }
 
 .checkMark {
@@ -135,7 +135,7 @@
   flex: 1;
   padding: 12px 25px !important;
   font-weight: 600 !important;
-  background: linear-gradient(to right, #6a11cb, #2575fc) !important;
+  background: linear-gradient(to right, var(--main-color), var(--secondary-color)) !important;
   border: none !important;
   border-radius: 50px !important;
   transition: all 0.3s ease !important;
@@ -153,8 +153,8 @@
 .backButton {
   padding: 12px 25px !important;
   font-weight: 600 !important;
-  color: #6a11cb !important;
-  border: 1px solid #6a11cb !important;
+  color: var(--main-color) !important;
+  border: 1px solid var(--main-color) !important;
   border-radius: 50px !important;
   transition: all 0.3s ease !important;
   background-color: transparent !important;
@@ -170,7 +170,7 @@
 }
 
 .resultHeader {
-  background: linear-gradient(to right, #6a11cb, #2575fc);
+  background: linear-gradient(to right, var(--main-color), var(--secondary-color));
   color: white;
   padding: 20px;
   border-radius: 10px;
@@ -221,7 +221,7 @@
 
 .answerTag {
   background-color: #f0f4ff;
-  color: #6a11cb;
+  color: var(--main-color);
   padding: 5px 12px;
   border-radius: 50px;
   font-size: 0.9rem;
@@ -242,7 +242,7 @@
   width: 100%;
   padding: 15px !important;
   font-weight: 600 !important;
-  background: linear-gradient(to right, #6a11cb, #2575fc) !important;
+  background: linear-gradient(to right, var(--main-color), var(--secondary-color)) !important;
   border: none !important;
   border-radius: 50px !important;
   transition: all 0.3s ease !important;

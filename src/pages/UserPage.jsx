@@ -174,7 +174,7 @@ const UserProfile = () => {
               </div>
             </div>
           </div>
-          <nav className="profile-nav container">
+          <nav className="profile-nav container p-0">
             <ul className="nav nav-tabs">
               <li className="nav-item">
                 <a className="nav-link active" href="#">

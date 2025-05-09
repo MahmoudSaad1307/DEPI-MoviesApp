@@ -26,9 +26,9 @@ const LoginPage = () => {
     try {
       const response = await loginUser({ email: email, password: password });
       const userMovies = response.data.userWithoutPassword.movies;
-      dispatch(setFavorites(userMovies.favorites));
-      dispatch(setWatchlist(userMovies.watchlist));
-      dispatch(setWatched(userMovies.watched));
+      dispatch(setFavorites({favorites:userMovies.favorites}));
+      dispatch(setWatchlist({watchlist:userMovies.watchlist}));
+      dispatch(setWatched({watched :userMovies.watched}));
 
       const to = response.data.token;
       setToken(to);
