@@ -1,9 +1,9 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../components/search.css";
 import CastCard from "../constants/components/CastCard";
-import MovieCard from "../constants/components/MovieCard";
-import { ENDPOINTS, fetchMovies } from "../constants/constants";
+import MovieCard, { MovieCard2 } from "../constants/components/MovieCard";
+import { fetchMovies, ENDPOINTS, IMAGE_URL } from "../constants/constants";
 import { setFilter } from "../redux/slices/filtersSlice";
 
 const Search = ({ setIsSearchVisible }) => {
@@ -14,6 +14,16 @@ const Search = ({ setIsSearchVisible }) => {
   const timeoutRef = useRef(null);
   const dispatch = useDispatch();
   const activeFilter = useSelector((state) => state.filters.activeFilter);
+
+  useEffect(() => {
+    // Add the "search-active" class to the body when the search is visible
+    document.body.classList.add("search-active");
+
+    // Remove the "search-active" class when the search is closed
+    return () => {
+      document.body.classList.remove("search-active");
+    };
+  }, []);
 
   const handleSearch = async (searchQuery, type = "all") => {
     if (!searchQuery.trim()) {
@@ -85,17 +95,17 @@ const Search = ({ setIsSearchVisible }) => {
   };
 
   return (
-    <div className="searchContainer">
+    <div className="mainSearchContainer">
       <button
-        className="exitSearch btn btn-primary"
+        className="mainExitSearch btn btn-primary"
         onClick={() => setIsSearchVisible(false)}
       >
         <i className="bi bi-x-lg"></i>
       </button>
-      <div className="searchInput">
+      <div className="mainSearchInput">
         <input
           type="text"
-          className="form-control searchInputField"
+          className="form-control mainSearchInputField"
           placeholder="Search..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -108,7 +118,7 @@ const Search = ({ setIsSearchVisible }) => {
           <i className="bi bi-search"></i>
         </button>
       </div>
-      <div className="searchTypeBtns">
+      <div className="mainSearchTypeBtns">
         <button
           className={`btn btn-outline-primary ${
             activeFilter === "all" ? "active" : ""
@@ -142,9 +152,12 @@ const Search = ({ setIsSearchVisible }) => {
           Actors
         </button>
       </div>
-      <div className="searchResults mt-3">
+      <div className="mainSearchResults mt-3">
         {filteredResults.length > 0 ? (
-          <div className="cardsGrid" onClick={() => setIsSearchVisible(false)}>
+          <div
+            className="mainCardsGrid"
+            onClick={() => setIsSearchVisible(false)}
+          >
             {filteredResults.map((result, index) => {
               const type = result.title
                 ? "movie"
@@ -162,6 +175,7 @@ const Search = ({ setIsSearchVisible }) => {
               if (type === "movie" || type === "tv")
                 return (
                   <MovieCard
+                    className="mainSearchCard" // Add the class for styling
                     key={result.id}
                     movie={result}
                     isMovie={type}

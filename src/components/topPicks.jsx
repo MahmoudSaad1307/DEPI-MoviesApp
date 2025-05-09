@@ -37,7 +37,7 @@ const TopPicks = () => {
   }, []);
 
   return (
-    <div className="multi-card-carousel container">
+    <div className="multi-card-carousel">
       <h2 className="carousel-title">Popular TV Shows</h2>
       <br />
       <div id="topPicksCarousel" className="carousel slide">
