@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { getGenreNames, IMAGE_URL } from "../constants";
+import { useState } from "react";
 
 export default function MovieCard(props) {
   const { movie, index, hoverWindow = false ,isMovie=false} = props;
+  const [loading,setLoading]=useState(false);
+
   const genreNames = getGenreNames(movie.genre_ids, movie).slice(0, 3);
   // console.log("=================================================");
   // console.log("=================================================");
@@ -15,7 +18,12 @@ export default function MovieCard(props) {
     "";
 
   return (
-    <Link
+    <>
+    
+    
+  { loading?(<div className="d-flex justify-content-center align-items-center" style={{ height: "50vh" }}>
+    <ClipLoader color={'var(--secondary-color)'} size={60} />
+  </div>) :<Link
       to={`/movie-details/${media_type}/${movie.id}`}
       className="movie-card-link"
     >
@@ -63,7 +71,9 @@ export default function MovieCard(props) {
           </div>
         </div>
       )}
-    </Link>
+    </Link>}
+    </>
+
   );
 }
 // Movie Card

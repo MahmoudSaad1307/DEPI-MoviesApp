@@ -72,9 +72,7 @@ export const Movies4User = () => {
             <>
             
             <MovieCard key={movie.id} movie={movie} isMovie={'movie'}/>
-            <MovieCard key={movie.id} movie={movie} isMovie={'movie'}/>
-            <MovieCard key={movie.id} movie={movie} isMovie={'movie'}/>
-            <MovieCard key={movie.id} movie={movie} isMovie={'movie'}/>
+            
             </>
           ))
         ) : (

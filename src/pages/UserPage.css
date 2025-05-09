@@ -11,7 +11,24 @@
 .profile-header-container {
   margin-bottom: 30px;
 }
+/* src/pages/UserPage.css */
+.bio {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem; /* Equivalent to mb-2 */
+}
 
+.bio p {
+  color: #ffffff;
+    padding: 0.5rem; /* Equivalent to p-2 */
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1;
+}
 /* Avatar styling */
 .profile-avatar {
   width: 80px;
@@ -34,8 +51,8 @@
 }
 
 .btn-edit-profile {
-  background-color: #333;
-  color: #ccc;
+  background-color: var(--main-color);
+  color: black;
   text-transform: uppercase;
   font-size: 12px;
   border: none;
@@ -44,8 +61,8 @@
 }
 
 .btn-edit-profile:hover {
-  background-color: #444;
-  color: #fff;
+  background-color: var(--hover-color);
+  color: black;
 }
 
 .btn-icon {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { ToastContainer, toast } from "react-toastify";
 import { useParams, Link } from "react-router-dom";
 import {
   API_KEY,
@@ -27,11 +28,16 @@ import ReviewCard from "../constants/components/ReviewCard";
 import { addReview, getMovieReviews } from "../api/api";
 import CustomToast from "../constants/components/Toast";
 import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 const MovieDetails = () => {
-  const {user}=useSelector((state)=>state.user)
-  const {favorites,watchlist,watched} =useSelector((state)=>state.userMovies)
-  const dispatch=useDispatch()
+  
+  const { user } = useSelector((state) => state.user);
+  const { favorites, watchlist, watched } = useSelector(
+    (state) => state.userMovies
+  );
+  const dispatch = useDispatch();
+  const notify = () => toast("Wow so easy!");
 
   const [showListModal, setShowListModal] = useState(false);
   const toggleModal = () => {
@@ -91,11 +97,36 @@ const MovieDetails = () => {
         type: media_type,
         movieId: id,
         content: {
-          text:reviewContent
+          text: reviewContent,
         },
       });
-      console.log("Review added successfully");
-      window.location.reload(); 
+      // Swal.fire({
+      //         title: "Login Success !",
+
+      //         icon: "success",
+      //         draggable: true,
+      //         html: '<style>.swal2-title  { border: none  }</style>'
+      //       });
+      toast.success("Review added successfully", {
+        position: "bottom-right", // Bottom-right corner
+        autoClose: 3000, // 3 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        style: {
+          background: "linear-gradient(to right, #4caf50, #45a049)", // Green gradient
+          color: "#ffffff", // White text
+          borderRadius: "8px", // Rounded corners
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Subtle shadow
+          width: "300px", // Smaller width
+          padding: "12px 20px", // Adjusted padding
+          fontSize: "14px", // Readable font size
+        },
+      });
+setTimeout(() => {
+  window.location.reload();
+}, 500);
 
       // alert("Thanks for the review");
     } catch (error) {
@@ -124,7 +155,7 @@ const MovieDetails = () => {
 
   const getReviews = async () => {
     try {
-      const response = await getMovieReviews({type:media_type,movieId:id} );
+      const response = await getMovieReviews({ type: media_type, movieId: id });
       setReviews(response.data);
       console.log("Reviews fetched:", response.data);
     } catch (error) {
@@ -236,6 +267,17 @@ const MovieDetails = () => {
 
   return (
     <>
+    <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {/* Movie Info Section */}
       <div className="movie-container container">
         {movieData.backdrop_path && (
@@ -258,7 +300,7 @@ const MovieDetails = () => {
               </h1>
 
               <div className="movie-rating">
-                <span style={{color:'gold'}} className="rating-star">
+                <span style={{ color: "gold" }} className="rating-star">
                   <i className="fas fa-star"></i>
                 </span>
                 <span className="fw-bold">
@@ -359,16 +401,15 @@ const MovieDetails = () => {
             >
               Reviews
             </div>
-            {
-              user&&
-            <div
-              className="add-review tab"
-              data-bs-toggle="modal"
-              data-bs-target="#addReviewModal"
-            >
-              Add Review
-            </div>
-}
+            {user && (
+              <div
+                className="add-review tab"
+                data-bs-toggle="modal"
+                data-bs-target="#addReviewModal"
+              >
+                Add Review
+              </div>
+            )}
           </div>
 
           {/* Cast Tab */}
@@ -433,8 +474,7 @@ const MovieDetails = () => {
             ) : (
               <div className="reviews-container">
                 {reviews.slice(0, 10).map((review, index) => {
-                  
-                  return <ReviewCard review={review}  key={review._id} />;
+                  return <ReviewCard review={review} key={review._id} />;
                 })}
               </div>
             )}

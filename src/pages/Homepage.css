@@ -7,6 +7,14 @@ main{
 
   background:black
 }
+.spinner-border {
+  width: 4rem;
+  height: 4rem;
+  border-width: 0.4em;
+  color: var(--secondary-color); 
+}
+/* HomePage.css */
+
 /* General Navbar Styles */
 .custom-navbar {
   background-color: black !important;

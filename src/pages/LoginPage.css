@@ -1,0 +1,51 @@
+/* src/pages/LoginPage.css */
+.login-container {
+  background: linear-gradient(to bottom, #1c2526, #2e3b3e);
+}
+
+.login-card {
+  max-width: 450px;
+  background-color: rgba(40, 44, 52, 0.95);
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.login-title {
+  font-weight: 600;
+}
+
+.login-label {
+  font-size: 0.9rem;
+}
+
+.login-input {
+  border-left: none;
+  padding: 10px;
+  transition: border-color 0.3s;
+}
+
+.login-button {
+  background: linear-gradient(to right, #28a745, #218838);
+  border: none;
+  padding: 12px;
+  font-weight: 500;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.login-button:hover {
+  background: linear-gradient(to right, #218838, #1e7e34);
+}
+
+.login-button:active {
+  transform: scale(0.98);
+}
+
+.signup-link {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.signup-link:hover {
+  opacity: 1;
+}

@@ -12,7 +12,10 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state.user = action.payload;
+      const { name, bio, photoURL } = action.payload; // Destructure the payload
+      if (name) state.user.name = name; // Update only if provided
+      if (bio) state.user.bio = bio;    // Update only if provided
+      if (photoURL) state.user.photoURL = photoURL; // Update only if provided
     },
 
     login: (state, action) => {

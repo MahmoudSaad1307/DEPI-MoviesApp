@@ -12,10 +12,10 @@ export const registerUser = ({name, email, password}) => {
 export const loginUser = ({email, password}) => {
   return api.post("/users/login", { email, password });
 };
-export const updateUser=(props)=>{
+export const updateUser = ({ userId, ...updates }) => {
+  return api.put(`/users/${userId}`, updates);
+};
 
-  return api.put(`/users/${props.userId}`,{props})
-}
 export const getProfile = ({token}) => {
   return api.get("/users/profile", {
     headers: {

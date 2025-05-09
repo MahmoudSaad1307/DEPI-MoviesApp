@@ -12,19 +12,23 @@ import {
   BACKDROP_PATH,
   getGenreNames,
 } from "../constants/constants";
+import { ClipLoader } from "react-spinners";
 
 const HomePage = () => {
   const [trendingItems, setTrendingItems] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchTrending = async () => {
+      setLoading(true);
       try {
         const response = await fetch(
           `${BASE_URL}/trending/all/week?api_key=${API_KEY}&language=en-US`
         );
         const data = await response.json();
         // Limit to 5 items for the carousel
-        setTrendingItems(data.results.slice(0, 5));
+        setTrendingItems(data.results.slice(0, 10));
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching trending items:", error);
       }
@@ -35,7 +39,15 @@ const HomePage = () => {
 
   return (
     <>
-      <div
+      {loading?(
+        <>
+        <div className="d-flex justify-content-center align-items-center" style={{ height: "50vh" }}>
+    <ClipLoader color="var(--secondary-color)" size={60} />
+  </div>
+        </>
+      ):( 
+        <>
+        <div
         id="carouselExampleFade"
         className="carousel slide auto-play carousel-fade container py-0"
         data-bs-ride="carousel"
@@ -123,6 +135,8 @@ const HomePage = () => {
           <span className="visually-hidden">Next</span>
         </button>
       </div>
+      </>
+    )}
 
       <Popular />
       <TopPicks />
