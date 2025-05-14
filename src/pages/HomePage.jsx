@@ -73,7 +73,7 @@ const HomePage = () => {
           {trendingItems.map((item, index) => (
             <div
               key={item.id}
-              className={`carousel-item ${index === 0 ? "active" : ""}`}
+              className={`main-carousel-item carousel-item ${index === 0 ? "active" : ""}`}
             >
               <img
                 src={`${BACKDROP_PATH}${item.backdrop_path}`}

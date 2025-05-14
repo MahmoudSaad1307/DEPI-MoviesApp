@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../components/search.css";
 import CastCard from "../constants/components/CastCard";
-import MovieCard, { MovieCard2 } from "../constants/components/MovieCard";
+import MovieCard from "../constants/components/MovieCard";
 import { fetchMovies, ENDPOINTS, IMAGE_URL } from "../constants/constants";
 import { setFilter } from "../redux/slices/filtersSlice";
 
@@ -10,7 +10,7 @@ const Search = ({ setIsSearchVisible }) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
-  const [visibility, setVisibility] = useState([]); 
+  const [visibility, setVisibility] = useState([]);
   const timeoutRef = useRef(null);
   const dispatch = useDispatch();
   const activeFilter = useSelector((state) => state.filters.activeFilter);
@@ -27,7 +27,7 @@ const Search = ({ setIsSearchVisible }) => {
     if (!searchQuery.trim()) {
       setResults([]);
       setFilteredResults([]);
-      setVisibility([]); 
+      setVisibility([]);
       return;
     }
 
@@ -87,7 +87,7 @@ const Search = ({ setIsSearchVisible }) => {
   const handleImageError = (index) => {
     setVisibility((prevVisibility) => {
       const updatedVisibility = [...prevVisibility];
-      updatedVisibility[index] = false; 
+      updatedVisibility[index] = false;
       return updatedVisibility;
     });
   };
@@ -113,47 +113,39 @@ const Search = ({ setIsSearchVisible }) => {
           className="btn search-btn btn-primary"
           onClick={() => handleSearch(query, activeFilter)}
         >
-          <i className="bi bi-search" ></i>
+          <i className="bi bi-search"></i>
         </button>
       </div>
       <div className="mainSearchTypeBtns">
         <button
-          className={`btn  ${
-            activeFilter === "all" ? "activesearch" : ""
-          }`}
+          className={`btn  ${activeFilter === "all" ? "activesearch" : ""}`}
           onClick={() => handleFilter("all")}
         >
           All
         </button>
         <button
-          className={`btn  ${
-            activeFilter === "movie" ? "activesearch" : ""
-          }`}
+          className={`btn  ${activeFilter === "movie" ? "activesearch" : ""}`}
           onClick={() => handleFilter("movie")}
         >
           Movies
         </button>
         <button
-          className={`btn  ${
-            activeFilter === "tv" ? "activesearch" : ""
-          }`}
+          className={`btn  ${activeFilter === "tv" ? "activesearch" : ""}`}
           onClick={() => handleFilter("tv")}
         >
           TV Shows
         </button>
         <button
-          className={`btn  ${
-            activeFilter === "person" ? "activesearch" : ""
-          }`}
+          className={`btn  ${activeFilter === "person" ? "activesearch" : ""}`}
           onClick={() => handleFilter("person")}
         >
           Actors
         </button>
       </div>
-      <div className="mainSearchResults mt-3">
+      <div className="mainSearchResults mt-3 d-flex justify-content-center">
         {filteredResults.length > 0 ? (
           <div
-            className="mainCardsGrid row-cols-lg-6 row-cols-md-4 row-cols-1 g-3 row"
+            className="mainCardsGrid row-cols-lg-6 row-cols-md-4 row-cols-1 g-3 row d-flex justify-content-center"
             onClick={() => setIsSearchVisible(false)}
           >
             {filteredResults.map((result, index) => {
@@ -172,15 +164,27 @@ const Search = ({ setIsSearchVisible }) => {
 
               if (type === "movie" || type === "tv")
                 return (
-                  <MovieCard
-                    className="mainSearchCard" 
-                    key={result.id}
-                    movie={result}
-                    isMovie={type}
-                    onImageError={() => handleImageError(index)} 
-                  />
+                  <div>
+                    <MovieCard
+                      key={result.id}
+                      movie={result}
+                      isMovie={type}
+                      onImageError={() => handleImageError(index)}
+                    />
+                  </div>
                 );
-              else return  CastCard(result);
+              else
+                return (
+                  <div className="search-cast-card">
+                    <CastCard 
+                      key={result.id}
+                      name={result.name}
+                      character={result.known_for[0]?.title || ""}
+                      profile_path={result.profile_path}
+                      onImageError={() => handleImageError(index)}
+                    ></CastCard>
+                  </div>
+                );
             })}
           </div>
         ) : (

@@ -100,12 +100,12 @@ const Navbar = () => {
               <ul className="navbar-nav">
                 <li className="nav-item me-3 search">
                   <a href="#" title="Search" onClick={toggleSearch}>
-                    <i className="bi bi-search" style={{ fontSize: "22px" }}></i>
+                    <i className="bi bi-search" style={{ fontSize: "18px" }}></i>
                   </a>
                 </li>
 
                 {user && (
-                  <li className="nav-item dropdown fs-4">
+                  <li className="nav-item dropdown fs-5">
                     <a
                       className="dropdown-toggle d-flex align-items-center"
                       href="#"
@@ -128,7 +128,7 @@ const Navbar = () => {
                       ></i>
                       {user?.name}
                     </a>
-                    <ul className="dropdown-menu dropdown-menu-end flex-column align-items-center rounded-3 fs-4">
+                    <ul className="dropdown-menu dropdown-menu-end flex-column align-items-center rounded-3 fs-5">
                       <li className="dropdown-item no-hover py-2">
                         <Link to="/user" onClick={() => setIsNavOpen(false)}>
                           Profile
