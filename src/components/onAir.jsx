@@ -65,7 +65,7 @@ const OnAir = () => {
   }
 
   return (
-    <div className="multi-card-carousel container">
+    <div className="multi-card-carousel ">
       <h2 className="carousel-title">Currently Playing Shows</h2>
       <div
         id="OnAirMoviesCarousel"

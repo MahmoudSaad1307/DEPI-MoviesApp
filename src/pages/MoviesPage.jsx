@@ -212,7 +212,7 @@ const MoviesPage = () => {
   const [error, setError] = useState(null);
   const [activeFilters, setActiveFilters] = useState(null);
   const [category, setCategory] = useState("movie");
-  const itemsPerPage = 10;
+  const itemsPerPage = 18;
 
   useEffect(() => {
     // Get category from URL if present
@@ -339,9 +339,10 @@ const MoviesPage = () => {
       />
       
       {/* Movies Grid */}
-      <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3 mt-3">
+      <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3 ">
         {currentMovies.length > 0 ? (
           currentMovies.map((movie, index) => (
+            <div>
             <MovieCard 
               movie={movie} 
               key={movie.id} 
@@ -349,6 +350,7 @@ const MoviesPage = () => {
               isMovie={category === "anime" ? "tv" : "movie"}
               hoverWindow={true} 
             />
+            </div>
           ))
         ) : (
           <div className="col-12 text-center py-4">

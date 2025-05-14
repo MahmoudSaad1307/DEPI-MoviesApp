@@ -210,10 +210,13 @@ const UserProfile = () => {
             <div className="col-md-8">
               <section className="mb-5">
                 <h2 className="section-title">FAVORITE FILMS</h2>
-                <div className="row row-cols-2 row-cols-sm-4 g-3">
+                <div className="row row-cols-2 row-cols-sm-4 g-4">
                   {favoriteFilms.length > 0 ? (
                     favoriteFilms.map((film) => (
-                      <MovieCard key={film.id} movie={film} isMovie={"movie"} />
+                      <div>
+                                              <MovieCard key={film.id} movie={film} isMovie={"movie"} />
+
+                      </div>
                     ))
                   ) : (
                     <p>No favorite films available.</p>
@@ -222,10 +225,11 @@ const UserProfile = () => {
               </section>
               <section className="mb-5">
                 <h2 className="section-title">RECENTLY WATCHED MOVIES</h2>
-                <div className="row row-cols-2 row-cols-sm-4 g-3">
+                <div className="row row-cols-2 row-cols-sm-4 g-4">
                   {recentlyWatched.length > 0 ? (
                     recentlyWatched.map((film) => (
-                      <MovieCard key={film.id} movie={film} isMovie={"movie"} />
+                      <div>                      <MovieCard key={film.id} movie={film} isMovie={"movie"} />
+</div>
                     ))
                   ) : (
                     <p>No recently watched movies available.</p>

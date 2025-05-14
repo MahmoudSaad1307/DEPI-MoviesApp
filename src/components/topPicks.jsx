@@ -65,7 +65,7 @@ const TopPicks = () => {
   }
 
   return (
-    <div className="multi-card-carousel container">
+    <div className="multi-card-carousel ">
       <h2 className="carousel-title">Popular TV Shows</h2>
       <div
         id="topPicksCarousel"
@@ -98,7 +98,10 @@ const TopPicks = () => {
                           to={`/movie-details/tv/${tvShow.id}`}
                           className="movie-card-link"
                         >
-                          <MovieCard movie={tvShow} index={subIndex} />
+                          <MovieCard movie={tvShow} index={subIndex} 
+                                                    hoverWindow={true}
+
+                          />
                         </Link>
                       </div>
                     ))}

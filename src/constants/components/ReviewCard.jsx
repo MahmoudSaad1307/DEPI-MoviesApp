@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { findUserById } from "../../../Backend/api/api";
 import "../../pages/MovieDetails.css";
+import { Link } from "react-router-dom";
 
 export default function ReviewCard(props) {
-  const { review } = props;
+  const { review,goToMovie=false } = props;
+  
   const [user, setUser] = useState(null);
   useEffect(() => {
     // console.log(review);
@@ -34,6 +36,12 @@ export default function ReviewCard(props) {
   const isLongReview = text?.length > 300;
 
   return (
+    
+
+    <Link  to={goToMovie && `/movie-details/movie/${review?.movieId}`} >
+    
+    
+    
     <div className="review-card mx-0" key={review._id}>
       <div className="review-header">
         <div className="reviewer-info">
@@ -48,10 +56,11 @@ export default function ReviewCard(props) {
           </div>
         </div>
       </div>
-      <div className="review-body p-2">
+      <div className="review-body p-3">
         {isLongReview ? <ReviewContent content={text} /> : <p>{text}</p>}
       </div>
     </div>
+    </Link>
   );
 }
 

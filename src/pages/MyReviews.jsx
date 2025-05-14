@@ -45,7 +45,7 @@ export const MyReviews = () => {
           <br />
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-5 reviews-container ">
             {reviews.map((review) => (
-              <ReviewCard key={review._id} review={review} />
+              <ReviewCard key={review._id} review={review} goToMovie={true} />
             ))}
           </div>
         </div>

@@ -1,6 +1,5 @@
 import axios from "axios";
-import { API_URL } from "../../src/constants/constants";
-
+import { API_URL, TOKEN } from "../../src/constants/constants";
 export const api = axios.create({
   baseURL: API_URL,
 });
@@ -12,8 +11,12 @@ export const registerUser = ({ name, email, password }) => {
 export const loginUser = ({ email, password }) => {
   return api.post("/users/login", { email, password });
 };
-export const updateUser = ({ userId, ...updates }) => {
-  return api.put(`/users/${userId}`, updates);
+export const updateUser = ({ ...updates }) => {
+  return api.put(`/users/update`, updates, {
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+    },
+  });
 };
 
 export const getProfile = ({ token }) => {
@@ -29,27 +32,39 @@ export const findUserById = ({ userId }) => {
   return api.get(`/users/findUser/${userId}`);
 };
 // ==================== Favorites (من users.js) ====================
-export const toggleFavorite = ({ userId, movieId }) => {
-  return api.patch(`/users/${userId}/favorites`, { movieId });
+export const toggleFavorite = ({ movieId }) => {
+  return api.patch(
+    `/users/favorites`,
+    { movieId },
+    { headers: { Authorization: `Bearer ${TOKEN}` } }
+  );
 };
 
 // ==================== Watchlist (من users.js) ====================
-export const toggleWatchlist = ({ userId, movieId }) => {
-  return api.patch(`/users/${userId}/watchList`, { movieId });
+export const toggleWatchlist = ({ movieId }) => {
+  return api.patch(
+    `/users/watchList`,
+    { movieId },
+    { headers: { Authorization: `Bearer ${TOKEN}` } }
+  );
 };
 
 // ==================== Watched (من users.js) ====================
-export const toggleWatched = ({ userId, movieId, rating, ratingProvided }) => {
-  return api.patch(`/users/${userId}/watched`, {
+export const toggleWatched = ({  movieId, rating, ratingProvided }) => {
+  return api.patch(`/users/watched`, {
     movieId,
     rating,
     ratingProvided,
-  });
+  },
+  { headers: { Authorization: `Bearer ${TOKEN}` } });
 };
 
 // ==================== Reviews (من reviews.js) ====================
-export const addReview = ({ type, userId, movieId, content }) => {
-  return api.post(`/reviews/${type}`, { userId, movieId, content });
+export const addReview = ({ type, movieId, content }) => {
+  return api.post(`/reviews/${type}`, {  movieId, content },{
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+  }});
 };
 
 export const getMyReviews = ({ userId }) => {

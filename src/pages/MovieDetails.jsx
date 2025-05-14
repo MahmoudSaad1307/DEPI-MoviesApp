@@ -24,9 +24,12 @@ import {
 import "./MovieDetails.css";
 import "./responsive.css";
 import "./styles.css";
+import { FloatingYouTubePlayer } from "../constants/components/FloatingYouTubePlayer";
+import { hideTrailer } from "../redux/slices/trailerSlice";
 
 const MovieDetails = () => {
-  const { user } = useSelector((state) => state.user);
+  const {showTrailer} = useSelector((state) => state.trailer)
+  const { user ,token} = useSelector((state) => state.user);
   const { favorites, watchlist, watched } = useSelector(
     (state) => state.userMovies
   );
@@ -101,12 +104,17 @@ const MovieDetails = () => {
           fontSize: "14px",
         },
       });
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
+    
     } catch (error) {
       console.error("Error adding review:", error);
     }
+    finally{
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    }
+    
     setReviewContent("");
     const modal = document.getElementById("addReviewModal");
     if (modal) {
@@ -118,6 +126,7 @@ const MovieDetails = () => {
   };
 
   useEffect(() => {
+    dispatch(hideTrailer())
     if (id) {
       fetchMovieDetails();
       getReviews();
@@ -243,6 +252,12 @@ const MovieDetails = () => {
 
   return (
     <>
+{showTrailer && (
+  <FloatingYouTubePlayer 
+    videoId={bestTrailer?.key} 
+  
+  />
+)}
       <ToastContainer
         position="bottom-right"
         autoClose={3000}
@@ -311,7 +326,6 @@ const MovieDetails = () => {
                 <span id="description-text">{movieData.overview}</span>
               </div>
               <InteractionPanel
-                bestTrailer={bestTrailer}
                 showModal={showListModal}
                 setShowModal={setShowListModal}
                 media_type={media_type}

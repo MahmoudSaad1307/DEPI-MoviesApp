@@ -18,7 +18,7 @@ const TVShowsPage = () => {
   const [yearFrom, setYearFrom] = useState("");
   const [yearTo, setYearTo] = useState("");
   const genreMenuRef = useRef(null);
-  const itemsPerPage = 10;
+  const itemsPerPage = 18;
 
   // Close genre dropdown when clicking outside
   useEffect(() => {
@@ -282,17 +282,19 @@ const TVShowsPage = () => {
       </div>
       
       {/* Shows Grid */}
-      <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3 mt-3">
+      <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3 ">
         {currentShows.length > 0 ? (
           currentShows.map((show, index) => (
             show.poster_path && (
-              <MovieCard
+              <div>
+                <MovieCard
                 movie={show}
                 key={show.id}
                 index={index}
                 isMovie="tv"
                 hoverWindow={true}
               />
+              </div>
             )
           ))
         ) : (

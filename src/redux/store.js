@@ -7,6 +7,7 @@ import { combineReducers } from 'redux';
 import filtersReducer from "./slices/filtersSlice";
 import userMoviesReducer from "./slices/userMoviesSlice";
 import userReducer from "./slices/userSlice";
+import trailerReducer from "./slices/trailerSlice";
 
 // Configure persist for all reducers
 const persistConfig = {
@@ -19,6 +20,8 @@ const rootReducer = combineReducers({
   filters: filtersReducer,
   user: userReducer,
   userMovies: userMoviesReducer,
+  trailer: trailerReducer
+
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

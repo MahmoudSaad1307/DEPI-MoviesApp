@@ -1,11 +1,9 @@
 import "./Pagination.css";
 
-// Function to handle page navigation
 export const paginate = (pageNumber) => {
   console.log(`Navigating to page ${pageNumber}`);
 };
 
-// Function to calculate page numbers
 export const getPageNumbers = (currentPage, totalItems, itemsPerPage = 10) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const pageNumbers = [];
@@ -28,7 +26,6 @@ export const getPageNumbers = (currentPage, totalItems, itemsPerPage = 10) => {
   return { pageNumbers, totalPages, startPage, endPage };
 };
 
-// Function to calculate item range
 export const getItemRange = (currentPage, totalItems, itemsPerPage = 10) => {
   const indexOfFirstItem = (currentPage - 1) * itemsPerPage + 1;
   const indexOfLastItem = Math.min(currentPage * itemsPerPage, totalItems);
@@ -36,9 +33,9 @@ export const getItemRange = (currentPage, totalItems, itemsPerPage = 10) => {
 };
 
 const Pagination = () => {
-  const itemsPerPage = 10; // Default value
-  const totalItems = 50; // Default value
-  const currentPage = 1; // Default value
+  const itemsPerPage = 10; 
+  const totalItems = 50; 
+  const currentPage = 1; 
 
   const { pageNumbers, totalPages, startPage, endPage } = getPageNumbers(
     currentPage,

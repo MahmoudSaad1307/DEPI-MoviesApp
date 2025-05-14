@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Popular from "../components/popular";
-import ContinueWatching from "../components/continueWatching";
 import TopPicks from "./../components/topPicks";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -41,7 +40,8 @@ const HomePage = () => {
   }, []);
 
   return (
-    <>
+    <div className="container">
+      
       {loading?(
         <>
         <div className="d-flex justify-content-center align-items-center" style={{ height: "50vh" }}>
@@ -52,7 +52,7 @@ const HomePage = () => {
         <>
         <div
         id="carouselExampleFade"
-        className="carousel slide auto-play carousel-fade container py-0"
+        className="carousel slide auto-play carousel-fade  py-0"
         data-bs-ride="carousel"
         data-bs-interval="3000" // This sets the interval for auto-play globally
       >
@@ -141,12 +141,12 @@ const HomePage = () => {
       </>
     )}
 
-      <UpComing/>
-      <TopPicks />
       <NowPlaying/>
+      <TopPicks />
+      <UpComing/>
       <Popular />
       <OnAir/>
-    </>
+    </div>
   );
 };
 

@@ -65,7 +65,7 @@ const NowPlaying = () => {
   }
 
   return (
-    <div className="multi-card-carousel container">
+    <div className="multi-card-carousel ">
       <h2 className="carousel-title">Now Playing</h2>
       <div
         id="NowPlayingMoviesCarousel"

@@ -4,14 +4,13 @@ import MovieCard from "./../constants/components/MovieCard";
 import { fetchMovies, ENDPOINTS } from "../constants/constants";
 
 const UpComing = () => {
-  // More granular breakpoints for better responsiveness
   const getMoviesPerSlide = () => {
     const width = window.innerWidth;
-    if (width <= 576) return 2;      // Extra small devices
-    if (width <= 768) return 3;      // Small devices
-    if (width <= 992) return 4;      // Medium devices
-    if (width <= 1200) return 5;     // Large devices
-    return 6;                         // Extra large devices
+    if (width <= 576) return 2;      
+    if (width <= 768) return 3;
+    if (width <= 992) return 4; 
+    if (width <= 1200) return 5
+    return 6;                         
   };
 
   const [movies, setMovies] = useState([]);
@@ -24,7 +23,7 @@ const UpComing = () => {
       try {
         const data = await fetchMovies(ENDPOINTS.movies.upcoming, "", 1);
         if (data && data.results) {
-          setMovies(data.results.slice(0, 18)); // Fetch 18 movies to create multiple slides
+          setMovies(data.results.slice(0, 18)); 
         }
       } catch (error) {
         console.error("Error fetching upcoming movies:", error);
@@ -41,25 +40,21 @@ const UpComing = () => {
       setMoviesPerSlide(getMoviesPerSlide());
     };
 
-    // Initial setup
     handleResize();
     
-    // Add event listener
     window.addEventListener("resize", handleResize);
 
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  // Dynamic column classes based on movies per slide
   const getColumnClasses = () => {
     const width = window.innerWidth;
-    if (width <= 576) return "col-6"; // 2 per row on extra small
-    if (width <= 768) return "col-4"; // 3 per row on small
-    if (width <= 992) return "col-3"; // 4 per row on medium
-    if (width <= 1200) return "col-2"; // 5-6 per row on large and up
+    if (width <= 576) return "col-6"; 
+    if (width <= 768) return "col-4";
+    if (width <= 992) return "col-3"; 
+    if (width <= 1200) return "col-2"; 
     return "col-2";
   };
 
@@ -74,7 +69,7 @@ const UpComing = () => {
   }
 
   return (
-    <div className="multi-card-carousel container">
+    <div className="multi-card-carousel">
       <h2 className="carousel-title">Upcoming</h2>
       <div id="UpComingMoviesCarousel" className="carousel slide" data-bs-ride="carousel" data-bs-touch="true">
         <div className="carousel-inner">
@@ -99,6 +94,8 @@ const UpComing = () => {
                         key={`movie-${movie.id}-${subIndex}`}
                       >
                         <MovieCard
+                                                  hoverWindow={true}
+
                           movie={movie}
                           index={subIndex}
                           isMovie={"movie"}

@@ -35,7 +35,7 @@ export const Movies4User = () => {
     if (moviesType === "WATCHLIST" && watchlist?.watchlist) {
       movieIds = watchlist.watchlist.map(movie => movie.movieId);
     } else if (moviesType === "FAVORITE" && favorites.favorites) {
-      movieIds = favorites.favorites; // favorite is already an array of numbers
+      movieIds = favorites.favorites; 
     } else if (moviesType === "WATCHED" && watched?.watched) {
       movieIds = watched.watched.map(movie => movie.movieId);
     }
@@ -43,7 +43,7 @@ export const Movies4User = () => {
     if (movieIds.length > 0) {
       fetchMovieDetails(movieIds);
     } else {
-      setFetchedMovies([]); // Clear movies if no IDs
+      setFetchedMovies([]); 
     }
   }, [watchlist, favorites, watched, moviesType]);
 
@@ -66,14 +66,14 @@ export const Movies4User = () => {
     <div className="container mt-5">
 
       <h2>{user.name.toUpperCase()}'s {moviesType}</h2>
-      <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3">
+      <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-4">
         {fetchedMovies.length > 0 ? (
           fetchedMovies.map((movie) => (
-            <>
+            <div>
             
             <MovieCard key={movie.id} movie={movie} isMovie={'movie'}/>
             
-            </>
+            </div>
           ))
         ) : (
           <p>No movies found in {moviesType.toLowerCase()}.</p>

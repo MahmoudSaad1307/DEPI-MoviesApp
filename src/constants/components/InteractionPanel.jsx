@@ -13,13 +13,13 @@ import {
   setWatchlist,
 } from "../../redux/slices/userMoviesSlice";
 import "./InteractionPanel.css";
+import { setTrailer } from "../../redux/slices/trailerSlice";
 
 export default function InteractionPanel({
   showModal,
   setShowModal,
   movieId,
   media_type,
-  bestTrailer,
 }) {
   movieId = Number(movieId);
   const { favorites, watchlist, watched } = useSelector(
@@ -38,9 +38,7 @@ export default function InteractionPanel({
 
   const [activeRating, setActiveRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(null);
-  const trailerUrl = `https://www.youtube.com/watch?v=${bestTrailer?.key}`;
   console.log(``);
-  // Use useEffect to set initial rating value from watched data
   useEffect(() => {
     if (isInWatched) {
       const watchedItem = watched.watched?.find(
@@ -56,10 +54,8 @@ export default function InteractionPanel({
     setShowModal(!showModal);
   };
 
-  // Get effective rating (hovered or active)
   const effectiveRating = hoveredRating !== null ? hoveredRating : activeRating;
 
-  // Handle clicking on action buttons
   const toggleButton = async (buttonName) => {
     let response;
 
@@ -88,7 +84,6 @@ export default function InteractionPanel({
     }
   };
 
-  // Handle rating click
   const handleRatingClick = async (segmentScore) => {
     try {
       const response = await toggleWatched({
@@ -105,18 +100,17 @@ export default function InteractionPanel({
     }
   };
 
-  // Get CSS class for a segment based on its score and current rating
   const getSegmentClass = (segmentScore) => {
     if (segmentScore > effectiveRating) {
-      return "segment"; // Default class
+      return "segment"; 
     }
 
     if (effectiveRating < 4) {
-      return "segment segment-low"; // Red for low ratings
+      return "segment segment-low"; 
     } else if (effectiveRating < 7) {
-      return "segment segment-medium"; // Yellow for medium ratings
+      return "segment segment-medium"; 
     } else {
-      return "segment segment-high"; // Green for high ratings
+      return "segment segment-high"; 
     }
   };
 
@@ -134,7 +128,7 @@ export default function InteractionPanel({
 
             <button
               className="action-btn mx-1 my-1 "
-              onClick={() => window.open(trailerUrl, "_blank")}
+              onClick={() => dispatch(setTrailer())}
             >
               <i className="fas fa-film"></i> Watch Trailer
             </button>

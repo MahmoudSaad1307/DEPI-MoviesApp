@@ -67,9 +67,9 @@ const SignUp = () => {
             className="card p-4 border-0 mx-auto animate__animated animate__fadeIn"
             style={{
               maxWidth: "450px",
-              backgroundColor: "rgba(40, 44, 52, 0.95)", // Slightly lighter background
-              borderRadius: "15px", // Rounded corners
-              boxShadow: "0 8px 20px rgba(0, 0, 0, 0.3)", // Subtle shadow
+              backgroundColor: "rgba(40, 44, 52, 0.95)", 
+              borderRadius: "15px",
+              boxShadow: "0 8px 20px rgba(0, 0, 0, 0.3)", 
             }}
           >
             <h2

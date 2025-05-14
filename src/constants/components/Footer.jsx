@@ -1,4 +1,3 @@
-// src/components/Footer.jsx
 const Footer = () => {
     return (
       <footer className="py-4" style={{ backgroundColor: "#000" }}>

@@ -2,11 +2,13 @@ export const API_KEY = "4464a9cd6c3e0ee26ee5e6a893515421";
 export const BASE_URL = "https://api.themoviedb.org/3";
 export const IMAGE_URL = "https://image.tmdb.org/t/p/w440_and_h660_face";
 export const BACKDROP_PATH = "https://image.tmdb.org/t/p/original";
+import { getToken } from "../../src/utilites/auth";
 
 
 export const API_URL = 'https://diplomatic-kris-malik1307-9371a6ef.koyeb.app/api'; 
 // export const API_URL = 'http://localhost:3000/api'; 
 
+export const TOKEN =getToken();
 
 
 

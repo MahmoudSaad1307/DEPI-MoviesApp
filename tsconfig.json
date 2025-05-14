@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
-    "types": [
-      "vite/client"
-    ],
+  
     "target": "es2017",
     "module": "commonjs",
     "allowJs": true,

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Search from "../../components/search";
 import "../../pages/Layout.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,12 +10,14 @@ import { logout } from "../../redux/slices/userSlice";
 const Navbar = () => {
   const navigate = useNavigate();
   const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const [showLogoutModal, setShowLogoutModal] = useState(false); // State to control modal visibility
-  const { user } = useSelector((state) => state.user);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false); 
+  const { user, token } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
     console.log("User in Navbar:", user);
+    console.log("Token in Navbar:", token);
   }, [user]);
 
   const toggleSearch = () => {
@@ -24,17 +25,22 @@ const Navbar = () => {
   };
 
   const handleLogoutClick = () => {
-    setShowLogoutModal(true); // Show the modal using state
+    setShowLogoutModal(true);
   };
 
   const confirmLogout = () => {
     dispatch(logout());
     navigate("/");
-    setShowLogoutModal(false); // Close the modal after logout
+    setShowLogoutModal(false);
   };
 
   const closeModal = () => {
-    setShowLogoutModal(false); // Close the modal without logout
+    setShowLogoutModal(false);
+  };
+
+  // Custom toggle handler for navbar
+  const toggleNav = () => {
+    setIsNavOpen(!isNavOpen);
   };
 
   return (
@@ -47,39 +53,44 @@ const Navbar = () => {
           <Link className="navbar-brand d-flex align-items-center mb-0 p-0" to="/">
             <img
               src="https://firebasestorage.googleapis.com/v0/b/social-app-834ec.appspot.com/o/ChatGPT_Image_May_7__2025__07_36_25_PM-removebg-preview%20(2).png?alt=media&token=06238ea3-6171-47c7-b012-d3a82938460c"
-              style={{ width: "140px",height:'80px',objectFit:'cover' ,margin:'0'}}
+              style={{ width: "140px", height: "80px", objectFit: "cover", margin: "0" }}
+              alt="MovieRecom Logo"
             />
-            {/* <span className="fw-bold">MovieRecom</span> */}
           </Link>
 
           <button
             className="navbar-toggler"
             type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
+            onClick={toggleNav} 
+            aria-controls="navbarSupportedContent"
+            aria-expanded={isNavOpen}
+            aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div
+            className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`} // Toggle 'show' class
+            id="navbarSupportedContent"
+          >
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex categories-ul">
               <li className="nav-item">
-                <Link className="nav-link" to="/movies">
+                <Link className="nav-link" to="/movies" onClick={() => setIsNavOpen(false)}>
                   Movies
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/tvshows">
+                <Link className="nav-link" to="/tvshows" onClick={() => setIsNavOpen(false)}>
                   TV Shows
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link "  to="/recommendation">
+                <Link className="nav-link" to="/recommendation" onClick={() => setIsNavOpen(false)}>
                   Recommendation
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/whatIsMovie">
+                <Link className="nav-link" to="/whatIsMovie" onClick={() => setIsNavOpen(false)}>
                   What Is Movie
                 </Link>
               </li>
@@ -88,19 +99,15 @@ const Navbar = () => {
             <div className="d-flex align-items-center justify-content-center">
               <ul className="navbar-nav">
                 <li className="nav-item me-3 search">
-                  <a
-                    href="#"
-                    title="Search"
-                    onClick={toggleSearch}
-                  >
-                    <i className="bi bi-search" style={{ fontSize: "22px" ,fontWeight:''}}></i>
+                  <a href="#" title="Search" onClick={toggleSearch}>
+                    <i className="bi bi-search" style={{ fontSize: "22px" }}></i>
                   </a>
                 </li>
 
                 {user && (
-                  <li className="nav-item dropdown fs-4 ">
+                  <li className="nav-item dropdown fs-4">
                     <a
-                      className=" dropdown-toggle d-flex align-items-center "
+                      className="dropdown-toggle d-flex align-items-center"
                       href="#"
                       id="navbarDropdown"
                       role="button"
@@ -121,11 +128,12 @@ const Navbar = () => {
                       ></i>
                       {user?.name}
                     </a>
-                    <ul className="dropdown-menu dropdown-menu-end flex-column align-items-center rounded-3 fs-4 ">
+                    <ul className="dropdown-menu dropdown-menu-end flex-column align-items-center rounded-3 fs-4">
                       <li className="dropdown-item no-hover py-2">
-                        <Link to="/user">Profile</Link>
+                        <Link to="/user" onClick={() => setIsNavOpen(false)}>
+                          Profile
+                        </Link>
                       </li>
-                      
                       <li id="logOut" className="li-log-out px-3 dropdown-item">
                         <button
                           style={{
@@ -134,7 +142,10 @@ const Navbar = () => {
                             background: "transparent",
                           }}
                           className="dropdown-item log-out-btn"
-                          onClick={handleLogoutClick}
+                          onClick={() => {
+                            handleLogoutClick();
+                            setIsNavOpen(false);
+                          }}
                         >
                           Sign Out
                         </button>
@@ -146,11 +157,11 @@ const Navbar = () => {
 
               {!user && (
                 <div style={{ display: "flex" }}>
-                  <Link className="nav-link" to="/signup">
+                  <Link className="nav-link" to="/signup" onClick={() => setIsNavOpen(false)}>
                     <button className="btn text-light ms-3">SignUp</button>
                   </Link>
-                  <Link className="nav-link " to="/login">
-                    <button className="btn ms-3 text-light  ">Login</button>
+                  <Link className="nav-link" to="/login" onClick={() => setIsNavOpen(false)}>
+                    <button className="btn ms-3 text-light">Login</button>
                   </Link>
                 </div>
               )}
@@ -196,8 +207,8 @@ const Navbar = () => {
               <button
                 type="button"
                 id="ll"
-                className="btn btn-primary logOut  text-light"
-                style={{background:'red'}}
+                className="btn btn-primary logOut text-light"
+                style={{ background: "red" }}
                 onClick={confirmLogout}
               >
                 Yes
@@ -206,7 +217,6 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      {/* Backdrop for the modal */}
       {showLogoutModal && (
         <div
           className="modal-backdrop fade show"
@@ -218,4 +228,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Navbar;  

@@ -10,16 +10,14 @@ const Search = ({ setIsSearchVisible }) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
-  const [visibility, setVisibility] = useState([]); // State to track visibility of cards
+  const [visibility, setVisibility] = useState([]); 
   const timeoutRef = useRef(null);
   const dispatch = useDispatch();
   const activeFilter = useSelector((state) => state.filters.activeFilter);
 
   useEffect(() => {
-    // Add the "search-active" class to the body when the search is visible
     document.body.classList.add("search-active");
 
-    // Remove the "search-active" class when the search is closed
     return () => {
       document.body.classList.remove("search-active");
     };
@@ -29,7 +27,7 @@ const Search = ({ setIsSearchVisible }) => {
     if (!searchQuery.trim()) {
       setResults([]);
       setFilteredResults([]);
-      setVisibility([]); // Reset visibility
+      setVisibility([]); 
       return;
     }
 
@@ -89,7 +87,7 @@ const Search = ({ setIsSearchVisible }) => {
   const handleImageError = (index) => {
     setVisibility((prevVisibility) => {
       const updatedVisibility = [...prevVisibility];
-      updatedVisibility[index] = false; // Set visibility to false for the failed image
+      updatedVisibility[index] = false; 
       return updatedVisibility;
     });
   };
@@ -169,17 +167,17 @@ const Search = ({ setIsSearchVisible }) => {
                 !visibility[index] ||
                 !(result.poster_path || result.profile_path)
               ) {
-                return null; // Do not render the card if the image failed to load
+                return null;
               }
 
               if (type === "movie" || type === "tv")
                 return (
                   <MovieCard
-                    className="mainSearchCard" // Add the class for styling
+                    className="mainSearchCard" 
                     key={result.id}
                     movie={result}
                     isMovie={type}
-                    onImageError={() => handleImageError(index)} // Hide the card if the image fails to load
+                    onImageError={() => handleImageError(index)} 
                   />
                 );
               else return  CastCard(result);
