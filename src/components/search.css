@@ -26,12 +26,14 @@ body.search-active {
     color: white;
     font-size: 20px;
     cursor: pointer;
-    background-color: rgb(42, 42, 42);
+    color: var(--secondary-color) !important;
+    border: 1px solid var(--secondary-color) !important;
+    background: rgb(59, 59, 59) !important;
     border: none;
 }
 
 .mainExitSearch:hover {
-    border: none;
+    box-shadow: 0 0 10px var(--secondary-color) !important;
 }
 
 .mainSearchInput {
@@ -68,19 +70,21 @@ body.search-active {
     box-shadow: none;
 }
 
-.activesearch{
-    background-color:gray !important;
-    
-}
-.search-btn{
-  background:var(--secondary-color) !important
-}
-.search-btn:hover{
-    background:#B51B1BFF !important
-
-
+.activesearch {
+    background-color: gray !important;
 
 }
+
+.search-btn {
+    color: var(--main-color) !important;
+    border: 1px solid var(--main-color) !important;
+    background: rgb(59, 59, 59) !important;
+}
+
+.search-btn:hover {
+    box-shadow: 0 0 10px var(--main-color) !important;
+}
+
 .mainSearchTypeBtns {
     display: flex;
     justify-content: space-around;
@@ -114,9 +118,27 @@ body.search-active {
     object-fit: cover;
 }
 
+.mainSearchResults {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.search-cast-card {
+    width: 200px;
+}
+
 @media screen and (max-width: 768px) {
     .mainSearchContainer {
         padding: 20px 10px;
+    }
+
+    .mainExitSearch {
+        top: 10px;
+        right: 10px;
+        font-size: 16px;
     }
 
     .mainSearchInputField {
