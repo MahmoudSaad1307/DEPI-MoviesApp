@@ -94,15 +94,13 @@ const TopPicks = () => {
                         className={getColumnClasses()}
                         key={`tvShow-${tvShow.id}-${subIndex}`}
                       >
-                        <Link
+                        <MovieCard
+                          movie={tvShow}
+                          index={subIndex}
+                          hoverWindow={true}
+                          isMovie={false}
                           to={`/movie-details/tv/${tvShow.id}`}
-                          className="movie-card-link"
-                        >
-                          <MovieCard movie={tvShow} index={subIndex} 
-                                                    hoverWindow={true}
-
-                          />
-                        </Link>
+                        />
                       </div>
                     ))}
                 </div>

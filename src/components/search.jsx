@@ -70,7 +70,7 @@ const Search = ({ setIsSearchVisible }) => {
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
-    }, 1000);
+    }, 500);
   };
 
   const handleFilter = (type) => {
@@ -179,7 +179,7 @@ const Search = ({ setIsSearchVisible }) => {
                     <CastCard 
                       key={result.id}
                       name={result.name}
-                      character={result.known_for[0]?.title || ""}
+                      character={result.known_for[0]?.title || result.known_for[0]?.name}
                       profile_path={result.profile_path}
                       onImageError={() => handleImageError(index)}
                     ></CastCard>
