@@ -6,7 +6,7 @@ export default function WhatIsMovie() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const API_KEY = "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";
+  const API_KEY = "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";
 
   const guessMovie = async () => {
     if (!description.trim()) {
