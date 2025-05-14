@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../components/search.css";
 import CastCard from "../constants/components/CastCard";
-import MovieCard, { MovieCard2 } from "../constants/components/MovieCard";
+import MovieCard from "../constants/components/MovieCard";
 import { fetchMovies, ENDPOINTS, IMAGE_URL } from "../constants/constants";
 import { setFilter } from "../redux/slices/filtersSlice";
 
