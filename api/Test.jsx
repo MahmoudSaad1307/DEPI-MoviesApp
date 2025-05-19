@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setFavorites } from "../../src/redux/slices/userMoviesSlice";
+import { setFavorites } from "../src/redux/slices/userMoviesSlice";
 import { api, getProfile } from "./api";
 
 export const Test = () => {

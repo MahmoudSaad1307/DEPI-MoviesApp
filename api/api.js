@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL, TOKEN } from "../../src/constants/constants";
+import { API_URL, TOKEN } from "../src/constants/constants";
 export const api = axios.create({
   baseURL: API_URL,
 });
@@ -50,21 +50,31 @@ export const toggleWatchlist = ({ movieId }) => {
 };
 
 // ==================== Watched (من users.js) ====================
-export const toggleWatched = ({  movieId, rating, ratingProvided }) => {
-  return api.patch(`/users/watched`, {
-    movieId,
-    rating,
-    ratingProvided,
-  },
-  { headers: { Authorization: `Bearer ${TOKEN}` } });
+export const toggleWatched = ({ movieId, rating, ratingProvided }) => {
+  return api.patch(
+    `/users/watched`,
+    {
+      movieId,
+      rating,
+      ratingProvided,
+    },
+    { headers: { Authorization: `Bearer ${TOKEN}` } }
+  );
 };
 
 // ==================== Reviews (من reviews.js) ====================
 export const addReview = ({ type, movieId, content }) => {
-  return api.post(`/reviews/${type}`, {  movieId, content },{
-    headers: {
-      Authorization: `Bearer ${TOKEN}`,
-  }});
+  console.log(TOKEN,"addReview");
+  
+  return api.post(
+    `/reviews/${type}`,
+    { movieId, content },
+    {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+    }
+  );
 };
 
 export const getMyReviews = ({ userId }) => {

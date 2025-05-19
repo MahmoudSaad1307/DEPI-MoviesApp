@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { findUserById } from "../../../Backend/api/api";
-import "../../pages/MovieDetails.css";
 import { Link } from "react-router-dom";
+import { findUserById } from "../../../api/api";
+import "../../pages/MovieDetails.css";
 
 export default function ReviewCard(props) {
-  const { review,goToMovie=false } = props;
-  
+  const { review, goToMovie = false } = props;
+
   const [user, setUser] = useState(null);
   useEffect(() => {
     // console.log(review);
@@ -36,30 +36,25 @@ export default function ReviewCard(props) {
   const isLongReview = text?.length > 300;
 
   return (
-    
-
-    <Link  to={goToMovie && `/movie-details/movie/${review?.movieId}`} >
-    
-    
-    
-    <div className="review-card mx-0" key={review._id}>
-      <div className="review-header">
-        <div className="reviewer-info">
-          <img
-            src={user?.photoURL}
-            style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-            alt=""
-          />
-          <div className="reviewer-details">
-            <h4 className="reviewer-name">{user?.name}</h4>
-            <span className="review-date">{formattedDate}</span>
+    <Link to={goToMovie && `/movie-details/movie/${review?.movieId}`}>
+      <div className="review-card mx-0" key={review._id}>
+        <div className="review-header">
+          <div className="reviewer-info">
+            <img
+              src={user?.photoURL}
+              style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+              alt=""
+            />
+            <div className="reviewer-details">
+              <h4 className="reviewer-name">{user?.name}</h4>
+              <span className="review-date">{formattedDate}</span>
+            </div>
           </div>
         </div>
+        <div className="review-body p-3">
+          {isLongReview ? <ReviewContent content={text} /> : <p>{text}</p>}
+        </div>
       </div>
-      <div className="review-body p-3">
-        {isLongReview ? <ReviewContent content={text} /> : <p>{text}</p>}
-      </div>
-    </div>
     </Link>
   );
 }

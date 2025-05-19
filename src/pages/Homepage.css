@@ -5,8 +5,7 @@
 }
 
 main {
-
-  background: black
+  background: black;
 }
 
 .spinner-border {
@@ -15,8 +14,6 @@ main {
   border-width: 0.4em;
   color: var(--secondary-color);
 }
-
-/* HomePage.css */
 
 /* General Navbar Styles */
 .custom-navbar {
@@ -65,7 +62,6 @@ main {
   color: white !important;
 }
 
-
 /* Dropdown Menu */
 .dropdown {
   position: relative;
@@ -104,7 +100,6 @@ main {
 .search-container {
   position: relative;
   margin-right: 20px;
-  /* Moves search box closer to the right section */
 }
 
 .search-box {
@@ -158,6 +153,7 @@ main {
   font-weight: bold;
 }
 
+/* Main Carousel Styles */
 .carousel {
   width: 100%;
   margin-bottom: 20px;
@@ -168,28 +164,52 @@ main {
   display: flex;
   align-items: center;
   margin: 0 auto;
+  touch-action: pan-y;
 }
 
 .carousel-item {
   width: 100%;
   z-index: 0;
   padding: 10px 0;
+  transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+  transform: scale(0.95);
+  opacity: 0;
 }
 
-
-
-/* carousel-item */
-.main-carousel-item img {
-  /* max-height: 80%; */
-
-
-  filter: brightness(80%);
+.carousel-item.active {
+  transform: scale(1);
+  opacity: 1;
 }
 
 .carousel-item img {
   height: 100%;
   object-fit: cover;
   width: 100%;
+  transition: transform 0.8s ease-in-out;
+  transform-origin: center center;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.carousel-item.active img {
+  animation: zoomInOut 10s ease-in-out infinite;
+}
+
+.main-carousel-item {
+  height: 85vh;
+  object-position: center;
+}
+
+.main-carousel-item img {
+  height: 85vh;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(80%);
+  animation: kenBurnsEffect 20s ease-in-out infinite alternate;
 }
 
 .carousel-indicators {
@@ -205,7 +225,6 @@ main {
   bottom: 28%;
   width: 40%;
   padding-left: 20px;
-  /* Add some spacing */
 }
 
 .carousel-caption .info {
@@ -216,12 +235,9 @@ main {
 
 .infocap {
   border-right: 2px solid rgba(204, 204, 204, 0.5);
-  /* 50% opacity */
   padding-right: 8px;
   height: 20px;
-  /* Adjust height */
   line-height: 20px;
-  /* Align with text */
   font-weight: bold;
 }
 
@@ -236,15 +252,12 @@ main {
   font-size: 15px;
   font-weight: bold;
   background-color: rgba(255, 255, 255, 0.1);
-  /* Semi-transparent background */
   color: white;
-  /* Change text color for visibility */
   width: auto;
   justify-content: center;
   text-align: center;
 }
 
-/* Custom Text Styling */
 .carousel-caption h1 {
   font-size: 2.5rem;
   font-weight: bold;
@@ -271,28 +284,23 @@ main {
   border-radius: 50% !important;
   cursor: pointer;
   transition: transform 0.3s ease, background-color 0.3s ease;
-  /* Transition properties */
 }
 
 .playbutton:hover {
   transform: scale(1.1);
-  /* Scale the button on hover */
   opacity: 0.8;
 }
 
 .watchlater {
   cursor: pointer;
   transition: transform 0.3s ease, background-color 0.3s ease;
-  /* Transition properties */
 }
 
 .watchlater:hover {
   transform: scale(1.1);
-  /* Scale the button on hover */
   opacity: 0.8;
 }
 
-/* Position carousel arrows beside the movies */
 .carousel-control-prev,
 .carousel-control-next {
   position: absolute;
@@ -313,12 +321,20 @@ main {
   right: -50px;
 }
 
+.carousel-fade .carousel-item {
+  opacity: 0;
+  transition-property: opacity;
+}
 
+.carousel-fade .carousel-item.active {
+  opacity: 1;
+}
 
-/* for debuging */
-/* .carousel-control-prev, .carousel-control-next {
-  background-color: rgba(255, 0, 0, 0.5);  Temporary red color 
-} */
+.animate-carousel-image {
+  animation: fadeZoomIn 1s ease-in-out forwards !important;
+}
+
+/* Footer Styles */
 .footer {
   background-color: #111;
   padding: 40px 0;
@@ -339,86 +355,7 @@ main {
   margin-right: 15px;
 }
 
-/* Multi-Card Carousel Styles */
-.multi-card-carousel {
-  padding: 40px 0;
-  width: 90%;
-  height: 80vh;
-  margin: 0 auto;
-}
-
-.multi-card-carousel h2 {
-  text-align: start;
-  font-size: 35px;
-}
-
-.card-carousel-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  overflow: visible;
-  width: 90%;
-  margin: 0 auto;
-}
-
-.card-carousel {
-  display: flex;
-  gap: 20px;
-  transition: transform 0.5s ease;
-  width: 100%;
-}
-
-.movie-card-link {
-  text-decoration: none;
-}
-
-
-/* Delayed Disable
-.movie-card {
-  cursor: pointer;
-  flex: 0 0 calc((100% - 100px) / 6);
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: #000000;
-  color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  /* width: 500px !important; */
-/*  height: auto;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-}
-*/
-/* .movie-card:hover {
-  transform: scale(1.05);
-} */
-
-/* .movie-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.movie-card-content {
-  padding: 10px;
-  color: white;
-} */
-
-/* .movie-card-title {
-  font-size: 1rem;
-  margin-bottom: 5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-} */
-
-/* .movie-card-info {
-  font-size: 0.8rem;
-  color: #aaa;
-} */
-
+/* Watch Container Styles */
 .watchContainer {
   padding: 40px 0;
   width: 90%;
@@ -473,6 +410,7 @@ main {
   transform: translate(-50%, -50%) scale(1.05);
 }
 
+/* Top Picks Section */
 .top-picks-section {
   padding: 40px 0;
   width: 90%;
@@ -484,90 +422,26 @@ main {
   display: none !important;
 }
 
-/* Direct Image Animation Styles */
-
-/* Main carousel image animation */
-.carousel-item {
-  transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
-  transform: scale(0.95);
-  opacity: 0;
-}
-
-.carousel-item.active {
-  transform: scale(1);
-  opacity: 1;
-}
-
-/* Target the actual images directly */
-.carousel-item img {
-  transition: transform 0.8s ease-in-out;
-  transform-origin: center center;
-}
-
-/* Add animation to active image */
-.carousel-item.active img {
-  animation: zoomInOut 10s ease-in-out infinite;
-}
-
-/* Keyframe animation for smooth zoom effect */
+/* Animations */
 @keyframes zoomInOut {
   0% {
     transform: scale(1);
   }
-
   50% {
     transform: scale(1.05);
   }
-
   100% {
     transform: scale(1);
   }
-}
-
-/* For multi-card carousel images */
-.movie-card img {
-  transition: all 0.5s ease;
-  transform-origin: center center;
-}
-
-.movie-card:hover img {
-  transform: scale(1.1);
-}
-
-/* Ensure Bootstrap's default transitions don't interfere */
-.carousel-fade .carousel-item {
-  opacity: 0;
-  transition-property: opacity;
-}
-
-.carousel-fade .carousel-item.active {
-  opacity: 1;
-}
-
-/* Direct style for main carousel large images */
-.main-carousel-item img {
-  animation: kenBurnsEffect 20s ease-in-out infinite alternate;
-}
-
-.carousel-title {
-  padding-bottom: 20px;
-  padding-top: 20px;
-  /* border:none */
 }
 
 @keyframes kenBurnsEffect {
   0% {
     transform: scale(1) translateX(0);
   }
-
   100% {
     transform: scale(1.05) translateX(-10px);
   }
-}
-
-/* JavaScript animation trigger class */
-.animate-carousel-image {
-  animation: fadeZoomIn 1s ease-in-out forwards !important;
 }
 
 @keyframes fadeZoomIn {
@@ -575,45 +449,16 @@ main {
     opacity: 0.7;
     transform: scale(0.95);
   }
-
   100% {
     opacity: 1;
     transform: scale(1);
   }
 }
 
-/* Force hardware acceleration for smoother animations */
-.carousel-item img {
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-transform: translateZ(0);
-  -moz-transform: translateZ(0);
-  transform: translateZ(0);
-}
-
+/* Responsive Adjustments for Main Carousel */
 @media screen and (max-width: 768px) {
   h2 {
     font-size: 25px !important;
-  }
-
-  .card-carousel-container {
-    width: 95%;
-    height: auto;
-  }
-
-  .card-carousel {
-    overflow: hidden;
-  }
-
-  .multi-card-carousel {
-    width: 75%;
-    height: 40vh;
-  }
-
-  .top-picks-section {
-    width: 75%;
-    height: 50vh;
   }
 
   .watchContainer {
@@ -640,380 +485,6 @@ main {
     width: 22px;
     height: 22px;
   }
-}
-
-/* Responsive Multi-Card Carousel Styles */
-.multi-card-carousel {
-  padding: 30px 0;
-  width: 100%;
-  margin: 0 auto;
-  position: relative;
-}
-
-.multi-card-carousel h2 {
-  text-align: start;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: white;
-}
-
-.card-carousel-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  overflow: visible;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.card-carousel {
-  display: flex;
-  gap: 15px;
-  transition: transform 0.5s ease;
-  width: 100%;
-}
-
-/* Enhanced Movie Card Styles */
-.movie-card {
-  cursor: pointer;
-  background-color: #000000;
-  color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.movie-card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
-
-.movie-card img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 2/3;
-  object-fit: cover;
-  transition: all 0.5s ease;
-}
-
-.movie-card-content {
-  padding: 10px;
-  color: white;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.movie-card-title {
-  font-size: 1rem;
-  margin-bottom: 5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-weight: 600;
-}
-
-.movie-card-info {
-  font-size: 0.8rem;
-  color: #aaa;
-}
-
-/* Better Carousel Controls */
-.carousel-control-prev,
-.carousel-control-next {
-  width: 40px;
-  height: 40px;
-  background-color: rgba(0, 0, 0, 0.7);
-  border-radius: 50%;
-  top: 45%;
-  opacity: 0.7;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.carousel-control-prev:hover,
-.carousel-control-next:hover {
-  opacity: 1;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  width: 20px;
-  height: 20px;
-}
-
-/* Responsive breakpoints - match these with your JS component logic */
-@media screen and (max-width: 1200px) {
-  .multi-card-carousel {
-    padding: 25px 0;
-  }
-
-  .multi-card-carousel h2 {
-    font-size: 1.8rem;
-  }
-}
-
-@media screen and (max-width: 992px) {
-  .multi-card-carousel {
-    padding: 20px 0;
-  }
-
-  .multi-card-carousel h2 {
-    font-size: 1.6rem;
-  }
-
-  .movie-card-title {
-    font-size: 0.9rem;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .multi-card-carousel {
-    padding: 15px 0;
-    width: 95%;
-    height: auto;
-  }
-
-  .multi-card-carousel h2 {
-    font-size: 1.4rem;
-  }
-
-  .movie-card-content {
-    padding: 8px;
-  }
-
-  .carousel-control-prev,
-  .carousel-control-next {
-    width: 35px;
-    height: 35px;
-  }
-
-  .carousel-control-prev-icon,
-  .carousel-control-next-icon {
-    width: 18px;
-    height: 18px;
-  }
-}
-
-@media screen and (max-width: 576px) {
-  .multi-card-carousel {
-    padding: 12px 0;
-    width: 100%;
-  }
-
-  .multi-card-carousel h2 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .movie-card-title {
-    font-size: 0.8rem;
-  }
-
-  .movie-card-info {
-    font-size: 0.7rem;
-  }
-
-  .carousel-control-prev,
-  .carousel-control-next {
-    width: 30px;
-    height: 30px;
-    top: 40%;
-  }
-
-  .carousel-control-prev-icon,
-  .carousel-control-next-icon {
-    width: 15px;
-    height: 15px;
-  }
-}
-
-/* Touch swipe support styling - smoother animations */
-.carousel-inner {
-  touch-action: pan-y;
-}
-
-/* Fix for spacing between rows in movie cards */
-.row.g-3 {
-  --bs-gutter-y: 1rem;
-}
-
-/* Responsive Multi-Card Carousel Styles */
-.multi-card-carousel {
-  padding: 30px 0;
-  width: 100%;
-  margin: 0 auto;
-  position: relative;
-}
-
-.multi-card-carousel h2 {
-  text-align: start;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: white;
-}
-
-.card-carousel-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  overflow: visible;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.card-carousel {
-  display: flex;
-  gap: 15px;
-  transition: transform 0.5s ease;
-  width: 100%;
-}
-
-/* Enhanced Movie Card Styles */
-.movie-card {
-  cursor: pointer;
-  background-color: #000000;
-  color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.movie-card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
-
-.movie-card img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 2/3;
-  object-fit: cover;
-  transition: all 0.5s ease;
-}
-
-.movie-card-content {
-  padding: 10px;
-  color: white;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.movie-card-title {
-  font-size: 1rem;
-  margin-bottom: 5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-weight: 600;
-}
-
-.movie-card-info {
-  font-size: 0.8rem;
-  color: #aaa;
-}
-
-/* Better Carousel Controls */
-.carousel-control-prev,
-.carousel-control-next {
-  width: 40px;
-  height: 40px;
-  background-color: rgba(0, 0, 0, 0.7);
-  border-radius: 50%;
-  top: 45%;
-  opacity: 0.7;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.carousel-control-prev:hover,
-.carousel-control-next:hover {
-  opacity: 1;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  width: 20px;
-  height: 20px;
-}
-
-/* Responsive breakpoints - match these with your JS component logic */
-@media screen and (max-width: 1200px) {
-  .multi-card-carousel {
-    padding: 25px 0;
-  }
-
-  .multi-card-carousel h2 {
-    font-size: 1.8rem;
-  }
-}
-
-@media screen and (max-width: 992px) {
-  .multi-card-carousel {
-    padding: 20px 0;
-  }
-
-  .multi-card-carousel h2 {
-    font-size: 1.6rem;
-  }
-
-  .movie-card-title {
-    font-size: 0.9rem;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .multi-card-carousel {
-    padding: 15px 0;
-    width: 95%;
-    height: auto;
-  }
-
-  .multi-card-carousel h2 {
-    font-size: 1.4rem;
-  }
-
-  .movie-card-content {
-    padding: 8px;
-  }
-
-  .carousel-control-prev,
-  .carousel-control-next {
-    width: 35px;
-    height: 35px;
-  }
-
-  .carousel-control-prev-icon,
-  .carousel-control-next-icon {
-    width: 18px;
-    height: 18px;
-  }
-
-  .carousel-control-prev {
-    left: -30px;
-  }
-
-  .carousel-control-next {
-    right: -30px;
-  }
-
-  .main-carousel-item {
-    width: 100%;
-    z-index: 0;
-    height: 60vh;
-    padding: 0 0;
-  }
 
   .carousel-caption {
     text-align: left;
@@ -1022,7 +493,6 @@ main {
     bottom: 28%;
     width: 80%;
     padding-left: 0px;
-    /* Add some spacing */
   }
 
   .carousel-caption h1 {
@@ -1040,44 +510,11 @@ main {
   .carousel-caption .info {
     width: 80%;
   }
-}
 
-@media screen and (max-width: 576px) {
-  .multi-card-carousel {
-    padding: 12px 0;
-    width: 100%;
+  .top-picks-section {
+    width: 75%;
+    height: 50vh;
   }
-
-  .multi-card-carousel h2 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .movie-card-title {
-    font-size: 0.8rem;
-  }
-
-  .movie-card-info {
-    font-size: 0.7rem;
-  }
-
-  .carousel-control-prev,
-  .carousel-control-next {
-    width: 30px;
-    height: 30px;
-    top: 40%;
-  }
-
-  .carousel-control-prev-icon,
-  .carousel-control-next-icon {
-    width: 15px;
-    height: 15px;
-  }
-}
-
-/* Touch swipe support styling - smoother animations */
-.carousel-inner {
-  touch-action: pan-y;
 }
 
 /* Fix for spacing between rows in movie cards */

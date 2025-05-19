@@ -26,7 +26,7 @@ export const FloatingYouTubePlayer = ({ videoId }) => {
     container: {
       position: "relative",
       width: "100%",
-      maxWidth: "1500px",
+      maxWidth: "1000px",
     },
     videoWrapper: {
       position: "relative",

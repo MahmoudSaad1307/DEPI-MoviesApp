@@ -9,8 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { ToastContainer, toast } from "react-toastify";
-import { addReview, getMovieReviews } from "../../Backend/api/api";
+import { addReview, getMovieReviews } from "../../api/api";
 import CastCard from "../constants/components/CastCard";
+import { FloatingYouTubePlayer } from "../constants/components/FloatingYouTubePlayer";
 import InteractionPanel from "../constants/components/InteractionPanel";
 import MovieCard from "../constants/components/MovieCard";
 import ReviewCard from "../constants/components/ReviewCard";
@@ -20,16 +21,17 @@ import {
   BASE_URL,
   ENDPOINTS,
   IMAGE_URL,
+  TOKEN,
 } from "../constants/constants";
+import { hideTrailer } from "../redux/slices/trailerSlice";
 import "./MovieDetails.css";
 import "./responsive.css";
 import "./styles.css";
-import { FloatingYouTubePlayer } from "../constants/components/FloatingYouTubePlayer";
-import { hideTrailer } from "../redux/slices/trailerSlice";
+import { disableReload } from "../redux/slices/userSlice";
 
 const MovieDetails = () => {
-  const {showTrailer} = useSelector((state) => state.trailer)
-  const { user ,token} = useSelector((state) => state.user);
+  const { showTrailer } = useSelector((state) => state.trailer);
+  const { user, token,reloadOnFirstTime } = useSelector((state) => state.user);
   const { favorites, watchlist, watched } = useSelector(
     (state) => state.userMovies
   );
@@ -82,7 +84,6 @@ const MovieDetails = () => {
     }
     try {
       await addReview({
-        userId: user._id,
         type: media_type,
         movieId: id,
         content: { text: reviewContent },
@@ -104,17 +105,16 @@ const MovieDetails = () => {
           fontSize: "14px",
         },
       });
-    
     } catch (error) {
+      console.log(TOKEN);
+      
       console.error("Error adding review:", error);
-    }
-    finally{
-
+    } finally {
       setTimeout(() => {
         window.location.reload();
       }, 500);
     }
-    
+
     setReviewContent("");
     const modal = document.getElementById("addReviewModal");
     if (modal) {
@@ -124,9 +124,26 @@ const MovieDetails = () => {
       }
     }
   };
+useEffect(() => {
+    
+    console.log("waiting..");
+    if (reloadOnFirstTime){
 
+      console.log("reload..");
+      dispatch(disableReload())
+        console.log("reload..");
+        window.location.reload
+    }
+  },[])
   useEffect(() => {
-    dispatch(hideTrailer())
+    if(reloadOnFirstTime)
+    {
+      window.location.reload();
+      setReloadOnFirstTime(false);
+    }
+  },[])
+  useEffect(() => {
+    dispatch(hideTrailer());
     if (id) {
       fetchMovieDetails();
       getReviews();
@@ -252,12 +269,7 @@ const MovieDetails = () => {
 
   return (
     <>
-{showTrailer && (
-  <FloatingYouTubePlayer 
-    videoId={bestTrailer?.key} 
-  
-  />
-)}
+      {showTrailer && <FloatingYouTubePlayer videoId={bestTrailer?.key} />}
       <ToastContainer
         position="bottom-right"
         autoClose={3000}
@@ -326,6 +338,7 @@ const MovieDetails = () => {
                 <span id="description-text">{movieData.overview}</span>
               </div>
               <InteractionPanel
+            
                 showModal={showListModal}
                 setShowModal={setShowListModal}
                 media_type={media_type}
@@ -398,7 +411,7 @@ const MovieDetails = () => {
                       className="col-md-3 col-sm-6 col-lg-2 movie-container"
                       key={movie.id}
                     >
-                      <div >
+                      <div>
                         <MovieCard
                           movie={movie}
                           index={index}

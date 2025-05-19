@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import { ToastContainer, toast } from "react-toastify";
-import { updateUser } from "../../Backend/api/api";
+import { updateUser } from "../../api/api";
 import { storage } from "../firebase/firebase"; // Import your Firebase storage instance (adjust the path as needed)
 import { setUser } from "../redux/slices/userSlice";
 import "./UserEditPage.css";
@@ -77,8 +77,12 @@ const UserEditPage = () => {
           padding: "12px 20px",
           fontSize: "14px",
         },
+      
       });
     }
+      finally {
+          setLoading(false);
+        }
   };
 
   // Upload file function (exported separately)

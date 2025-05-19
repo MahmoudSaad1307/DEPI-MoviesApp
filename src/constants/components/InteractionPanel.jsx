@@ -5,17 +5,18 @@ import {
   toggleFavorite,
   toggleWatched,
   toggleWatchlist,
-} from "../../../Backend/api/api";
+} from "../../../api/api";
 import "../../pages/AddToList.css";
+import { setTrailer } from "../../redux/slices/trailerSlice";
 import {
   setFavorites,
   setWatched,
   setWatchlist,
 } from "../../redux/slices/userMoviesSlice";
 import "./InteractionPanel.css";
-import { setTrailer } from "../../redux/slices/trailerSlice";
 
 export default function InteractionPanel({
+
   showModal,
   setShowModal,
   movieId,
@@ -54,6 +55,7 @@ export default function InteractionPanel({
     setShowModal(!showModal);
   };
 
+
   const effectiveRating = hoveredRating !== null ? hoveredRating : activeRating;
 
   const toggleButton = async (buttonName) => {
@@ -65,6 +67,7 @@ export default function InteractionPanel({
         if (isInWatched) setActiveRating(0);
         dispatch(setWatched({ watched: response.data.watched }));
       } catch (error) {
+
         console.log(error);
       }
     } else if (buttonName === "favorite") {
@@ -72,6 +75,7 @@ export default function InteractionPanel({
         response = await toggleFavorite({ userId: user._id, movieId });
         dispatch(setFavorites({ favorites: response.data.favorites }));
       } catch (error) {
+
         console.log(error);
       }
     } else if (buttonName === "watchLater") {
@@ -79,6 +83,7 @@ export default function InteractionPanel({
         response = await toggleWatchlist({ userId: user._id, movieId });
         dispatch(setWatchlist({ watchlist: response.data.watchlist }));
       } catch (error) {
+
         console.log(error);
       }
     }
@@ -96,21 +101,23 @@ export default function InteractionPanel({
       dispatch(setWatched({ watched: response.data.watched }));
       setActiveRating(segmentScore);
     } catch (error) {
+        setReloadOnFirstTime(true);
+
       console.log(error);
     }
   };
 
   const getSegmentClass = (segmentScore) => {
     if (segmentScore > effectiveRating) {
-      return "segment"; 
+      return "segment";
     }
 
     if (effectiveRating < 4) {
-      return "segment segment-low"; 
+      return "segment segment-low";
     } else if (effectiveRating < 7) {
-      return "segment segment-medium"; 
+      return "segment segment-medium";
     } else {
-      return "segment segment-high"; 
+      return "segment segment-high";
     }
   };
 

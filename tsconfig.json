@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-  
     "target": "es2017",
     "module": "commonjs",
     "allowJs": true,
@@ -13,6 +12,6 @@
   },
   "include": [
     "src",
-    "Backend/api"
+    "api"
   ]
 }

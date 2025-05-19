@@ -38,9 +38,9 @@ export default function MovieCard(props) {
                 movie.vote_average.toFixed(1)}
             </div>
 
-            {index % 3 === 0 && <div className="top-badge">TOP 10</div>}
+            {index % 3 === 0 && <div className="top-badge">Trending</div>}
 
-            {hoverWindow && (
+            {true && (
               <div className="movie-detail">
                 <div className="detail-backdrop">
                   <img
@@ -74,7 +74,7 @@ export default function MovieCard(props) {
                     </span>
                   </div>
                   <div className="detail-description">
-                    {movie.overview.slice(0, 300) ||
+                    { typeof movie.overview === "string" &&movie.overview.slice(0, 300) ||
                       "No description available."}
                   </div>
                 </div>

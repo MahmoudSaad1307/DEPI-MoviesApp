@@ -177,6 +177,7 @@ const Search = ({ setIsSearchVisible }) => {
                 return (
                   <div className="search-cast-card">
                     <CastCard 
+                    id={result.id}
                       key={result.id}
                       name={result.name}
                       character={result.known_for[0]?.title || result.known_for[0]?.name}

@@ -100,14 +100,13 @@ const UserProfile = () => {
         }
       });
 
-      // Create data for the pie chart
       const data = ratingCounts
         .map((count, index) => ({
           name: `${index + 1}★`,
           value: count,
           rating: index + 1,
         }))
-        .filter((item) => item.value > 0); // Only include ratings that have at least one movie
+        .filter((item) => item.value > 0); 
 
       setRatingStats(data);
     };
@@ -133,8 +132,6 @@ const UserProfile = () => {
 
   return (
     <>
-      {/* Inject CSS */}
-
       <div className="film-profile-container mt-4">
         <div className="container profile-header-container">
           <div className="row mb-4">
@@ -148,19 +145,20 @@ const UserProfile = () => {
                   />
                 </div>
                 <div className="profile-info">
-  <div className="d-flex align-items-center mb-2">
-    <h1 className="profile-name me-3">{user?.name || "User"}</h1>
-    <Link to={'/user/edit'}>
-      <button className="btn btn-sm btn-edit-profile me-2">EDIT PROFILE</button>
-    </Link>
-  </div>
-  <div className='bio'>
-    <p>
-      {user?.bio || "No bio available."}
-    </p>
-  </div>
-</div>
-                
+                  <div className="d-flex align-items-center mb-2">
+                    <h1 className="profile-name me-3">
+                      {user?.name || "User"}
+                    </h1>
+                    <Link to={"/user/edit"}>
+                      <button className="btn btn-sm btn-edit-profile me-2">
+                        EDIT PROFILE
+                      </button>
+                    </Link>
+                  </div>
+                  <div className="bio">
+                    <p>{user?.bio || "No bio available."}</p>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="col-md-4">
@@ -201,7 +199,6 @@ const UserProfile = () => {
                   Reviews
                 </Link>
               </li>
-              
             </ul>
           </nav>
         </div>
@@ -214,8 +211,11 @@ const UserProfile = () => {
                   {favoriteFilms.length > 0 ? (
                     favoriteFilms.map((film) => (
                       <div>
-                                              <MovieCard key={film.id} movie={film} isMovie={"movie"} />
-
+                        <MovieCard
+                          key={film.id}
+                          movie={film}
+                          isMovie={"movie"}
+                        />
                       </div>
                     ))
                   ) : (
@@ -228,8 +228,14 @@ const UserProfile = () => {
                 <div className="row row-cols-2 row-cols-sm-4 g-4">
                   {recentlyWatched.length > 0 ? (
                     recentlyWatched.map((film) => (
-                      <div>                      <MovieCard key={film.id} movie={film} isMovie={"movie"} />
-</div>
+                      <div>
+                        {" "}
+                        <MovieCard
+                          key={film.id}
+                          movie={film}
+                          isMovie={"movie"}
+                        />
+                      </div>
                     ))
                   ) : (
                     <p>No recently watched movies available.</p>
@@ -255,17 +261,36 @@ const UserProfile = () => {
                           cy="50%"
                           innerRadius={40}
                           outerRadius={80}
-                          paddingAngle={2}
+                          paddingAngle={5}
                           dataKey="value"
                           nameKey="name"
-                          label={({ name }) => name}
+                          label={({cx, cy, midAngle, innerRadius, outerRadius, name, value }) => {
+                            const RADIAN = Math.PI / 180;
+    const radius = innerRadius + (outerRadius - innerRadius) * 1.4; 
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="#fff"
+        textAnchor={x > cx ? "start" : "end"}
+        dominantBaseline="central"
+      >
+        {name}
+      </text>
+    );
+  
+                          }}
                           labelLine={false}
                         >
                           {ratingStats.map((entry, index) => (
-                            <Cell
-                              key={`cell-${index}`}
-                              fill={COLORS[entry.rating - (1 % COLORS.length)]}
-                            />
+                              <Cell
+                                key={`cell-${index}`}
+                                fill={
+                                  COLORS[entry.rating - (1 % COLORS.length)]
+                                }
+                              />
                           ))}
                         </Pie>
                         <Tooltip content={<CustomTooltip />} />
@@ -280,7 +305,7 @@ const UserProfile = () => {
                   ) : (
                     <div className="text-center py-4">
                       <p>No rating data available.</p>
-                      <p className="text-muted small">
+                      <p className="text-secondary small">
                         Rate movies to see your distribution
                       </p>
                     </div>

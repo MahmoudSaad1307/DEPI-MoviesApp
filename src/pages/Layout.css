@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
 }
 
 
@@ -16,7 +17,9 @@
   margin: auto;
 }
 
-
+.bottom-icons{
+  cursor:pointer
+}
 header {
   background-color: #14181c;
   position: relative;

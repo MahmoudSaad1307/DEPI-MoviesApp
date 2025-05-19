@@ -1,0 +1,139 @@
+.carousel-title,
+.multi-card-carousel h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: start;
+  color: white;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  margin-bottom: 1rem;
+}
+
+/* Multi-Card Carousel Core Styles */
+.multi-card-carousel {
+  padding: 40px 0;
+  width: 95%;
+  position: relative;
+}
+
+.card-carousel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: visible;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.card-carousel {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.5s ease;
+  width: 100%;
+}
+
+/* Better Carousel Controls */
+.carousel-control-prev,
+.carousel-control-next {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  top: 45%;
+  opacity: 0.7;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  opacity: 1;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 1200px) {
+  .multi-card-carousel {
+    padding: 25px 0;
+  }
+  
+  .carousel-title,
+  .multi-card-carousel h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .multi-card-carousel {
+    padding: 20px 0;
+  }
+  
+  .carousel-title,
+  .multi-card-carousel h2 {
+    font-size: 1.6rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .multi-card-carousel {
+    padding: 15px 0;
+    width: 95%;
+    height: auto;
+  }
+  
+  .carousel-title,
+  .multi-card-carousel h2 {
+    font-size: 1.4rem;
+  }
+  
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .carousel-control-prev {
+    left: -20px;
+  }
+  
+  .carousel-control-next {
+    right: -20px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .multi-card-carousel {
+    padding: 12px 0;
+    width: 100%;
+  }
+  
+  .carousel-title,
+  .multi-card-carousel h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 30px;
+    height: 30px;
+    top: 40%;
+  }
+  
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 15px;
+    height: 15px;
+  }
+}

@@ -16,9 +16,33 @@ import WhatIsMovie from './pages/WhatIsMovie';
 import './pages/styles.css';
 import GlobalStyle from './constants/GlobalStyling';
 import Movies4User from './pages/Movies4User';
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from 'react';
+import { getToken, setToken } from './utilites/auth';
+import { disableReload } from './redux/slices/userSlice';
 
 const App = () => {
   console.log(window.bootstrap, 'boobobobob');
+  const { token,user,reloadOnFirstTime } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    
+    setToken(token);
+    console.log(getToken(), "token");
+
+  }, [user]);
+
+  useEffect(() => {
+    
+    console.log("waiting..");
+    if (reloadOnFirstTime){
+      console.log("reload..");
+      window.location.reload();
+      dispatch(disableReload())
+    }
+  },[])
+
+
   return (
     <>
       <GlobalStyle />

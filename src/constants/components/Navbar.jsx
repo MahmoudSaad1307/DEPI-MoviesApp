@@ -53,7 +53,7 @@ const Navbar = () => {
           <Link className="navbar-brand d-flex align-items-center mb-0 p-0" to="/">
             <img
               src="https://firebasestorage.googleapis.com/v0/b/social-app-834ec.appspot.com/o/ChatGPT_Image_May_7__2025__07_36_25_PM-removebg-preview%20(2).png?alt=media&token=06238ea3-6171-47c7-b012-d3a82938460c"
-              style={{ width: "140px", height: "80px", objectFit: "cover", margin: "0" }}
+              style={{ width: "100px", height: "80px", objectFit: "cover", margin: "0" }}
               alt="MovieRecom Logo"
             />
           </Link>
@@ -98,7 +98,7 @@ const Navbar = () => {
 
             <div className="d-flex align-items-center justify-content-center">
               <ul className="navbar-nav">
-                <li className="nav-item me-3 search">
+                <li className="nav-item me-2 mb-2 mb-md-0  search">
                   <a href="#" title="Search" onClick={toggleSearch}>
                     <i className="bi bi-search" style={{ fontSize: "18px" }}></i>
                   </a>
@@ -115,18 +115,17 @@ const Navbar = () => {
                       aria-expanded="false"
                     >
                       <i
-                        className="mx-3"
+                        className="me-2"
                         style={{
                           backgroundImage: `url(${user?.photoURL})`,
                           display: "inline-block",
-                          width: "50px",
-                          height: "50px",
+                          width: "40px",
+                          height: "40px",
                           backgroundSize: "cover",
                           backgroundPosition: "center",
                           borderRadius: "50%",
                         }}
                       ></i>
-                      {user?.name}
                     </a>
                     <ul className="dropdown-menu dropdown-menu-end flex-column align-items-center rounded-3 fs-5">
                       <li className="dropdown-item no-hover py-2">
@@ -158,7 +157,7 @@ const Navbar = () => {
               {!user && (
                 <div style={{ display: "flex" }}>
                   <Link className="nav-link" to="/signup" onClick={() => setIsNavOpen(false)}>
-                    <button className="btn text-light ms-3">SignUp</button>
+                    <button className="btn  text-light ms-3 ">SignUp</button>
                   </Link>
                   <Link className="nav-link" to="/login" onClick={() => setIsNavOpen(false)}>
                     <button className="btn ms-3 text-light">Login</button>

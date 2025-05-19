@@ -1,11 +1,15 @@
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import Swal from "sweetalert2";
-import { registerUser } from "../../Backend/api/api";
+import { registerUser } from "../../api/api";
 import "./SignUp.css";
+import { setToken } from "../utilites/auth";
+import { login } from "../redux/slices/userSlice";
+import { setFavorites, setWatched, setWatchlist } from "../redux/slices/userMoviesSlice";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -14,7 +18,29 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { isAuthenticated, token, user } = useSelector((state) => state.user);
+  const { favorites, watchlist, watched } = useSelector(
+    (state) => state.userMovies
+  );
+
+  // Password validation function
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    return (
+      password.length >= minLength &&
+      hasUpperCase &&
+      hasLowerCase &&
+      hasNumber &&
+      hasSpecialChar
+    );
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,26 +58,76 @@ const SignUp = () => {
       return;
     }
 
-    try {
-      await registerUser({ name: username, email: email, password: password });
+    if (!validatePassword(password)) {
+      setError(
+        "Password must be at least 8 characters long and include an uppercase letter, lowercase letter, number, and special character."
+      );
+      setLoading(false);
+      return;
+    }
+
+  try {
+    setLoading(true);
+    
+    const response = await registerUser({
+      name: username,
+      email: email,
+      password: password,
+    });
+    
+    console.log("Registration response:", response.data);
+    
+    if (response.data && response.data.token) {
+        const userMovies = response.data.user.movies;
+            dispatch(setFavorites({ favorites: userMovies.favorites }));
+            dispatch(setWatchlist({ watchlist: userMovies.watchlist }));
+            dispatch(setWatched({ watched: userMovies.watched }));
+      
+      setToken(response.data.token);
+      console.log("Token:", response.data.token);
+      
+      dispatch(
+        login({ token: response.data.token, user: response.data.user })
+      );
+      
       Swal.fire({
-        title: "User Registered Successfully !",
+        title: "User Registered Successfully!",
         icon: "success",
         html: "<style>.swal2-title { border: none }</style>",
       });
+      
+      navigate("/");
+    } else {
+      Swal.fire({
+        title: "User Registered Successfully!",
+        icon: "success",
+        html: "<style>.swal2-title { border: none }</style>",
+      });
+      
+      // Navigate to login page instead
       navigate("/login");
-    } catch (error) {
-      alert(error.toString());
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (error) {
+    console.error("Registration error:", error);
+    
+    Swal.fire({
+      title:
+        error.response?.data === "[object Object]"
+          ? "User Registration Failed!"
+          : error.response?.data || "Registration failed. Please try again.",
+      icon: "error",
+      html: "<style>.swal2-title { border: none }</style>",
+    });
+  } finally {
+    setLoading(false);
+  }
+}
 
   return (
     <div
       className="d-flex justify-content-center align-items-center min-vh-100 position-relative signup-container"
       style={{
-        background: "linear-gradient(to bottom, #1c2526, #2e3b3e)", // Gradient background matching LoginPage
+        background: "linear-gradient(to bottom, #1c2526, #2e3b3e)",
       }}
     >
       {/* Dark Overlay */}
@@ -67,9 +143,9 @@ const SignUp = () => {
             className="card p-4 border-0 mx-auto animate__animated animate__fadeIn"
             style={{
               maxWidth: "450px",
-              backgroundColor: "rgba(40, 44, 52, 0.95)", 
+              backgroundColor: "rgba(40, 44, 52, 0.95)",
               borderRadius: "15px",
-              boxShadow: "0 8px 20px rgba(0, 0, 0, 0.3)", 
+              boxShadow: "0 8px 20px rgba(0, 0, 0, 0.3)",
             }}
           >
             <h2
@@ -173,10 +249,11 @@ const SignUp = () => {
                     <i className="bi bi-lock"></i>
                   </span>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     className="form-control bg-dark text-white border-secondary"
                     style={{
                       borderLeft: "none",
+                      borderRight: "none",
                       padding: "10px",
                       transition: "border-color 0.3s",
                     }}
@@ -185,6 +262,15 @@ const SignUp = () => {
                     placeholder="Enter your password"
                     required
                   />
+                  <span
+                    className="input-group-text bg-dark border-secondary text-white"
+                    style={{ borderLeft: "none", cursor: "pointer" }}
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    <i
+                      className={showPassword ? "bi bi-eye-slash" : "bi bi-eye"}
+                    ></i>
+                  </span>
                 </div>
               </div>
 

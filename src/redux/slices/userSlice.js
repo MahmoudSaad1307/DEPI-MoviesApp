@@ -5,6 +5,7 @@ const initialState = {
   token: null,
   isAuthenticated: false,
   user: null,
+  reloadOnFirstTime: false
 };
 
 const userSlice = createSlice({
@@ -22,8 +23,13 @@ const userSlice = createSlice({
       state.token = action.payload.token;
       state.user = action.payload.user;
       state.isAuthenticated = true;
+      state.reloadOnFirstTime = true;
       // state.
     },
+disableReload:(state)=>{
+state.reloadOnFirstTime = false;
+
+}    ,
     logout: (state) => {
       state.token = null;
       state.user = null;
@@ -32,5 +38,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { login, logout ,setUser} = userSlice.actions;
+export const { login, logout ,setUser,disableReload} = userSlice.actions;
 export default userSlice.reducer;

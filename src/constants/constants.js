@@ -7,7 +7,6 @@ import { getToken } from "../../src/utilites/auth";
 
 export const API_URL = 'https://diplomatic-kris-malik1307-9371a6ef.koyeb.app/api'; 
 // export const API_URL = 'http://localhost:3000/api'; 
-
 export const TOKEN =getToken();
 
 

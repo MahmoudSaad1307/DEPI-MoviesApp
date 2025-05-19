@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import Swal from "sweetalert2";
-import { loginUser } from "../../Backend/api/api";
+import { loginUser } from "../../api/api";
 import {
   setFavorites,
   setWatched,
@@ -19,6 +19,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const { isAuthenticated, token, user } = useSelector((state) => state.user);
   const { favorites, watchlist, watched } = useSelector(
@@ -45,15 +46,20 @@ const LoginPage = () => {
       dispatch(
         login({ token: getToken(), user: response.data.userWithoutPassword })
       );
+
       Swal.fire({
-        title: "Login Success !",
+        title: "Login successful!",
         icon: "success",
         html: "<style>.swal2-title { border: none }</style>",
       });
       navigate("/");
     } catch (error) {
       console.log(error);
-      alert("Please check your email and password");
+      Swal.fire({
+        title: "Please check your email and password!",
+        icon: "error",
+        html: "<style>.swal2-title { border: none }</style>",
+      });
     } finally {
       setLoading(false);
     }
@@ -138,7 +144,7 @@ const LoginPage = () => {
                     <i className="bi bi-lock"></i>
                   </span>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     className="form-control bg-dark text-white border-secondary"
                     style={{
                       borderLeft: "none",
@@ -150,6 +156,15 @@ const LoginPage = () => {
                     placeholder="Enter your password"
                     required
                   />
+                    <span
+                    className="input-group-text bg-dark border-secondary text-white"
+                    style={{ borderLeft: "none", cursor: "pointer" }}
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    <i
+                      className={showPassword ? "bi bi-eye-slash" : "bi bi-eye"}
+                    ></i>
+                  </span>
                 </div>
               </div>
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
-import { getMyReviews } from "../../Backend/api/api";
+import { getMyReviews } from "../../api/api";
 import ReviewCard from "../constants/components/ReviewCard";
 import "../pages/MovieDetails.css";
 

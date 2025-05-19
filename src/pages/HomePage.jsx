@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./HomePage.css";
+import './CarouselFixes.css'
 import {
   BASE_URL,
   API_KEY,
@@ -54,7 +55,7 @@ const HomePage = () => {
         id="carouselExampleFade"
         className="carousel slide auto-play carousel-fade  py-0"
         data-bs-ride="carousel"
-        data-bs-interval="3000" // This sets the interval for auto-play globally
+        data-bs-interval="2000" // This sets the interval for auto-play globally
       >
         <div className="carousel-indicators">
           {trendingItems.map((_, index) => (
@@ -142,8 +143,8 @@ const HomePage = () => {
     )}
 
       <NowPlaying/>
-      <TopPicks />
       <UpComing/>
+      <TopPicks/>
       <Popular />
       <OnAir/>
     </div>
