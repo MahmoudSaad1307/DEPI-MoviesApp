@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
 import { getToken, setToken } from './utilites/auth';
 import { disableReload } from './redux/slices/userSlice';
+import { signInWithGoogle } from './firebase/firebaseServices';
 
 const App = () => {
   console.log(window.bootstrap, 'boobobobob');
@@ -36,9 +37,9 @@ const App = () => {
     
     console.log("waiting..");
     if (reloadOnFirstTime){
+      dispatch(disableReload())
       console.log("reload..");
       window.location.reload();
-      dispatch(disableReload())
     }
   },[])
 
@@ -46,6 +47,8 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
+
+      
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
@@ -69,3 +72,8 @@ const App = () => {
 };
 
 export default App;
+/*
+<div style={{height:"5000px"}} className="d-flex h-100 justify-content-center align-items-center bg-dark text-center">
+        <button onClick={signInWithGoogle}>CLick Me ,I am a google sign in button</button>
+      </div>
+*/

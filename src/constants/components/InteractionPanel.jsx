@@ -39,7 +39,6 @@ export default function InteractionPanel({
 
   const [activeRating, setActiveRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(null);
-  console.log(``);
   useEffect(() => {
     if (isInWatched) {
       const watchedItem = watched.watched?.find(

@@ -2,6 +2,23 @@
 .signup-container {
   background: linear-gradient(to bottom, #1c2526, #2e3b3e);
 }
+.google-sign {
+    transition: background-color 0.3s;
+    flex-grow: 1;
+    min-width: 220px;
+    color: #757575;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    height: 40px;
+    background:white
+    
+}
+.google-sign:hover{
+  background-color: #F8F4F4E3;
+  
+}
+
 
 .signup-card {
   max-width: 450px;

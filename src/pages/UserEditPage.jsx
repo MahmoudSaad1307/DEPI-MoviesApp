@@ -9,6 +9,8 @@ import { updateUser } from "../../api/api";
 import { storage } from "../firebase/firebase"; // Import your Firebase storage instance (adjust the path as needed)
 import { setUser } from "../redux/slices/userSlice";
 import "./UserEditPage.css";
+import { TOKEN } from "../constants/constants";
+import { getToken } from "../utilites/auth";
 
 const UserEditPage = () => {
   const { user } = useSelector((state) => state.user);
@@ -23,13 +25,12 @@ const UserEditPage = () => {
     setLoading(true);
 
     try {
-      let newPhotoURL = user.photoURL; // Default to existing photo URL
+      let newPhotoURL = user.photoURL; 
 
-      // Upload new photo if selected
       if (photo) {
         const photoPath = `profile_photos/${user._id}/${Date.now()}_${
           photo.name
-        }`; // Unique path for each upload
+        }`; 
         newPhotoURL = await uploadFile(photoPath, photo); // Upload to Firebase Storage
       }
 
@@ -64,7 +65,9 @@ const UserEditPage = () => {
         },
       });
     } catch (error) {
-      console.error("Error updating profile:", error);
+      console.error("Error updating profile:", error.response.data);
+      console.log(getToken(),"dd");
+      
       toast.error("Failed to update profile", {
         position: "bottom-right",
         autoClose: 3000,
