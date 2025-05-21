@@ -62,39 +62,12 @@ main {
   color: white !important;
 }
 
-/* Dropdown Menu */
-.dropdown {
-  position: relative;
-}
 
-.dropdown-menu {
-  display: none;
-  position: absolute;
-  background-color: #222;
-  min-width: 150px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  padding: 10px 0;
-  top: 100%;
-  left: 0;
-  z-index: 1000;
-}
 
-.dropdown-menu a {
-  color: white;
-  padding: 10px 15px;
-  text-decoration: none;
-  display: block;
-}
 
-.dropdown-menu a:hover {
-  background-color: #444;
-}
+
 
 /* Show dropdown on hover */
-.dropdown:hover .dropdown-menu {
-  display: block;
-}
 
 /* Search Box */
 .search-container {

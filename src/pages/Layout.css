@@ -2,24 +2,22 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
 }
-
 
 :root {
   --main-color: #13c6b0;
   --hover-color: #139d8dff;
 }
 
-
 .centering {
   width: 1000px;
   margin: auto;
 }
 
-.bottom-icons{
-  cursor:pointer
+.bottom-icons {
+  cursor: pointer;
 }
+
 header {
   background-color: #14181c;
   position: relative;
@@ -71,14 +69,14 @@ li {
   align-items: center;
   position: relative;
 }
-.search:hover i{
-color:gray
 
+.search:hover i {
+  color: gray;
 }
+
 .navbar-nav .nav-item {
   margin: 0 10px;
 }
-
 
 .nav-link {
   text-transform: uppercase;
@@ -86,7 +84,6 @@ color:gray
   font-weight: 800;
   transition: 0.2s;
   color: #F7FAFC;
-
 }
 
 .dropdown {
@@ -101,18 +98,34 @@ color:gray
   border-radius: 50%;
 }
 
-.dropdown-menu  {
-  display: none;
-  /* z-index: ; */
+.dropdown-menu {
   position: absolute;
-  top: 26px;
-  background-color: #FFFFFF4E;
-  padding: 15px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  display: none;
+  background-color: #222;
+  min-width: 150px; 
+  max-width: 90vw; 
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  top: 100%;
+  z-index: 1000;
+  right: 0; 
+  overflow-x: hidden;
 }
-#ll:hover {
-  background:#A82331FF !important;
 
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-menu a {
+  color: white;
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+#ll:hover {
+  background: #A82331FF !important;
 }
 
 .dropdown-item {
@@ -125,18 +138,21 @@ color:gray
 }
 
 a:hover {
-  background:'transparent'
-} 
+  background: transparent;
+}
+
 .btn:hover {
   background: var(--hover-color);
 }
+
 #logOut:hover {
   background: #CA3035FF;
   color: red;
 }
+
 .dropdown-item.no-hover:hover,
 .dropdown-item.no-hover a:hover {
-  background-color: gray !important; /* Prevents background change */
+  background-color: gray !important;
 }
 
 .btnLog {
@@ -189,7 +205,7 @@ hr {
 }
 
 .actorFilms img {
-  width: 125 px;
+  width: 125px;
   height: 190px;
   margin-bottom: 20px;
   border-radius: 5px;
@@ -299,7 +315,3 @@ footer {
 nav + div {
   padding: 0 auto;
 }
-
-/* .dropdown-menu.show {
-  display: block;
-} */

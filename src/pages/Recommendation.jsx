@@ -88,6 +88,19 @@ const MovieQuiz = () => {
   const [recommendedMovies, setRecommendedMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Track window resize for responsive adjustments
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const handleOptionSelect = (option) => {
     const currentQ = questions[step];
@@ -105,14 +118,24 @@ const MovieQuiz = () => {
   const handleNext = () => {
     if (step + 1 < questions.length) {
       setStep(step + 1);
+      // Scroll to top when moving to next question on mobile
+      if (windowWidth < 768) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     } else {
       setShowResult(true);
+      // Scroll to top when showing results
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
   const handlePrev = () => {
     if (step > 0) {
       setStep(step - 1);
+      // Scroll to top when moving to previous question on mobile
+      if (windowWidth < 768) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   };
 
@@ -122,6 +145,8 @@ const MovieQuiz = () => {
     setShowResult(false);
     setRecommendedMovies([]);
     setError(null);
+    // Scroll to top when restarting
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const currentQ = questions[step];
@@ -143,6 +168,15 @@ const MovieQuiz = () => {
       className += ` ${styles.hovered}`;
     }
     return className;
+  };
+
+  const getColumnSize = (options) => {
+    if (windowWidth < 576) return 12; 
+    if (windowWidth < 768) return 6;  
+    
+    if (options.length <= 3) return 4;
+    if (options.length <= 6) return 6;
+    return 4; 
   };
 
   useEffect(() => {
@@ -201,8 +235,12 @@ const MovieQuiz = () => {
           const response = await fetch(`${BASE_URL}/discover/movie?${query}`);
           if (!response.ok) throw new Error('Failed to fetch movies');
           const data = await response.json();
+          
+          // Determine number of movies to show based on screen size
+          const moviesCount = windowWidth < 576 ? 4 : 6;
+          
           if (data.results && data.results.length > 0) {
-            setRecommendedMovies(data.results.slice(0, 6));
+            setRecommendedMovies(data.results.slice(0, moviesCount));
           } else {
             setError('No movies found matching your preferences.');
           }
@@ -214,10 +252,10 @@ const MovieQuiz = () => {
       };
       fetchRecommendations();
     }
-  }, [showResult, answers]);
+  }, [showResult, answers, windowWidth]);
 
   return (
-    <Container className={styles.movieQuizContainer}>
+    <Container  className={`${styles.movieQuizContainer} mt-5 `}>
       <Card className={styles.quizCard}>
         <div className={styles.quizHeader}>
           <h1>Movie Recommendation Quiz</h1>
@@ -238,7 +276,7 @@ const MovieQuiz = () => {
             <h3 className={styles.questionText}>{currentQ.question}</h3>
             <Row className={styles.optionsContainer}>
               {currentQ.options.map((option, idx) => (
-                <Col xs={12} sm={6} md={4} key={idx}>
+                <Col xs={12} sm={getColumnSize(currentQ.options)} key={idx}>
                   <div
                     className={getOptionClassName(idx, option)}
                     onClick={() => handleOptionSelect(option)}
@@ -282,36 +320,37 @@ const MovieQuiz = () => {
               <p>Based on your preferences, here are some movies you might enjoy.</p>
             </div>
 
-            {loading && <p>Loading recommendations...</p>}
+            {loading && <p className="text-center">Loading recommendations...</p>}
             {error && <p className={styles.error}>{error}</p>}
             {!loading && !error && recommendedMovies.length > 0 && (
-              <Row className={`${styles.movieGrid} g-5`} >
+              <Row className={`${styles.movieGrid}`}>
                 {recommendedMovies.map(movie => (
-                  <Col xs={12} sm={6} md={4} key={movie.id} className={styles.movieCard}>
-  <Link to={`/movie-details/movie/${movie.id}`} className={styles.movieLink}>
-    <Card>
-      <Image
-        src={movie.poster_path ? `${IMAGE_URL}${movie.poster_path}` : 'https://via.placeholder.com/150'}
-        alt={movie.title}
-        className={styles.moviePoster}
-        fluid
-      />
-      <Card.Body>
-        <Card.Title>{movie.title}</Card.Title>
-        <Card.Text className={styles.movieOverview}>
-          {movie.overview.length > 100
-            ? `${movie.overview.substring(0, 100)}...`
-            : movie.overview}
-        </Card.Text>
-      </Card.Body>
-    </Card>
-  </Link>
-</Col>
+                  movie.poster_path&&
+                  <Col xs={6} sm={6} md={4} key={movie.id} className={styles.movieCard}>
+                    <Link to={`/movie-details/movie/${movie.id}`} className={styles.movieLink}>
+                      <Card>
+                        <Image
+                          src={movie.poster_path ? `${IMAGE_URL}${movie.poster_path}` : 'https://via.placeholder.com/150'}
+                          alt={movie.title}
+                          className={styles.moviePoster}
+                          fluid
+                        />
+                        <Card.Body>
+                          <Card.Title className="text-truncate">{movie.title}</Card.Title>
+                          <Card.Text className={styles.movieOverview}>
+                            {movie.overview.length > (windowWidth < 576 ? 70 : 100)
+                              ? `${movie.overview.substring(0, windowWidth < 576 ? 70 : 100)}...`
+                              : movie.overview}
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                    </Link>
+                  </Col>
                 ))}
               </Row>
             )}
             {!loading && !error && recommendedMovies.length === 0 && (
-              <p>No recommendations available. Try different preferences!</p>
+              <p className="text-center">No recommendations available. Try different preferences!</p>
             )}
 
             <div className={styles.resultItems}>

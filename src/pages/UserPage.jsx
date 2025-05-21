@@ -253,55 +253,57 @@ const UserProfile = () => {
                 </div>
                 <div className="ratings-chart">
                   {ratingStats.length > 0 ? (
-                    <ResponsiveContainer width="100%" height={200}>
-                      <PieChart className="py-3">
-                        <Pie
-                          data={ratingStats}
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={40}
-                          outerRadius={80}
-                          paddingAngle={5}
-                          dataKey="value"
-                          nameKey="name"
-                          label={({cx, cy, midAngle, innerRadius, outerRadius, name, value }) => {
-                            const RADIAN = Math.PI / 180;
-    const radius = innerRadius + (outerRadius - innerRadius) * 1.4; 
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-    return (
-      <text
-        x={x}
-        y={y}
-        fill="#fff"
-        textAnchor={x > cx ? "start" : "end"}
-        dominantBaseline="central"
-      >
-        {name}
-      </text>
-    );
-  
-                          }}
-                          labelLine={false}
-                        >
-                          {ratingStats.map((entry, index) => (
-                              <Cell
-                                key={`cell-${index}`}
-                                fill={
-                                  COLORS[entry.rating - (1 % COLORS.length)]
-                                }
-                              />
-                          ))}
-                        </Pie>
-                        <Tooltip content={<CustomTooltip />} />
-                        <Legend
-                          layout="horizontal"
-                          verticalAlign="bottom"
-                          align="center"
-                          wrapperStyle={{ fontSize: "12px" }}
-                        />
-                      </PieChart>
-                    </ResponsiveContainer>
+                  <ResponsiveContainer width="100%" height={200}>
+  <PieChart className="py-3">
+    <Pie
+      data={ratingStats}
+      cx="50%"
+      cy="50%"
+      innerRadius={40}
+      outerRadius={80}
+      paddingAngle={2}
+      dataKey="value"
+      nameKey="name"
+      label={({ cx, cy, midAngle, innerRadius, outerRadius, name, value }) => {
+        const RADIAN = Math.PI / 180;
+        const radius = innerRadius + (outerRadius - innerRadius) * 1.1; // Center the label in the segment
+        const x = cx + radius * Math.cos(-midAngle * RADIAN);
+        const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+        return (
+          <text
+            x={x}
+            y={y}
+            fill="#fff" 
+            textAnchor={x > cx ? "start" : "end"}
+            dominantBaseline="central"
+            fontSize={15}
+            // fontWeight="bold" 
+            style={{ textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)" }} 
+          >
+            {`${name}`}
+          </text>
+        );
+      }}
+      labelLine={false}
+    >
+      {ratingStats.map((entry, index) => (
+        <Cell
+          key={`cell-${index}`}
+          fill={COLORS[entry.rating - (1 % COLORS.length)]}
+        />
+      ))}
+    </Pie>
+    <Tooltip content={<CustomTooltip />} />
+    <Legend
+      className="mx-5"
+      layout="horizontal"
+      verticalAlign="bottom"
+      align="center"
+      wrapperStyle={{ fontSize: "12px" }}
+    />
+  </PieChart>
+</ResponsiveContainer>
                   ) : (
                     <div className="text-center py-4">
                       <p>No rating data available.</p>

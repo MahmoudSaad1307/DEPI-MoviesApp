@@ -1,13 +1,20 @@
+```css
 /* Define main and secondary colors as CSS variables for reusability */
-
+:root {
+  --main-color: #6a11cb;
+  --secondary-color: #2575fc;
+}
 
 /* Main container and card styling */
 .movieQuizContainer {
-  /* padding: 200px 20px; */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 10px;
 }
 
 .quizCard {
-  padding: 100px;
+  padding: 20px;
   border: none;
   border-radius: 15px;
   overflow: hidden;
@@ -19,12 +26,13 @@
 .quizHeader {
   background: linear-gradient(to right, var(--main-color), var(--secondary-color));
   color: white;
-  padding: 25px;
+  padding: 20px 15px;
   text-align: center;
+  border-radius: 10px 10px 0 0;
 }
 
 .quizHeader h1 {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 700;
   margin-bottom: 8px;
 }
@@ -32,6 +40,7 @@
 .quizHeader p {
   opacity: 0.9;
   margin-bottom: 15px;
+  font-size: 0.9rem;
 }
 
 /* Progress bar styling */
@@ -60,26 +69,29 @@
 
 /* Question styling */
 .questionText {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 600;
   color: #333;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   text-align: center;
+  padding: 0 10px;
 }
 
 /* Options styling */
 .optionsContainer {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
+  padding: 0 5px;
 }
 
 .optionCard {
   background-color: #f8f9fa;
   border: 2px solid #e9ecef;
   border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 15px;
+  padding: 12px;
+  margin-bottom: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .optionCard:hover, .optionCard.hovered {
@@ -101,8 +113,14 @@
   gap: 12px;
 }
 
+.optionContent span {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
 .checkCircle {
-  width: 20px;
+  min-width: 20px;
   height: 20px;
   border: 2px solid #adb5bd;
   border-radius: 50%;
@@ -111,6 +129,7 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .checkCircle.checked {
@@ -129,12 +148,14 @@
   display: flex;
   gap: 15px;
   margin-top: 20px;
+  padding: 0 5px;
 }
 
 .nextButton {
   flex: 1;
-  padding: 12px 25px !important;
+  padding: 12px 20px !important;
   font-weight: 600 !important;
+  font-size: 0.95rem !important;
   background: linear-gradient(to right, var(--main-color), var(--secondary-color)) !important;
   border: none !important;
   border-radius: 50px !important;
@@ -151,8 +172,9 @@
 }
 
 .backButton {
-  padding: 12px 25px !important;
+  padding: 12px 20px !important;
   font-weight: 600 !important;
+  font-size: 0.95rem !important;
   color: var(--main-color) !important;
   border: 1px solid var(--main-color) !important;
   border-radius: 50px !important;
@@ -166,22 +188,77 @@
 
 /* Results section styling */
 .resultsContainer {
-  padding: 25px;
+  padding: 15px 10px;
 }
 
 .resultHeader {
   background: linear-gradient(to right, var(--main-color), var(--secondary-color));
   color: white;
-  padding: 20px;
+  padding: 20px 15px;
   border-radius: 10px;
   text-align: center;
   margin-bottom: 25px;
 }
 
 .resultHeader h2 {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 700;
   margin-bottom: 8px;
+}
+
+.resultHeader p {
+  opacity: 0.9;
+  font-size: 0.9rem;
+}
+
+.error {
+  color: #dc3545;
+  text-align: center;
+  padding: 15px;
+  background-color: rgba(220, 53, 69, 0.1);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* Movie grid styling */
+.movieGrid {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.movieCard {
+  margin-bottom: 25px;
+  padding: 0 10px;
+}
+
+.movieLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.movieLink:hover {
+  transform: translateY(-5px);
+}
+
+.moviePoster {
+  width: 100%;
+  height: auto;
+  border-radius: 8px 8px 0 0;
+  object-fit: cover;
+  aspect-ratio: 2/3;
+  object-position: center;
+}
+
+.movieOverview {
+  font-size: 0.85rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  color: #6c757d;
 }
 
 .resultItems {
@@ -189,6 +266,13 @@
   flex-direction: column;
   gap: 15px;
   margin-bottom: 25px;
+}
+
+.resultItems h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 .resultItem {
@@ -203,7 +287,7 @@
 }
 
 .resultItem h4 {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #333;
   margin-bottom: 12px;
@@ -224,8 +308,9 @@
   color: var(--main-color);
   padding: 5px 12px;
   border-radius: 50px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   display: inline-block;
+  margin-bottom: 5px;
 }
 
 .singleAnswer {
@@ -261,17 +346,32 @@
   padding: 15px;
   text-align: center;
   color: #6c757d;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 991px) {
+  .movieQuizContainer {
+    padding: 15px 5px;
+  }
+  
+  .quizCard {
+    padding: 15px;
+  }
+  
+  .questionText {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 767px) {
   .quizHeader h1 {
     font-size: 1.5rem;
   }
   
   .questionText {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    padding: 0 5px;
   }
   
   .buttonContainer {
@@ -285,5 +385,48 @@
   .nextButton {
     order: 1;
     margin-bottom: 10px;
+  }
+  
+  .resultHeader h2 {
+    font-size: 1.4rem;
+  }
+  
+  .resultItem h4 {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .quizHeader h1 {
+    font-size: 1.3rem;
+  }
+  
+  .quizHeader p {
+    font-size: 0.85rem;
+  }
+  
+  .questionText {
+    font-size: 1rem;
+  }
+  
+  .optionCard {
+    padding: 10px;
+  }
+  
+  .optionContent span {
+    font-size: 0.9rem;
+  }
+  
+  .resultHeader h2 {
+    font-size: 1.3rem;
+  }
+  
+  .resultItems h3 {
+    font-size: 1.2rem;
+  }
+  
+  .answerTag {
+    font-size: 0.8rem;
+    padding: 4px 10px;
   }
 }

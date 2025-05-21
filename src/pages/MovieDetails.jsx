@@ -441,7 +441,7 @@ useEffect(() => {
               </div>
             ) : (
               <div className="reviews-container">
-                {reviews.slice(0, 10).map((review) => (
+                {reviews.slice(0, 16).map((review) => (
                   <ReviewCard review={review} key={review._id} />
                 ))}
               </div>

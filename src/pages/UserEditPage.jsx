@@ -25,12 +25,12 @@ const UserEditPage = () => {
     setLoading(true);
 
     try {
-      let newPhotoURL = user.photoURL; 
+      let newPhotoURL = user.photoURL;
 
       if (photo) {
         const photoPath = `profile_photos/${user._id}/${Date.now()}_${
           photo.name
-        }`; 
+        }`;
         newPhotoURL = await uploadFile(photoPath, photo); // Upload to Firebase Storage
       }
 
@@ -66,8 +66,8 @@ const UserEditPage = () => {
       });
     } catch (error) {
       console.error("Error updating profile:", error.response.data);
-      console.log(getToken(),"dd");
-      
+      console.log(getToken(), "dd");
+
       toast.error("Failed to update profile", {
         position: "bottom-right",
         autoClose: 3000,
@@ -80,12 +80,10 @@ const UserEditPage = () => {
           padding: "12px 20px",
           fontSize: "14px",
         },
-      
       });
+    } finally {
+      setLoading(false);
     }
-      finally {
-          setLoading(false);
-        }
   };
 
   // Upload file function (exported separately)
@@ -227,10 +225,12 @@ const UserEditPage = () => {
                   </div>
                 </div>
 
-                <div className="d-grid">
+                <div
+                  className=" d-grid"
+                >
                   <button
                     type="submit"
-                    className="btn btn-success"
+                    className="btn btn-success  d-flex align-items-center justify-content-center"
                     style={{
                       background: "linear-gradient(to right, #28a745, #218838)",
                       border: "none",

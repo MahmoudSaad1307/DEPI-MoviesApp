@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -11,7 +11,9 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [isNavOpen, setIsNavOpen] = useState(false); 
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for dropdown
+  const dropdownRef = useRef(null); // Ref for outside click detection
   const { user, token } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -20,12 +22,24 @@ const Navbar = () => {
     console.log("Token in Navbar:", token);
   }, [user]);
 
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
+
   const toggleSearch = () => {
     setIsSearchVisible(!isSearchVisible);
   };
 
   const handleLogoutClick = () => {
     setShowLogoutModal(true);
+    setIsDropdownOpen(false); // Close dropdown on logout click
   };
 
   const confirmLogout = () => {
@@ -38,16 +52,16 @@ const Navbar = () => {
     setShowLogoutModal(false);
   };
 
-  // Custom toggle handler for navbar
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
   };
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen); // Toggle dropdown
+  };
+
   return (
-    <header
-      className="bg-dark text-white sticky-top"
-      style={{ zIndex: 1030, height: "50px" }}
-    >
+    <header className="bg-dark text-white sticky-top" style={{ zIndex: 1030, height: "50px" }}>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container py-0">
           <Link className="navbar-brand d-flex align-items-center mb-0 p-0" to="/">
@@ -61,7 +75,7 @@ const Navbar = () => {
           <button
             className="navbar-toggler"
             type="button"
-            onClick={toggleNav} 
+            onClick={toggleNav}
             aria-controls="navbarSupportedContent"
             aria-expanded={isNavOpen}
             aria-label="Toggle navigation"
@@ -69,10 +83,7 @@ const Navbar = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          <div
-            className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`} // Toggle 'show' class
-            id="navbarSupportedContent"
-          >
+          <div className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`} id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex categories-ul">
               <li className="nav-item">
                 <Link className="nav-link" to="/movies" onClick={() => setIsNavOpen(false)}>
@@ -98,66 +109,69 @@ const Navbar = () => {
 
             <div className="d-flex align-items-center justify-content-center">
               <ul className="navbar-nav">
-                <li className="nav-item me-2 mb-2 mb-md-0  search">
+                <li className="nav-item me-2 mb-2 mb-md-0 search">
                   <a href="#" title="Search" onClick={toggleSearch}>
                     <i className="bi bi-search" style={{ fontSize: "18px" }}></i>
                   </a>
                 </li>
 
                 {user && (
-                  <li className="nav-item dropdown fs-5">
-                    <a
-                      className="dropdown-toggle d-flex align-items-center"
-                      href="#"
-                      id="navbarDropdown"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <i
-                        className="me-2"
-                        style={{
-                          backgroundImage: `url(${user?.photoURL})`,
-                          display: "inline-block",
-                          width: "40px",
-                          height: "40px",
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
-                          borderRadius: "50%",
-                        }}
-                      ></i>
-                    </a>
-                    <ul className="dropdown-menu dropdown-menu-end flex-column align-items-center rounded-3 fs-5">
-                      <li className="dropdown-item no-hover py-2">
-                        <Link to="/user" onClick={() => setIsNavOpen(false)}>
-                          Profile
-                        </Link>
-                      </li>
-                      <li id="logOut" className="li-log-out px-3 dropdown-item">
-                        <button
-                          style={{
-                            color: "white",
-                            border: "none",
-                            background: "transparent",
-                          }}
-                          className="dropdown-item log-out-btn"
-                          onClick={() => {
-                            handleLogoutClick();
-                            setIsNavOpen(false);
-                          }}
-                        >
-                          Sign Out
-                        </button>
-                      </li>
-                    </ul>
-                  </li>
+                <li className="nav-item dropdown fs-5" ref={dropdownRef}>
+  <a
+    className="dropdown-toggle d-flex align-items-center"
+    id="navbarDropdown"
+    role="button"
+    onClick={toggleDropdown}
+    aria-expanded={isDropdownOpen}
+  >
+    <i
+      className="me-2"
+      style={{
+        backgroundImage: `url(${user?.photoURL || "https://via.placeholder.com/40"})`,
+        display: "inline-block",
+        width: "40px",
+        height: "40px",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        borderRadius: "50%",
+      }}
+    ></i>
+  </a>
+  <ul
+    className={`dropdown-menu dropdown-menu-end flex-column align-items-center rounded-3 fs-5 ${
+      isDropdownOpen ? "show" : ""
+    }`}
+  >
+    <li className="dropdown-item no-hover py-2">
+      <Link to="/user" onClick={() => { setIsDropdownOpen(false); setIsNavOpen(false); }}>
+        Profile
+      </Link>
+    </li>
+    <li id="logOut" className="li-log-out px-3 dropdown-item">
+      <button
+        style={{
+          color: "white",
+          border: "none",
+          background: "transparent",
+        }}
+        className="dropdown-item log-out-btn"
+        onClick={() => {
+          handleLogoutClick();
+          setIsNavOpen(false);
+        }}
+      >
+        Sign Out
+      </button>
+    </li>
+  </ul>
+</li>
                 )}
               </ul>
 
               {!user && (
                 <div style={{ display: "flex" }}>
                   <Link className="nav-link" to="/signup" onClick={() => setIsNavOpen(false)}>
-                    <button className="btn  text-light ms-3 ">SignUp</button>
+                    <button className="btn text-light ms-3">SignUp</button>
                   </Link>
                   <Link className="nav-link" to="/login" onClick={() => setIsNavOpen(false)}>
                     <button className="btn ms-3 text-light">Login</button>
@@ -170,7 +184,6 @@ const Navbar = () => {
       </nav>
       {isSearchVisible && <Search setIsSearchVisible={setIsSearchVisible} />}
 
-      {/* Bootstrap Modal for Logout Confirmation */}
       <div
         className={`modal fade ${showLogoutModal ? "show" : ""}`}
         style={{ display: showLogoutModal ? "block" : "none" }}
@@ -227,4 +240,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;  
+export default Navbar;
