@@ -38,6 +38,26 @@ const MovieDetails = () => {
   const dispatch = useDispatch();
 
   const [showListModal, setShowListModal] = useState(false);
+
+const showRatingToast = (rating) => {
+    toast.success("Rating submitted successfully ", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      style: {
+        background: "linear-gradient(to right, #4caf50, #45a049)",
+        color: "#ffffff",
+        borderRadius: "8px",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        width: "300px",
+        padding: "12px 20px",
+        fontSize: "14px",
+      },
+    });
+  };
   const toggleModal = () => {
     if (showListModal) {
       const modalElement = document.querySelector(".modal-dialog");
@@ -338,7 +358,7 @@ useEffect(() => {
                 <span id="description-text">{movieData.overview}</span>
               </div>
               <InteractionPanel
-            
+            onRatingSubmitted={showRatingToast} // Pass the callback
                 showModal={showListModal}
                 setShowModal={setShowListModal}
                 media_type={media_type}

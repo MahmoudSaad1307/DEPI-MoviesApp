@@ -261,12 +261,12 @@ const UserProfile = () => {
       cy="50%"
       innerRadius={40}
       outerRadius={80}
-      paddingAngle={2}
+      paddingAngle={0}
       dataKey="value"
       nameKey="name"
       label={({ cx, cy, midAngle, innerRadius, outerRadius, name, value }) => {
         const RADIAN = Math.PI / 180;
-        const radius = innerRadius + (outerRadius - innerRadius) * 1.1; // Center the label in the segment
+        const radius = innerRadius + (outerRadius - innerRadius) * 1.2; // Center the label in the segment
         const x = cx + radius * Math.cos(-midAngle * RADIAN);
         const y = cy + radius * Math.sin(-midAngle * RADIAN);
 

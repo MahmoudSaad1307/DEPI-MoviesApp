@@ -16,7 +16,7 @@ import {
 import "./InteractionPanel.css";
 
 export default function InteractionPanel({
-
+onRatingSubmitted, 
   showModal,
   setShowModal,
   movieId,
@@ -96,6 +96,7 @@ export default function InteractionPanel({
         ratingProvided: true,
         rating: segmentScore,
       });
+      onRatingSubmitted(); 
       isInWatched = true;
       dispatch(setWatched({ watched: response.data.watched }));
       setActiveRating(segmentScore);
