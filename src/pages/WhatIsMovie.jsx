@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import './WhatIsMovie.css';
 import { API_KEY, BASE_URL, IMAGE_URL, ENDPOINTS } from "../constants/constants";
 import { Link } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase/firebase";
 
 export default function WhatIsMovie() {
   const [description, setDescription] = useState("");
@@ -9,81 +11,128 @@ export default function WhatIsMovie() {
   const [movieDetails, setMovieDetails] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [groqKey, setGroqKey] = useState(null);
 
-  const GROQ_API_KEY = "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"; 
-
-  const guessMovie = async () => {
-    if (!description.trim()) {
-      setError("Please enter a movie description");
-      return;
-    }
-
-    setLoading(true);
-    setMovieName("");
-    setMovieDetails(null);
-    setError("");
-
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    try {
-      // Step 1: Get movie name from LLaMA model
-      const response = await fetch(
-        "https://api.groq.com/openai/v1/chat/completions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${GROQ_API_KEY}`,
-          },
-          body: JSON.stringify({
-            model: "llama3-70b-8192",
-            messages: [
-              {
-                role: "user",
-                content: `What movie is this based on the following description: ${description}? Reply with just the movie name without giving me the year of release.`,
-              },
-            ],
-            temperature: 0.7,
-            max_tokens: 100,
-          }),
-          signal,
+  useEffect(() => {
+    const fetchVariable = async () => {
+      try {
+        const docRef = doc(db, "settings", "global");
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const value = docSnap.data().apiKey;
+          // console.log(value);
+          
+           
+          setGroqKey(value);
+        } else {
+          console.log("No such document!");
         }
-      );
+      } catch (error) {
+        console.error("Error fetching variable:", error);
+      }
+    };
+    fetchVariable();
+  }, []);
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
+
+
+const guessMovie = async () => {
+  console.log("Key", {groqKey});
+  if (!description.trim()) {
+    setError("Please enter a movie description");
+    return;
+  }
+
+  if (!groqKey) {
+    setError("API key not loaded yet. Please try again.");
+    return;
+  }
+
+  setLoading(true);
+  setMovieName("");
+  setMovieDetails(null);
+  setError("");
+
+  const controller = new AbortController();
+  const signal = controller.signal;
+
+  try {
+    // Add more detailed logging
+    console.log("Making request with key:", groqKey.substring(0, 10) + "...");
+    
+    const requestBody = {
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        {
+          role: "user",
+          content: `What movie is this based on the following description: ${description}? Reply with just the movie name without giving me the year of release.`,
+        },
+      ],
+      temperature: 0.7,
+      max_tokens: 100,
+    };
+
+    console.log("Request body:", JSON.stringify(requestBody, null, 2));
+
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${groqKey}`,
+        },
+        body: JSON.stringify(requestBody),
+        signal,
+      }
+    );
+
+    // Log the response for debugging
+    console.log("Response status:", response.status);
+    console.log("Response headers:", Object.fromEntries(response.headers.entries()));
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error("API Error Response:", errorData);
+      
+      // More specific error handling
+      if (response.status === 401) {
+        throw new Error("Invalid API key. Please check your Groq API key.");
+      } else if (response.status === 429) {
+        throw new Error("Rate limit exceeded. Please try again later.");
+      } else if (response.status === 400) {
+        throw new Error(`Bad request: ${errorData.error?.message || 'Invalid request format'}`);
+      } else {
         throw new Error(
           `API error ${response.status}: ${
             errorData.error?.message || response.statusText
           }`
         );
       }
-
-      const data = await response.json();
-      const guess = data.choices?.[0]?.message?.content.trim() || "Couldn't determine the movie.";
-      setMovieName(guess);
-      
-      // Step 2: Search for movie details on TMDB
-      if (guess && guess !== "Couldn't determine the movie.") {
-        await fetchMovieDetails(guess);
-      }
-      
-    } catch (error) {
-      if (error.name === "AbortError") {
-        console.log("Fetch aborted");
-      } else {
-        setError(
-          `Error: ${error.message || "Failed to connect to AI service"}`
-        );
-      }
-    } finally {
-      setLoading(false);
     }
 
-    return () => controller.abort();
-  };
-  
+    const data = await response.json();
+    console.log("Success response:", data);
+    
+    const guess = data.choices?.[0]?.message?.content.trim() || "Couldn't determine the movie.";
+    setMovieName(guess);
+    
+    // Step 2: Search for movie details on TMDB
+    if (guess && guess !== "Couldn't determine the movie.") {
+      await fetchMovieDetails(guess);
+    }
+    
+  } catch (error) {
+    console.error("Full error object:", error);
+    if (error.name === "AbortError") {
+      console.log("Fetch aborted");
+    } else {
+      setError(error.message || "We're experiencing heavy load. Please try again in a few moments.");
+    }
+  } finally {
+    setLoading(false);
+  }
+};
   const fetchMovieDetails = async (movieTitle) => {
     try {
       const searchResponse = await fetch(

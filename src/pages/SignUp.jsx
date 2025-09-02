@@ -344,7 +344,7 @@ const SignUp = () => {
               <div className="d-grid">
                 <button
                   type="submit"
-                  className="btn btn-success"
+                  className="btn btn-success d-flex align-items-center justify-content-center"
                   disabled={loading}
                   style={{
                     background: loading

@@ -204,7 +204,7 @@ const LoginPage = () => {
               <div className="d-grid">
                 <button
                   type="submit"
-                  className="btn btn-success"
+                  className="btn btn-success d-flex justify-content-center align-items-center"
                   disabled={loading}
                   style={{
                     background: loading

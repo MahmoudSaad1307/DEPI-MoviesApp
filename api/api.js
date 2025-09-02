@@ -11,23 +11,14 @@ export const registerUser = ({ name, email, password }) => {
 export const loginUser = ({ email, password }) => {
   return api.post("/users/login", { email, password });
 };
-export const sendTokenToBackend =  (firebaseUser) => {
+export const sendTokenToBackend = (firebaseUser) => {
   console.log("firebaseUser:", firebaseUser);
-    return api.post("/users/google-login", {
-      displayName: firebaseUser.displayName,
-      email: firebaseUser.email,
-      uid: firebaseUser.uid,
-      photoURL: firebaseUser.photoURL,
-    });
-
-
-
-
-
-
-
-
-  
+  return api.post("/users/google-login", {
+    displayName: firebaseUser.displayName,
+    email: firebaseUser.email,
+    uid: firebaseUser.uid,
+    photoURL: firebaseUser.photoURL,
+  });
 };
 export const updateUser = ({ ...updates }) => {
   return api.put(`/users/update`, updates, {
@@ -82,8 +73,8 @@ export const toggleWatched = ({ movieId, rating, ratingProvided }) => {
 
 // ==================== Reviews (من reviews.js) ====================
 export const addReview = ({ type, movieId, content }) => {
-  console.log(TOKEN,"addReview");
-  
+  console.log(TOKEN, "addReview");
+
   return api.post(
     `/reviews/${type}`,
     { movieId, content },
