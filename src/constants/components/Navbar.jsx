@@ -102,7 +102,7 @@ const Navbar = () => {
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/whatIsMovie" onClick={() => setIsNavOpen(false)}>
-                  What Is Movie
+                  AI Movie Finder
                 </Link>
               </li>
             </ul>
