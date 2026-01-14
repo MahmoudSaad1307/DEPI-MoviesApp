@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./actor.css";
+import "./Actor.css";
 import { useParams, Link } from "react-router-dom";
 import Pagination, {
   paginate,
