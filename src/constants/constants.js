@@ -5,7 +5,7 @@ export const BACKDROP_PATH = "https://image.tmdb.org/t/p/original";
 import { getToken } from "../../src/utilites/auth";
 
 
-export const API_URL = 'https://diplomatic-kris-malik1307-9371a6ef.koyeb.app/api'; 
+export const API_URL = 'https://depi-movies-backend.vercel.app/api'; 
 // export const API_URL = 'http://localhost:8000/api'; 
 export const TOKEN =getToken();
 
