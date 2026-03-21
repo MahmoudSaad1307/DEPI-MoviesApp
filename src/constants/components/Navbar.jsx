@@ -66,7 +66,7 @@ const Navbar = () => {
         <div className="container py-0">
           <Link className="navbar-brand d-flex align-items-center mb-0 p-0" to="/">
             <img
-              src="https://firebasestorage.googleapis.com/v0/b/social-app-834ec.appspot.com/o/ChatGPT_Image_May_7__2025__07_36_25_PM-removebg-preview%20(2).png?alt=media&token=06238ea3-6171-47c7-b012-d3a82938460c"
+              src="/favicon.ico"
               style={{ width: "100px", height: "80px", objectFit: "cover", margin: "0" }}
               alt="MovieRecom Logo"
             />
