@@ -66,7 +66,7 @@ const Navbar = () => {
         <div className="container py-0">
           <Link className="navbar-brand d-flex align-items-center mb-0 p-0" to="/">
             <img
-              src="/favicon.ico"
+              src="/CineMirage.png"
               style={{ width: "100px", height: "80px", objectFit: "cover", margin: "0" }}
               alt="MovieRecom Logo"
             />
