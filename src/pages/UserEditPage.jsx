@@ -1,15 +1,12 @@
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage"; // Import Firebase Storage functions
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import { ToastContainer, toast } from "react-toastify";
-import { updateUser } from "../../api/api";
-import { storage } from "../firebase/firebase"; // Import your Firebase storage instance (adjust the path as needed)
+import { updateUser, uploadPhoto } from "../../api/api";
 import { setUser } from "../redux/slices/userSlice";
 import "./UserEditPage.css";
-import { TOKEN } from "../constants/constants";
 import { getToken } from "../utilites/auth";
 
 const UserEditPage = () => {
@@ -28,10 +25,7 @@ const UserEditPage = () => {
       let newPhotoURL = user.photoURL;
 
       if (photo) {
-        const photoPath = `profile_photos/${user._id}/${Date.now()}_${
-          photo.name
-        }`;
-        newPhotoURL = await uploadFile(photoPath, photo); // Upload to Firebase Storage
+        newPhotoURL = await uploadFile(photo); // Upload to Cloudinary via backend
       }
 
       // Update user data
@@ -65,12 +59,17 @@ const UserEditPage = () => {
         },
       });
     } catch (error) {
-      console.error("Error updating profile:", error.response.data);
-      console.log(getToken(), "dd");
+      console.error("Error updating profile:", error?.response?.data || error?.message || error);
 
-      toast.error("Failed to update profile", {
+      // Firebase Storage quota/billing error
+      const isFirebaseQuota = error?.code === "storage/unauthorized" || error?.status === 402 || String(error).includes("402");
+      const errorMsg = isFirebaseQuota
+        ? "Photo upload failed: Firebase Storage quota exceeded. Try again later or use a URL instead."
+        : "Failed to update profile";
+
+      toast.error(errorMsg, {
         position: "bottom-right",
-        autoClose: 3000,
+        autoClose: 5000,
         style: {
           background: "linear-gradient(to right, #dc3545, #c82333)",
           color: "#ffffff",
@@ -86,11 +85,11 @@ const UserEditPage = () => {
     }
   };
 
-  // Upload file function (exported separately)
-  const uploadFile = async (path, file) => {
-    const fileRef = ref(storage, path);
-    await uploadBytes(fileRef, file);
-    return await getDownloadURL(fileRef);
+  // Upload file to Cloudinary via backend
+  const uploadFile = async (file) => {
+    const token = getToken();
+    const response = await uploadPhoto(file, token);
+    return response.data.url;
   };
 
   return (

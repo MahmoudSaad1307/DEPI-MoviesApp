@@ -45,7 +45,7 @@ export const toggleFavorite = ({ movieId }) => {
   return api.patch(
     `/users/favorites`,
     { movieId },
-    { headers: { Authorization: `Bearer ${TOKEN}` } }
+    { headers: { Authorization: `Bearer ${TOKEN}` } },
   );
 };
 
@@ -54,7 +54,7 @@ export const toggleWatchlist = ({ movieId }) => {
   return api.patch(
     `/users/watchList`,
     { movieId },
-    { headers: { Authorization: `Bearer ${TOKEN}` } }
+    { headers: { Authorization: `Bearer ${TOKEN}` } },
   );
 };
 
@@ -67,7 +67,7 @@ export const toggleWatched = ({ movieId, rating, ratingProvided }) => {
       rating,
       ratingProvided,
     },
-    { headers: { Authorization: `Bearer ${TOKEN}` } }
+    { headers: { Authorization: `Bearer ${TOKEN}` } },
   );
 };
 
@@ -82,7 +82,7 @@ export const addReview = ({ type, movieId, content }) => {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
       },
-    }
+    },
   );
 };
 
@@ -107,4 +107,16 @@ export const updateList = (listId, userId, movieId, action) => {
 
 export const deleteList = (listId, userId) => {
   return api.delete(`/user-list/${listId}`, { data: { userId } });
+};
+
+// ==================== Photo Upload (via backend → Cloudinary) ====================
+export const uploadPhoto = (file, token) => {
+  const formData = new FormData();
+  formData.append("photo", file);
+  return api.post("/users/upload-photo", formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };
