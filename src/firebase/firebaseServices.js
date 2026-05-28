@@ -21,10 +21,10 @@ export { useGoogleLogin } from "@react-oauth/google";
  * send it to the backend to verify and create/find the user.
  */
 export const signInWithGoogleToken = async (credentialResponse) => {
-  const { credential: idToken } = credentialResponse;
-  if (!idToken) throw new Error("No ID token received from Google");
+  const { access_token: accessToken } = credentialResponse;
+  if (!accessToken) throw new Error("No Access Token received from Google");
 
-  const backendResponse = await sendTokenToBackend({ idToken });
+  const backendResponse = await sendTokenToBackend({ accessToken });
   return backendResponse;
 };
 

@@ -11,8 +11,8 @@ export const registerUser = ({ name, email, password }) => {
 export const loginUser = ({ email, password }) => {
   return api.post("/users/login", { email, password });
 };
-export const sendTokenToBackend = ({ idToken }) => {
-  return api.post("/users/google-login", { idToken });
+export const sendTokenToBackend = ({ accessToken }) => {
+  return api.post("/users/google-login", { accessToken });
 };
 export const updateUser = ({ ...updates }) => {
   return api.put(`/users/update`, updates, {
