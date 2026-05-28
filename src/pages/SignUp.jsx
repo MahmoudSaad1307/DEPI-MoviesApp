@@ -103,7 +103,7 @@ const SignUp = () => {
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError("Passwords do not match");
       setLoading(false);
       return;
     }
