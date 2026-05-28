@@ -14,7 +14,7 @@ import {
 import { login } from "../redux/slices/userSlice";
 import { getToken, setToken } from "../utilites/auth";
 import "./LoginPage.css";
-import { signInWithGoogle } from "../firebase/firebaseServices";
+import { useGoogleLogin, signInWithGoogleToken } from "../firebase/firebaseServices";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -33,36 +33,52 @@ const LoginPage = () => {
     console.log(favorites, "dasjkflk");
   }, [favorites]);
 
-  const handleGoogleSignIn = async () => {
-    setGoogleLoading(true);
-    try {
-      const response = await signInWithGoogle();
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (credentialResponse) => {
+      setGoogleLoading(true);
+      try {
+        const response = await signInWithGoogleToken(credentialResponse);
 
-      const userMovies = response.data.user.movies;
-      dispatch(setFavorites({ favorites: userMovies.favorites }));
-      dispatch(setWatchlist({ watchlist: userMovies.watchlist }));
-      dispatch(setWatched({ watched: userMovies.watched }));
+        const userMovies = response.data.user.movies;
+        dispatch(setFavorites({ favorites: userMovies.favorites }));
+        dispatch(setWatchlist({ watchlist: userMovies.watchlist }));
+        dispatch(setWatched({ watched: userMovies.watched }));
 
-      const to = response.data.token;
-      setToken(to);
-      dispatch(login({ token: getToken(), user: response.data.user }));
+        const to = response.data.token;
+        setToken(to);
+        dispatch(login({ token: getToken(), user: response.data.user }));
 
+        Swal.fire({
+          title: "Login successful!",
+          icon: "success",
+          html: "<style>.swal2-title { border: none }</style>",
+        });
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          title: "Unable to sign in with Google",
+          icon: "error",
+          html: "<style>.swal2-title { border: none }</style>",
+        });
+      } finally {
+        setGoogleLoading(false);
+      }
+    },
+    onError: () => {
+      setGoogleLoading(false);
       Swal.fire({
-        title: "Login successful!",
-        icon: "success",
-        html: "<style>.swal2-title { border: none }</style>",
-      });
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-        title: "Unable to sign in with Google",
+        title: "Google sign-in was cancelled or failed",
         icon: "error",
         html: "<style>.swal2-title { border: none }</style>",
       });
-    } finally {
-      setGoogleLoading(false);
-    }
+    },
+    flow: "implicit",
+  });
+
+  const handleGoogleSignIn = () => {
+    setGoogleLoading(true);
+    googleLogin();
   };
   const handleLogin = async (e) => {
     e.preventDefault();

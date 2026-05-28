@@ -1,33 +1,31 @@
-// Firebase SDK imports
-
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+// Google OAuth via @react-oauth/google (replaces Firebase signInWithPopup)
+// NOTE: Firebase Auth is no longer used for sign-in. Firestore/Storage still work.
 
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "./firebase";
+import { sendTokenToBackend } from "../../api/api";
 
-import { auth, storage } from "./firebase";
-import { api, sendTokenToBackend } from "../../api/api";
+/**
+ * Returns a Google OAuth credential flow using @react-oauth/google.
+ * Usage in a component:
+ *   const login = useGoogleSignIn({ onSuccess, onError });
+ *   <button onClick={login}>Sign in with Google</button>
+ *
+ * This does NOT use apis.google.com — it loads from accounts.google.com
+ * which works in regions where Google APIs are otherwise blocked.
+ */
+export { useGoogleLogin } from "@react-oauth/google";
 
-export const signInWithGoogle = async () => {
-  try {
-    const provider = new GoogleAuthProvider();
-    provider.addScope("https://www.googleapis.com/auth/userinfo.profile");
-    provider.addScope("https://www.googleapis.com/auth/userinfo.email");
+/**
+ * After receiving the Google credential response (idToken),
+ * send it to the backend to verify and create/find the user.
+ */
+export const signInWithGoogleToken = async (credentialResponse) => {
+  const { credential: idToken } = credentialResponse;
+  if (!idToken) throw new Error("No ID token received from Google");
 
-    const result = await signInWithPopup(auth, provider);
-
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.idToken;
-    const user = result.user;
-console.log(user);
-
-    const backendResponse = await sendTokenToBackend(user);
-    console.log(backendResponse.data);
-    
-    return backendResponse;
-  } catch (error) {
-    console.error("Google sign-in error:", error);
-    throw error;
-  }
+  const backendResponse = await sendTokenToBackend({ idToken });
+  return backendResponse;
 };
 
 // ✅ STORAGE FUNCTIONS
