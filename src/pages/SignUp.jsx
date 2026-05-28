@@ -61,7 +61,7 @@ const SignUp = () => {
         );
 
         Swal.fire({
-          title: "Welcome To CineMirage !",
+          title: "Welcome To CineMirage!",
           icon: "success",
           html: "<style>.swal2-title { border: none }</style>",
         });
